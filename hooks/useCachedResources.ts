@@ -6,19 +6,19 @@ import * as React from 'react';
 export default function useCachedResources() {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
 
-  // Load any resources or data that we need prior to rendering the app
+  // Cargando los recursos o datos que necesarios antes de renderizar la aplicación
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
         SplashScreen.preventAutoHideAsync();
 
-        // Load fonts
+        // Cargando fuentes
         await Font.loadAsync({
           ...Ionicons.font,
           'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
         });
       } catch (e) {
-        // We might want to provide this error information to an error reporting service
+        // Informando error
         console.warn(e);
       } finally {
         setLoadingComplete(true);

@@ -4,6 +4,12 @@ export default {
   prefixes: [Linking.makeUrl('/')],
   config: {
     screens: {
+      Init:{
+        initialRouteName: 'Init',
+        screens:{
+          Init: 'init',
+        }
+      },
       Root: {
         screens: {
           TabOne: {

@@ -1,0 +1,22 @@
+{
+    "actions": {
+        "add": {
+            "text": "",
+            "menssage": ""
+        },
+        "edit": {
+            "text": "",
+            "menssage": ""
+        },
+        "delete": {
+            "text": "",
+            "menssage": ""
+        },
+        "show": {
+            "text": "",
+            "menssage": ""
+        }
+    },
+    "components": {},
+    "modules": {}
+}

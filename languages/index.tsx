@@ -8,5 +8,6 @@ i18n.translations = {
 };
 
 i18n.locale = Localization.locale;
+i18n.fallbacks = true;
 
 export default i18n;

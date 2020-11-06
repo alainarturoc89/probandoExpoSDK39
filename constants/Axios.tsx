@@ -1,28 +1,36 @@
-const axios = require('axios').default;
-const urlBase = 'http://localhost:3000';
-/**
- * @param {string}  url url a la cual consultar
- * esta funcion detecta si es una nueva url base (comienza con http:// o https://).
- * en caso de ser asi, retorna la url. en caso contrario, se asume que es un fragmento
- * de path por lo que se concatena con la constante urlBase
- **/
-const readUrl = (url = '') =>
-    url.startsWith('http://') || url.startsWith('https://') ? url : `${urlBase}/${url}`
+import axios from 'axios';
 
-const get = (url = '', headers = {}) => axios.get(readUrl(url), {
-    headers: { Accept: 'application/json', 'Content-Type': 'text/plain', ...headers }
+const baseURL = 'http://localhost:3000/';
+const readUrl = (url = '') => url.startsWith('http://') || url.startsWith('https://') ? url : `${baseURL}/${url}`
+
+axios.defaults.baseURL = baseURL;
+axios.defaults.headers.common['authentication-token'] = "AUTH_TOKEN";
+axios.defaults.headers.common['Accept'] = "application/json";
+
+let qs = require('qs');
+const api = axios.create();
+
+const get = (url = '', data = {}) => api({
+    url: readUrl(baseURL + url),
+    params: qs.stringify(data)
 })
 
-const post = (url = '', body = {}, headers = {}) => axios({
-    method: 'post', url: urlBase + url, params: body, headers: { 'Content-Type': 'text/plain' },
-    responseType: 'json', ...headers
-})
+const post = (url = '', data = {}) => api({
+    method: 'post',
+    url: readUrl(baseURL + url),
+    data: qs.stringify(data)
+});
 
-const put = (url = '', body = {}, headers = {}) => axios.put(readUrl(url), body, {
-    headers: { Accept: 'application/json', 'Content-Type': 'text/plain', ...headers }
-})
+const put = (url = '', data = {}) => api({
+    method: 'put',
+    url: readUrl(baseURL + url),
+    data: qs.stringify(data)
+});
 
-const del = (url = '', headers = {}) => axios.delete(readUrl(url), {
-    headers: { Accept: 'application/json', 'Content-Type': 'text/plain', ...headers }
-})
-export default { get, post, put, delete: del, urlBase }
+const del = (url = '', data = {}) => api({
+    method: 'delete',
+    url: readUrl(baseURL + url),
+    data: qs.stringify(data)
+});
+
+export default { get, post, put, delete: del, baseURL }

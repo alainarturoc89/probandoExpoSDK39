@@ -17,6 +17,33 @@
             "menssage": ""
         }
     },
+    "placeholder": {
+        "input": "Placeholder...",
+        "select": "Seleccione..."
+    },
     "components": {},
-    "modules": {}
+    "modules": {
+        "common": {
+            "help": {
+                "module-title": "Ayuda"
+            },
+            "not_found": {
+                "module-title": "No disponible"
+            }
+        },
+        "inside": {
+            "inside": {
+                "module-title": "Dentro"
+            }
+        },
+        "outside": {
+            "init": {
+                "module-title": "Inicio"
+            },
+            "login": {
+                "module-title": "Auntenticar",
+                "button-text": "Auntenticar"
+            }
+        }
+    }
 }

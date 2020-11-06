@@ -1,32 +1,38 @@
+import 'react-native-gesture-handler';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
 
-import NotFoundScreen from '../modules/not_found/NotFoundScreen';
-import { RootStackParamList } from '../types';
-import InitNavigator from './InitNavigator';
-import BottomTabNavigator from './BottomTabNavigator';
+import { RootStack, globalThis } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
+
+import CommonNavigator from './CommonNavigator';
+import OutsideNavigator from './OutsideNavigator';
+import InsideNavigator from './InsideNavigator';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
     <NavigationContainer
-      linking={LinkingConfiguration}
+    //  linking={LinkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <RootNavigator />
     </NavigationContainer>
   );
 }
 
-const Stack = createStackNavigator<RootStackParamList>();
+const Stack = createStackNavigator<RootStack>();
 
 function RootNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Init" component={InitNavigator} />
-      <Stack.Screen name="Root" component={BottomTabNavigator} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+      {/*((global as any).isLoggedIn)
+        ? <Stack.Screen name="Inside" component={InsideNavigator} />
+        : <Stack.Screen name="Outside" component={OutsideNavigator} />
+      */}
+      <Stack.Screen name="Outside" component={OutsideNavigator} />
+      <Stack.Screen name="Inside" component={InsideNavigator} />
+      <Stack.Screen name="Common" component={CommonNavigator} />
     </Stack.Navigator>
   );
 }

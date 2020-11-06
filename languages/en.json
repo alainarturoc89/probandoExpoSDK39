@@ -17,6 +17,33 @@
             "menssage": ""
         }
     },
+    "placeholder": {
+        "input": "Placeholder...",
+        "select": "Select..."
+    },
     "components": {},
-    "modules": {}
+    "modules": {
+        "common": {
+            "help": {
+                "module-title": "Help"
+            },
+            "not_found": {
+                "module-title": "Not found"
+            }
+        },
+        "inside": {
+            "inside":{
+                "module-title": "Inside"
+            }
+        },
+        "outside": {
+            "init": {
+                "module-title": "Init"
+            },
+            "login": {
+                "module-title": "Login",
+                "button-text": "Login"
+            }
+        }
+    }
 }

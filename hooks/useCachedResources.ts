@@ -14,13 +14,16 @@ export default function useCachedResources() {
         SplashScreen.preventAutoHideAsync();
 
         //Cargando idiomas 
-        globalThis.languages = i18n;
+        (global as any).language = i18n;
 
         //Cargando fuentes
         await Font.loadAsync({
           ...Ionicons.font,
           'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
         });
+
+        //Verificando la autenticacion
+        (global as any).isLoggedIn = false;
 
       } catch (e) {
         // Informando error

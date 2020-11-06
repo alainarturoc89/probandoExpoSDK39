@@ -1,11 +1,23 @@
-export type RootStackParamList = {
-  Init:undefined;
-  Root: undefined;
-  NotFound: undefined;
+export type globalThis = undefined;
+
+export type RootStack = {
+  Outside: undefined;
+  Inside: undefined;
+  Common: undefined;
 };
 
-export type Init ={
-  InitScreen:undefined;
+export type OutsideStack = {
+  Init: undefined;
+  Login: undefined
+}
+
+export type InsideStack = {
+  InsideScreen: undefined;
+}
+
+export type CommonStack = {
+  Help: undefined;
+  NotFound: undefined;
 }
 
 export type BottomTabParamList = {

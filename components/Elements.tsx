@@ -20,8 +20,10 @@ import {
   TouchableOpacity as DefaultTouchableOpacity,
   TouchableWithoutFeedback as DefaultTouchableWithoutFeedback,
   View as DefaultView,
-  //VirtualizedList as DefaultVirtualizedList,
+  VirtualizedList as DefaultVirtualizedList,
 } from 'react-native';
+
+import { LinearGradient as DefaultLinearGradient } from 'expo-linear-gradient';
 
 export type ActivityIndicatorProps = DefaultActivityIndicator['props'];
 export function ActivityIndicator(props: ActivityIndicatorProps) {
@@ -57,6 +59,12 @@ export type KeyboardAvoidingViewProps = DefaultKeyboardAvoidingView['props'];
 export function KeyboardAvoidingView(props: KeyboardAvoidingViewProps) {
   const { ...otherProps } = props;
   return <DefaultKeyboardAvoidingView {...otherProps} />;
+}
+
+export type LinearGradientProps = DefaultLinearGradient['props'];
+export function LinearGradient(props: LinearGradientProps) {
+  const { ...otherProps } = props;
+  return <DefaultLinearGradient {...otherProps} />;
 }
 
 export type ModalProps = DefaultModal['props'];
@@ -143,10 +151,10 @@ export function View(props: ViewProps) {
   return <DefaultView {...otherProps} />;
 }
 
-/*export type VirtualizedListProps = DefaultVirtualizedList['props'];
+export type VirtualizedListProps = DefaultVirtualizedList['props'];
 export function VirtualizedList(props: VirtualizedListProps) {
   const { ...otherProps } = props;
   return <DefaultVirtualizedList {...otherProps} />;
-}*/
+}
 
 

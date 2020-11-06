@@ -5,7 +5,7 @@ import {
   Text,
   View,
   Button
-} from '../components/Elements';
+} from '../../components/Elements';
 
 export default function InitScreen({ ...props }) {
 

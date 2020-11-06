@@ -4,27 +4,23 @@ export default {
   prefixes: [Linking.makeUrl('/')],
   config: {
     screens: {
-      InitScreen:{
-        screens:{
-          LoginModule: 'login',
-          InitScreen: 'init',
+      Common: {
+        screens: {
+          Help: 'help',
+          NotFound: '*',
         }
       },
-      Root: {
+      Inside: {
         screens: {
-          TabOne: {
-            screens: {
-              TabOneScreen: 'one',
-            },
-          },
-          TabTwo: {
-            screens: {
-              TabTwoScreen: 'two',
-            },
-          },
+          Inside: 'inside',
+        }
+      },
+      Outside: {
+        screens: {
+          Login: 'login',
+          Init: 'init',
         },
       },
-      NotFound: '*',
     },
   },
 };

@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "probandoExpoSDK39",
-    "slug": "probandoExpoSDK39",
+    "name": "aplicacion",
+    "slug": "aplicacion",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "probandoexposdk39",
+    "scheme": "aplicacion",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -22,6 +22,8 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "alainarturoc.aplicacion",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/favicon.png",
         "backgroundColor": "#FFFFFF"

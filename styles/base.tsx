@@ -10,3 +10,4 @@ export const colors = {
     secondary: '#254B5A',
     tertiary: '#5DA6A7'
 }
+export const isSmallDevice = Dimensions.get('window').width < 375

@@ -16,7 +16,7 @@ export default StyleSheet.create({
         borderRadius: 3,
         borderColor: 'gray',
         borderWidth: 0.5,
-        marginTop: 10
+        marginBottom: 10
     },
     button: {
         padding: 10,

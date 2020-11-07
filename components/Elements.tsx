@@ -4,6 +4,7 @@ import {
   Button as DefaultButton,
   FlatList as DefaultFlatList,
   Image as DefaultImage,
+  ImageBackground as DefaultImageBackground,
   InputAccessoryView as DefaultInputAccessoryView,
   KeyboardAvoidingView as DefaultKeyboardAvoidingView,
   Modal as DefaultModal,
@@ -22,8 +23,8 @@ import {
   View as DefaultView,
   VirtualizedList as DefaultVirtualizedList,
 } from 'react-native';
-
 import { LinearGradient as DefaultLinearGradient } from 'expo-linear-gradient';
+import { Ionicons as DefaultIonicons } from '@expo/vector-icons';
 
 export type ActivityIndicatorProps = DefaultActivityIndicator['props'];
 export function ActivityIndicator(props: ActivityIndicatorProps) {
@@ -47,6 +48,18 @@ export type ImageProps = DefaultImage['props'];
 export function Image(props: ImageProps) {
   const { ...otherProps } = props;
   return <DefaultImage {...otherProps} />;
+}
+
+export type ImageBackgroundProps = DefaultImageBackground['props'];
+export function ImageBackground(props: ImageBackgroundProps) {
+  const { ...otherProps } = props;
+  return <DefaultImageBackground {...otherProps} />;
+}
+
+export type IoniconsProps = DefaultIonicons['props'];
+export function Ionicons(props: IoniconsProps) {
+  const { ...otherProps } = props;
+  return <DefaultIonicons {...otherProps} />;
 }
 
 export type InputAccessoryViewProps = DefaultInputAccessoryView['props'];

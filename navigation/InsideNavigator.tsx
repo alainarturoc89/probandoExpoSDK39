@@ -1,19 +1,53 @@
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
-
-import InsideScreen from '../modules/inside/InsideScreen';
-
+import { Ionicons, View, TouchableOpacity } from "../components/Elements";
+import PublicacionesScreen from '../modules/inside/PublicacionesScreen';
+import DescargasScreen from '../modules/inside/DescargasScreen';
+import AjustesScreen from '../modules/inside/AjustesScreen';
 import { InsideStack } from '../types';
 
-export default function InitNavigator() {
+function InsideTab() {
+    const InsideTab = createBottomTabNavigator();
+    return (
+        <InsideTab.Navigator tabBarOptions={{
+            activeBackgroundColor: "pink",
+            activeTintColor: "#FF3393",
+            inactiveTintColor: "#fff",
+            style: { backgroundColor: "#FF3393" },
+            tabStyle: { justifyContent: "center" },
+            labelStyle: { fontSize: 15, fontWeight: "bold" }
+        }}>
+            <InsideTab.Screen name="Publicaciones" component={PublicacionesScreen} />
+            <InsideTab.Screen name="Descargas" component={DescargasScreen} />
+            <InsideTab.Screen name="Ajustes" component={AjustesScreen} />
+        </InsideTab.Navigator>
+    );
+}
 
+export default function InitNavigator({ ...props }) {
     const InsideStack = createStackNavigator<InsideStack>();
     return (
-        <InsideStack.Navigator>
+        <InsideStack.Navigator screenOptions={{
+            headerLeft: () => null,
+            headerTitleAlign: "center",
+            headerStyle: { backgroundColor: "#FF3393" },
+            headerTintColor: "#fff",
+            headerTitle: () => <View style={{ alignItems: "center", flexDirection: "row" }}>
+                <View style={{ marginRight: 10 }}><Ionicons name="md-flower" size={32} color="#C3F6F5" /></View>
+                <View style={{ marginRight: 10 }}><Ionicons name="ios-heart-empty" size={32} color="#C3F6F5" /></View>
+                <View style={{ marginRight: 10 }}><Ionicons name="md-flower" size={32} color="#C3F6F5" /></View>
+                <View style={{ marginRight: 10 }}><Ionicons name="ios-heart-empty" size={32} color="#C3F6F5" /></View>
+                <View style={{ marginRight: 10 }}><Ionicons name="md-flower" size={32} color="#C3F6F5" /></View>
+                <View style={{ marginRight: 10 }}><Ionicons name="ios-heart-empty" size={32} color="#C3F6F5" /></View>
+            </View>,
+            headerRight: () => <TouchableOpacity style={{ flexDirection: "row-reverse", marginHorizontal: 10 }} onPress={() => props.navigation.navigate("Common", { screen: 'Help', })}>
+                <Ionicons name="ios-help-circle" size={32} color="#C3F6F5" />
+            </TouchableOpacity>
+        }}>
             <InsideStack.Screen
-                name="InsideScreen"
-                component={InsideScreen}
-                options={{ headerTitle: (global as any).language.t("modules.inside.inside.module-title") }}
+                name="PublicacionesScreen"
+                component={InsideTab}
             />
         </InsideStack.Navigator>
     );

@@ -12,7 +12,7 @@ export type OutsideStack = {
 }
 
 export type InsideStack = {
-  InsideScreen: undefined;
+  PublicacionesScreen: undefined;
 }
 
 export type CommonStack = {

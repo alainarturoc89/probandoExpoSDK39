@@ -18,6 +18,6 @@ export default function PublicacionesScreen({ ...props }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, backgroundColor: '#F5F6C3', padding: 20 
+    flex: 1, backgroundColor: '#fff', padding: 20 
   },
 });

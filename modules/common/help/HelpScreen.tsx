@@ -35,10 +35,10 @@ export default function HelpScreen({ ...props }) {
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: '#F5F6C3', padding: 20 },
-    textIntro: { fontSize: 19, fontWeight: "bold", color: "#FF3393", marginTop: 10, marginBottom: 25 },
-    viewLink: { padding: 10, borderRadius: 5, marginBottom: 15, backgroundColor: "#FF3393" },
-    textLink: { color: "#C3F6F5", fontSize: 17, fontWeight: "bold" },
-    view: { padding: 5, marginBottom: 10, borderWidth: 1, borderRadius: 5, borderColor: "#6A0DC7" },
+    container: { flex: 1, backgroundColor: '#fff', paddingVertical: 20, paddingHorizontal:10 },
+    textIntro: { fontSize: 19, fontWeight: "bold", color: "#8603AD", marginTop: 10, marginBottom: 25 },
+    viewLink: { padding: 10, borderBottomColor: "#fff", borderWidth: 1, backgroundColor: "#8603AD" },
+    textLink: { color: "#fff", fontSize: 17, fontWeight: "bold" },
+    view: { padding: 5, marginBottom: 10, borderBottomWidth: 1, borderLeftWidth: 1, borderRightWidth: 1, borderBottomRightRadius: 5, borderBottomLeftRadius: 5, borderColor: "#8603AD" },
     text: { fontWeight: "800", fontSize: 15, marginHorizontal: 10 },
 });

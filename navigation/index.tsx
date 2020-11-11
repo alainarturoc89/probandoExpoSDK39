@@ -22,7 +22,7 @@ const Stack = createStackNavigator<RootStack>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={(global as any).config.isLoggedIn ? "Inside" : "Outside"}>
       <Stack.Screen name="Outside" component={OutsideNavigator} />
       <Stack.Screen name="Inside" component={InsideNavigator} />
       <Stack.Screen name="Common" component={CommonNavigator} />

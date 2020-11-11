@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, Alert } from 'react-native';
 import { dimensions } from "../../../styles/base";
-
 import {
   View, Text, Image, TouchableOpacity, TextInput, Ionicons
 } from '../../../components/Elements';
@@ -11,8 +10,11 @@ export default function InitScreen({ ...props }) {
   const [user, onChangeUser] = React.useState('');
   const [password, onChangePassword] = React.useState('');
   async function login() {
-    if (false) {
-      props.navigation.navigate("Inside", { screen: 'Inside', });
+    let config = (global as any).config;
+    if (user === config.user.user && password === config.user.password) {
+      config.isLoggedIn = true;
+      (global as any).changeConfig(config);
+      props.navigation.navigate("Inside");
     } else {
       Alert.alert(
         "Upssss",
@@ -34,11 +36,10 @@ export default function InitScreen({ ...props }) {
       <View style={[{
         paddingHorizontal: 10,
         marginHorizontal: 10,
-        backgroundColor: "#FFFFFF"
+        backgroundColor: "#fff"
       }]}>
         <Text style={styles.text}>Usuario</Text>
         <TextInput
-          placeholder="Cantidad de niños-fecha de casamiento firma... Ejemplo: 2-11022012"
           style={[{
             height: 50,
             borderRadius: 3,
@@ -50,7 +51,6 @@ export default function InitScreen({ ...props }) {
           value={user} />
         <Text style={styles.text}>Contraseña</Text>
         <TextInput
-          placeholder="Fecha de primera firma, fecha de mi cumple... Ejemplo: 20120321,12062012"
           secureTextEntry={showPass}
           style={[{
             height: 50,

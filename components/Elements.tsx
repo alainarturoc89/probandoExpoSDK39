@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {
   ActivityIndicator as DefaultActivityIndicator,
-  Alert as DefaultAlert,
   Button as DefaultButton,
   FlatList as DefaultFlatList,
   Image as DefaultImage,
@@ -31,12 +30,6 @@ export type ActivityIndicatorProps = DefaultActivityIndicator['props'];
 export function ActivityIndicator(props: ActivityIndicatorProps) {
   const { ...otherProps } = props;
   return <DefaultActivityIndicator {...otherProps} />;
-}
-
-export type AlertProps = DefaultAlert;
-export function Alert(props: AlertProps) {
-  const { ...otherProps } = props;
-  return DefaultAlert;
 }
 
 export type ButtonProps = DefaultButton['props'];

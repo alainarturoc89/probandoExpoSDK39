@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "535636779172",
+    "firebase_url": "https://probandoexposdk39.firebaseio.com",
+    "project_id": "probandoexposdk39",
+    "storage_bucket": "probandoexposdk39.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:535636779172:android:e87a9144a7a547e53f4631",
+        "android_client_info": {
+          "package_name": "alainarturoc.aplicacion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "535636779172-48mbdgj9154nsuoemukr504f9uan6e3j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGtjEe3SZyNbLqVTS9FOGHCfOc8sQkAPY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "535636779172-48mbdgj9154nsuoemukr504f9uan6e3j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

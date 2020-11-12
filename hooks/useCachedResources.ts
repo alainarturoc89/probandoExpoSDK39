@@ -5,6 +5,8 @@ import * as React from 'react';
 import i18n from '../languages';
 import * as FileSystem from 'expo-file-system';
 import * as firebase from 'firebase';
+import { Audio } from 'expo-av';
+const soundObject = new Audio.Sound();
 
 export default function useCachedResources() {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
@@ -13,14 +15,14 @@ export default function useCachedResources() {
     async function loadResourcesAndDataAsync() {
       try {
         SplashScreen.preventAutoHideAsync();
-
+        //Lenguaje
         (global as any).language = i18n;
-
+        //Fuente
         await Font.loadAsync({
           ...Ionicons.font,
           'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
         });
-
+        //Fichero de configuracion
         let { exists } = await FileSystem.getInfoAsync(FileSystem.documentDirectory + "/config.json");
         if (exists) {
           FileSystem.readAsStringAsync(FileSystem.documentDirectory + "/config.json")
@@ -38,7 +40,7 @@ export default function useCachedResources() {
               (global as any).confif = config;
             })
         }
-
+        //Configuracion de firebase
         const firebaseConfig = {
           apiKey: 'AIzaSyAGtjEe3SZyNbLqVTS9FOGHCfOc8sQkAPY',
           authDomain: 'probandoexposdk39.firebaseapp.com',
@@ -54,6 +56,11 @@ export default function useCachedResources() {
         (global as any).changeConfig = async (config: any) => {
           await FileSystem.writeAsStringAsync(FileSystem.documentDirectory + "/config.json", JSON.stringify(config))
         }
+        //Cancion de inicio
+        soundObject.setOnPlaybackStatusUpdate(null);
+        await soundObject.loadAsync(require('../assets/sound/ella_es_mi_todo.mp3'), { shouldPlay: true });
+        (global as any).soundObject = soundObject;
+
       } catch (e) {
         console.warn(e);
       } finally {

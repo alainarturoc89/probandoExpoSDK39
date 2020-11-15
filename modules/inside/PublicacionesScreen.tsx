@@ -4,11 +4,15 @@ import { StyleSheet } from 'react-native';
 import {
   Text,
   View,
-  Button
 } from '../../components/Elements';
 
 export default function PublicacionesScreen({ ...props }) {
-
+/*function getPublicaciones(){ 
+  (global as any).firebase
+      .database()
+      .ref('users/');
+}
+getPublicaciones();*/
   return (
     <View style={styles.container}>
       <Text>Publicaciones</Text>

@@ -8,7 +8,7 @@
     "scheme": "aplicacion",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/prueba.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

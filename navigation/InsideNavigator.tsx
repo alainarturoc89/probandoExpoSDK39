@@ -11,9 +11,9 @@ function InsideTab() {
     const InsideTab = createBottomTabNavigator();
     return (
         <InsideTab.Navigator tabBarOptions={{
-            activeBackgroundColor: "#8603AD",
+            activeBackgroundColor: "#9F4ADE",
             activeTintColor: "#fff",
-            inactiveTintColor: "#8603AD",
+            inactiveTintColor: "#9F4ADE",
             style: { backgroundColor: "#fff" },
             tabStyle: { justifyContent: "center" },
             labelStyle: { fontSize: 15, fontWeight: "bold" }
@@ -31,15 +31,17 @@ export default function InitNavigator({ ...props }) {
         <InsideStack.Navigator screenOptions={{
             headerLeft: () => null,
             headerTitleAlign: "center",
-            headerStyle: { backgroundColor: "#8603AD" },
+            headerStyle: { backgroundColor: "#9F4ADE" },
             headerTintColor: "#fff",
             headerTitle: () => <View style={{ alignItems: "center", flexDirection: "row" }}>
-                <View style={{ marginRight: 10 }}><Ionicons name="md-flower" size={32} color="#fff" /></View>
+                <View style={{ marginRight: 10 }}><Ionicons name="ios-flower" size={32} color="#fff" /></View>
                 <View style={{ marginRight: 10 }}><Ionicons name="ios-heart-empty" size={32} color="#fff" /></View>
-                <View style={{ marginRight: 10 }}><Ionicons name="md-flower" size={32} color="#fff" /></View>
+                <View style={{ marginRight: 10 }}><Ionicons name="ios-flower" size={32} color="#fff" /></View>
                 <View style={{ marginRight: 10 }}><Ionicons name="ios-heart-empty" size={32} color="#fff" /></View>
-                <View style={{ marginRight: 10 }}><Ionicons name="md-flower" size={32} color="#fff" /></View>
+                <View style={{ marginRight: 10 }}><Ionicons name="ios-flower" size={32} color="#fff" /></View>
                 <View style={{ marginRight: 10 }}><Ionicons name="ios-heart-empty" size={32} color="#fff" /></View>
+                <View style={{ marginRight: 10 }}><Ionicons name="ios-flower" size={32} color="#fff" /></View>
+           
             </View>,
             headerRight: () => <TouchableOpacity style={{ flexDirection: "row-reverse", marginHorizontal: 10 }} onPress={() => props.navigation.navigate("Common", { screen: 'Help', })}>
                 <Ionicons name="ios-help-circle" size={32} color="#fff" />

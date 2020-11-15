@@ -16,16 +16,16 @@ export default function InitNavigator() {
         component={InitScreen}
         options={{
           headerLeft: () => <View style={{ marginHorizontal: 10, flexDirection: "row" }}>
+            <View style={{ marginRight: 10 }}><Ionicons name="ios-flower" size={32} color="#fff" /></View>
             <View style={{ marginRight: 10 }}><Ionicons name="ios-heart-empty" size={32} color="#fff" /></View>
-            <View style={{ marginRight: 10 }}><Ionicons name="md-flower" size={32} color="#fff" /></View>
           </View>,
           headerTitleAlign: "center",
-          headerStyle: { backgroundColor: "#8603AD" },
+          headerStyle: { backgroundColor: "#9F4ADE" },
           headerTintColor: "#fff",
-          title:"",
+          headerTitle: () => null,
           headerRight: () => <View style={{ marginHorizontal: 10, flexDirection: "row" }}>
-            <View style={{ marginRight: 10 }}><Ionicons name="md-flower" size={32} color="#fff" /></View>
             <View style={{ marginRight: 10 }}><Ionicons name="ios-heart-empty" size={32} color="#fff" /></View>
+            <View style={{ marginRight: 10 }}><Ionicons name="ios-flower" size={32} color="#fff" /></View>
           </View>
         }}
       />

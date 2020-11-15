@@ -1,17 +1,20 @@
 import * as React from 'react';
-import { StyleSheet, Alert } from 'react-native';
+import { StyleSheet, Alert, Platform, Keyboard } from 'react-native';
 import { dimensions } from "../../../styles/base";
 import {
-  View, Text, Image, TouchableOpacity, TextInput, Ionicons
+  View, Text, Image, TouchableOpacity, TextInput, Ionicons, KeyboardAvoidingView, TouchableWithoutFeedback
 } from '../../../components/Elements';
 
 export default function InitScreen({ ...props }) {
-  const [showPass, onShowPass] = React.useState(false);
+  const [iosEye, onChangeIosEye] = React.useState("ios-eye");
+  const [showPass, onShowPass] = React.useState(true);
   const [user, onChangeUser] = React.useState('');
   const [password, onChangePassword] = React.useState('');
   async function login() {
     let config = (global as any).config;
     if (user === config.user.user && password === config.user.password) {
+      onChangeUser("");
+      onChangePassword("");
       config.isLoggedIn = true;
       (global as any).changeConfig(config);
       props.navigation.navigate("Inside");
@@ -27,59 +30,76 @@ export default function InitScreen({ ...props }) {
   function help() {
     props.navigation.navigate("Common", { screen: 'Help', });
   }
+  function showHidePass() {
+    if (showPass)
+      onChangeIosEye("ios-eye-off");
+    else
+      onChangeIosEye("ios-eye");
+    onShowPass(!showPass);
+  }
   return (
-    <View style={styles.container}>
-      <Image
-        source={require("../../../assets/images/2.jpg")}
-        resizeMode="center" style={styles.image}>
-      </Image>
-      <View style={[{
-        paddingHorizontal: 10,
-        marginHorizontal: 10,
-        backgroundColor: "#fff"
-      }]}>
-        <Text style={styles.text}>Usuario</Text>
-        <TextInput
-          style={[{
-            height: 50,
-            borderRadius: 3,
-            borderColor: 'gray',
-            borderWidth: 0.5,
-            marginBottom: 10
-          }]}
-          onChangeText={text => onChangeUser(text)}
-          value={user} />
-        <Text style={styles.text}>Contraseña</Text>
-        <TextInput
-          secureTextEntry={showPass}
-          style={[{
-            height: 50,
-            borderRadius: 3,
-            borderColor: 'gray',
-            borderWidth: 0.5,
-            marginBottom: 10,
-          }]}
-          onChangeText={text => onChangePassword(text)}
-          value={password} />
-        <TouchableOpacity
-          style={[{ padding: 10, backgroundColor: "#8603AD", marginTop: 5, borderRadius: 5 }]}
-          onPress={() => login()}>
-          <Text style={[{ textAlign: "center", color: "#fff", fontSize: 17, fontWeight: "bold" }]}>Autenticar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={{ marginHorizontal: 10, alignItems: "center", marginTop: 15 }} onPress={() => help()}>
-          <Ionicons name="ios-help-circle" size={60} color="#8603AD" />
-        </TouchableOpacity>
-      </View>
-      <Image
-        source={require("../../../assets/images/2.jpg")}
-        resizeMode="contain" style={styles.image}>
-      </Image>
-    </View>
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View >
+          <View style={{ flexDirection: "row", marginTop: 25, marginBottom: 20 }}>
+            <Text style={[styles.textIntro, { flex: 0.99 }]}>
+              Para identificar el usuario y la contraseña visitar la ayuda
+            </Text>
+            <TouchableOpacity style={{}} onPress={() => help()}>
+              <Ionicons name="ios-help-circle" size={60} color="#9F4ADE" />
+            </TouchableOpacity>
+          </View>
+          <Image
+            source={require("../../../assets/images/1.png")}
+            resizeMode="stretch" style={styles.image}>
+          </Image>
+       { /*  <Text style={styles.text}>Usuario</Text>*/}
+          <TextInput
+          placeholder="Usuario..."
+            style={[{
+              height: 50,
+              borderRadius: 3,
+              borderColor: 'gray',
+              borderWidth: 0.5,
+              marginBottom: 10,
+              paddingHorizontal: 5
+            }]}
+            onChangeText={text => onChangeUser(text)}
+            value={user} />
+         {/* <Text style={styles.text}>Contraseña</Text>*/}
+          <View style={{ alignItems: "center", flexDirection: "row", borderRadius: 3, borderColor: 'gray', borderWidth: 0.5, marginBottom: 10 , marginTop:20}}>
+            <TextInput
+             placeholder="Contraseña..."
+              secureTextEntry={showPass}
+              style={[{
+                height: 50,
+                paddingHorizontal: 5,
+                flex: 0.99
+              }]}
+              onChangeText={text => onChangePassword(text)}
+              value={password} />
+            <TouchableOpacity style={{ marginHorizontal: 5 }} onPress={() => { showHidePass() }}>
+              <Ionicons name={iosEye} size={32} color="#9F4ADE" />
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity
+            style={[{ padding: 10, backgroundColor: "#9F4ADE", marginTop: 5, borderRadius: 5, marginHorizontal: 125 }]}
+            onPress={() => login()}>
+            <Text style={[{ textAlign: "center", color: "#fff", fontSize: 17, fontWeight: "bold" }]}>Autenticar</Text>
+          </TouchableOpacity>
+          <Image
+            source={require("../../../assets/images/1.png")}
+            resizeMode="stretch" style={[styles.image]}>
+          </Image>
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff" },
-  image: { width: dimensions.fullWidth },
-  text: { marginVertical: 5, color: "#F1111F", fontWeight: "bold", fontSize: 20 },
+  container: { flex: 1, paddingHorizontal: 10, backgroundColor: "#fff" },
+  textIntro: { fontSize: 19, fontWeight: "bold", color: "#9F4ADE", textAlign: "left" },
+  image: { marginVertical: 40, width: dimensions.fullWidth - 30, height: 100, },
+  text: { marginVertical: 5, color: "#9F4ADE", fontWeight: "bold", fontSize: 20 },
 });

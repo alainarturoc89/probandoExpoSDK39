@@ -21,6 +21,7 @@ export default function useCachedResources() {
         await Font.loadAsync({
           ...Ionicons.font,
           'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
+          'TheSmithey': require('../assets/fonts/The-Smithey.ttf'),
         });
         //Fichero de configuracion
         let { exists } = await FileSystem.getInfoAsync(FileSystem.documentDirectory + "/config.json");

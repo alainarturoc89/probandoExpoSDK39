@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/images/prueba.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#fff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

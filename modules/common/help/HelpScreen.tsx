@@ -23,16 +23,17 @@ export default function HelpScreen({ ...props }) {
                 <Text style={styles.textLink}>Autenticación</Text>
             </TouchableOpacity>
             {(autVisible) && <View style={styles.view}>
-                <Text style={[styles.text,{fontWeight:"bold"}]}>En esta sección se describe el proceso de autenticación:</Text>
-                <Text style={[styles.text,{marginTop:5}]}>El campo usuario es la cantidad de niños que quieres tener-fecha de casamiento... Ejemplo: 2-11022012</Text>
-                <Text style={[styles.text,{marginTop:5}]}>El campo contraseña es la fecha de primera firma,fecha de mi cumple... Ejemplo: 20120321,12062012</Text>
+                <Text style={[styles.text, { fontWeight: "bold" }]}>Hola Lis, si es la primera vez que usas esta apk y no has modificado tu usuario y contraseña te invito a que continues leyendo.</Text>
+                <Text style={[styles.text, { fontWeight: "bold" }]}>En esta sección se describe el proceso de autenticación:</Text>
+                <Text style={[styles.text, { marginTop: 5 }]}>El campo usuario es la cantidad de niños que quieres tener-fecha de casamiento... Ejemplo: 2-11022012</Text>
+                <Text style={[styles.text, { marginTop: 5 }]}>El campo contraseña es la fecha de primera firma,fecha de mi cumple... Ejemplo: 20120321,12062012</Text>
             </View>}
             <TouchableOpacity activeOpacity={0} style={styles.viewLink} onPress={() => onChangeFunVisible(!funVisible)}>
                 <Text style={styles.textLink}>Funcionamiento</Text>
             </TouchableOpacity>
             {(funVisible) && <View style={styles.view}>
                 <Text style={styles.text}>Esta aplicación vrinda una series de historias vividas por nosotros.</Text>
-                <Text style={[styles.text,{marginTop:5}]}>Estas historias pueden estar online o descargadas en la misma aplicación.</Text>
+                <Text style={[styles.text, { marginTop: 5 }]}>Estas historias pueden estar online o descargadas en la misma aplicación.</Text>
             </View>}
         </ScrollView>
     );

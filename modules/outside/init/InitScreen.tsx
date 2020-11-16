@@ -11,7 +11,8 @@ export default function InitScreen({ ...props }) {
   const [user, onChangeUser] = React.useState('');
   const [password, onChangePassword] = React.useState('');
   async function login() {
-    let config = (global as any).config;
+    props.navigation.navigate("Inside");
+   /* let config = (global as any).config;
     if (user === config.user.user && password === config.user.password) {
       onChangeUser("");
       onChangePassword("");
@@ -25,7 +26,7 @@ export default function InitScreen({ ...props }) {
         [{ text: "Ok" }],
         { cancelable: true }
       );
-    }
+    }*/
   }
   function help() {
     props.navigation.navigate("Common", { screen: 'Help', });
@@ -53,9 +54,8 @@ export default function InitScreen({ ...props }) {
             source={require("../../../assets/images/1.png")}
             resizeMode="stretch" style={styles.image}>
           </Image>
-       { /*  <Text style={styles.text}>Usuario</Text>*/}
           <TextInput
-          placeholder="Usuario..."
+            placeholder="Usuario..."
             style={[{
               height: 50,
               borderRadius: 3,
@@ -66,10 +66,9 @@ export default function InitScreen({ ...props }) {
             }]}
             onChangeText={text => onChangeUser(text)}
             value={user} />
-         {/* <Text style={styles.text}>Contraseña</Text>*/}
-          <View style={{ alignItems: "center", flexDirection: "row", borderRadius: 3, borderColor: 'gray', borderWidth: 0.5, marginBottom: 10 , marginTop:20}}>
+          <View style={{ alignItems: "center", flexDirection: "row", borderRadius: 3, borderColor: 'gray', borderWidth: 0.5, marginBottom: 10, marginTop: 20 }}>
             <TextInput
-             placeholder="Contraseña..."
+              placeholder="Contraseña..."
               secureTextEntry={showPass}
               style={[{
                 height: 50,

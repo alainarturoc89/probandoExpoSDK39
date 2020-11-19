@@ -4,7 +4,6 @@ import * as SplashScreen from 'expo-splash-screen';
 import * as React from 'react';
 import i18n from '../languages';
 //import * as FileSystem from 'expo-file-system';
-import * as firebase from 'firebase';
 import { Audio } from 'expo-av';
 const soundObject = new Audio.Sound();
 
@@ -45,7 +44,8 @@ export default function useCachedResources() {
             }
             */
         //Configuracion de firebase
-        const firebaseConfig = {
+        
+        (global as any).firebaseConfig =  {
           apiKey: 'AIzaSyAGtjEe3SZyNbLqVTS9FOGHCfOc8sQkAPY',
           authDomain: 'probandoexposdk39.firebaseapp.com',
           databaseURL: 'https://probandoexposdk39.firebaseio.com',
@@ -54,8 +54,6 @@ export default function useCachedResources() {
           messagingSenderId: '535636779172',
           appId: '1:535636779172:android:e87a9144a7a547e53f4631'
         };
-        firebase.initializeApp(firebaseConfig);
-        (global as any).firebase = firebase;
 
         //Cancion de inicio
         soundObject.setOnPlaybackStatusUpdate(null);

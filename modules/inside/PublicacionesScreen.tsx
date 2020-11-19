@@ -1,19 +1,14 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
-
-import {
-  SafeAreaView,
-  FlatList,
-  View,
-  Image,
-  Text,
-} from '../../components/Elements';
+import * as firebase from 'firebase';
+import { SafeAreaView, FlatList, View, Image, Text, } from '../../components/Elements';
 
 export default function PublicacionesScreen({ ...props }) {
   const [loaded, changeLoaded] = React.useState(false);
   const [data, changeData] = React.useState([]);
   function getPublicaciones() {
-    (global as any).firebase.database().ref('publications').on("value", function (snapshot: any) {
+    firebase.initializeApp((global as any).firebaseConfig);
+    firebase.database().ref('publications').on("value", function (snapshot: any) {
       changeData(snapshot.val());
     }, function (errorObject: any) {
       console.warn("Error al obtener las publicaciones");
@@ -24,7 +19,6 @@ export default function PublicacionesScreen({ ...props }) {
     changeLoaded(true);
     getPublicaciones();
   }
-
 
   const renderItem = ({ item }) => {
     return <View style={styles.item}>

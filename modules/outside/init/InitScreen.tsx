@@ -10,23 +10,36 @@ export default function InitScreen({ ...props }) {
   const [showPass, onShowPass] = React.useState(true);
   const [user, onChangeUser] = React.useState('');
   const [password, onChangePassword] = React.useState('');
+
   async function login() {
-    props.navigation.navigate("Inside");
-   /* let config = (global as any).config;
-    if (user === config.user.user && password === config.user.password) {
-      onChangeUser("");
-      onChangePassword("");
-      config.isLoggedIn = true;
-      (global as any).changeConfig(config);
-      props.navigation.navigate("Inside");
+    if (user !== "" && password !== "") {
+      global.firebase.database().ref('/users/' + user).once('value')
+        .then(function (snapshot) {
+          if (snapshot && password === snapshot.val().password) {
+            onChangeUser("");
+            onChangePassword("");
+         //   (global as any).soundObject.stopAsync();
+            props.navigation.navigate("Inside");
+          } else {
+            Alert.alert(
+              "Ummmmm",
+              "Qué pasa, no recuerdas la información que se solicita? jejeje, prueba una vez más y no me desiluciones...",
+              [{ text: "Cerrar" }],
+              { cancelable: true }
+            );
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     } else {
       Alert.alert(
-        "Upssss",
-        "Ummmmm, qué pasa? no recuerdas la información que se solicita? jejeje, prueba una vez más y no me desiluciones...",
-        [{ text: "Ok" }],
+        "Alerta",
+        "Campo de usuario o contrasena vacios...",
+        [{ text: "Cerrar" }],
         { cancelable: true }
       );
-    }*/
+    }
   }
   function help() {
     props.navigation.navigate("Common", { screen: 'Help', });
@@ -39,7 +52,7 @@ export default function InitScreen({ ...props }) {
     onShowPass(!showPass);
   }
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+    <KeyboardAvoidingView style={styles.container} behavior='height'>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View >
           <View style={{ flexDirection: "row", marginTop: 25, marginBottom: 20 }}>

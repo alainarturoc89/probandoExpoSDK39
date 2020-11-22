@@ -4,7 +4,6 @@ import * as React from 'react';
 import { Ionicons, View, TouchableOpacity } from "../components/Elements";
 import PublicacionesScreen from '../modules/inside/PublicacionesScreen';
 import DescargasScreen from '../modules/inside/DescargasScreen';
-import AjustesScreen from '../modules/inside/AjustesScreen';
 import { InsideStack } from '../types';
 
 function InsideTab() {
@@ -20,7 +19,10 @@ function InsideTab() {
         }}>
             <InsideTab.Screen name="Publicaciones" component={PublicacionesScreen} />
             <InsideTab.Screen name="Descargas" component={DescargasScreen} />
-            <InsideTab.Screen name="Ajustes" component={AjustesScreen} />
+            <InsideTab.Screen name="Cerrar" component={function () { return (<View></View>) }}
+                listeners={({ navigation, route }) => ({
+                    tabPress: e => { e.preventDefault(); navigation.navigate('Outside'); },
+                })} />
         </InsideTab.Navigator>
     );
 }
@@ -41,7 +43,6 @@ export default function InitNavigator({ ...props }) {
                 <View style={{ marginRight: 10 }}><Ionicons name="ios-flower" size={32} color="#fff" /></View>
                 <View style={{ marginRight: 10 }}><Ionicons name="ios-heart-empty" size={32} color="#fff" /></View>
                 <View style={{ marginRight: 10 }}><Ionicons name="ios-flower" size={32} color="#fff" /></View>
-           
             </View>,
             headerRight: () => <TouchableOpacity style={{ flexDirection: "row-reverse", marginHorizontal: 10 }} onPress={() => props.navigation.navigate("Common", { screen: 'Help', })}>
                 <Ionicons name="ios-help-circle" size={32} color="#fff" />

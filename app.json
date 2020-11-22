@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "aplicacion",
-    "slug": "aplicacion",
+    "name": "aniversario",
+    "slug": "aniversario",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/favicon.png",
-    "scheme": "aplicacion",
+    "scheme": "aniversario",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/prueba.png",
@@ -22,7 +22,7 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "alainarturoc.aplicacion",
+      "package": "alainarturoc.aniversario",
       "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/favicon.png",

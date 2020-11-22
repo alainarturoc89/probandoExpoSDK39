@@ -1,14 +1,18 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
-import * as firebase from 'firebase';
-import { SafeAreaView, FlatList, View, Image, Text, } from '../../components/Elements';
+import { SafeAreaView, FlatList, View, Image, Text, TouchableOpacity, Modal, ScrollView } from '../../components/Elements';
+
+import PublicacioneScreen from "./PublicacionScreen";
+import CrearScreen from "./CrearScreen";
 
 export default function PublicacionesScreen({ ...props }) {
   const [loaded, changeLoaded] = React.useState(false);
+  const [modalVisible, changeModalVisible] = React.useState(false);
+  const [createType, changeCreateType] = React.useState(true);
   const [data, changeData] = React.useState([]);
+  const [item, changeItem] = React.useState(null);
   function getPublicaciones() {
-    firebase.initializeApp((global as any).firebaseConfig);
-    firebase.database().ref('publications').on("value", function (snapshot: any) {
+    global.firebase.database().ref('publications').on("value", function (snapshot: any) {
       changeData(snapshot.val());
     }, function (errorObject: any) {
       console.warn("Error al obtener las publicaciones");
@@ -20,8 +24,20 @@ export default function PublicacionesScreen({ ...props }) {
     getPublicaciones();
   }
 
+  async function create() {
+    changeCreateType(true);
+    changeItem(null);
+    changeModalVisible(true);
+  }
+
+  async function show(item: any) {
+    changeCreateType(false);
+    changeItem(item);
+    changeModalVisible(true);
+  }
+
   const renderItem = ({ item }) => {
-    return <View style={styles.item}>
+    return <TouchableOpacity style={styles.item} onPress={() => show(item)}>
       {(item.avatar_url && item.avatar_url !== "")
         ? <Image source={item.avatar_url} style={styles.image} />
         : <Image source={require("../../assets/images/publicacion.png")} style={styles.image} />
@@ -30,13 +46,29 @@ export default function PublicacionesScreen({ ...props }) {
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.date}>{item.date}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={{ textAlign: "center", fontSize: 25, marginBottom: 20, color: "#9F4ADE", fontWeight: "bold" }}>Publicaciones en línea</Text>
+      <TouchableOpacity
+        style={[{ padding: 10, backgroundColor: "#9F4ADE", marginBottom: 10, borderRadius: 5, marginHorizontal: 25 }]}
+        onPress={() => create()}>
+        <Text style={[{ textAlign: "center", color: "#fff", fontSize: 17, fontWeight: "bold" }]}>Crear publicacion</Text>
+      </TouchableOpacity>
       <FlatList data={data} renderItem={renderItem} keyExtractor={item => item.title} />
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => { }}>
+        <ScrollView style={[{ flex: 1 }]}>
+          {(createType)
+            ? <PublicacioneScreen item={item} />
+            : <CrearScreen />
+          }
+        </ScrollView>
+      </Modal>
     </SafeAreaView>
   );
 }

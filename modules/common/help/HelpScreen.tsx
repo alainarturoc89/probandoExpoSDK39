@@ -41,8 +41,8 @@ export default function HelpScreen({ ...props }) {
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: '#fff', paddingVertical: 20, paddingHorizontal: 10 },
-    textIntro: { fontSize: 19, fontWeight: "bold", color: "#8603AD", marginTop: 10, marginBottom: 25 },
-    viewLink: { padding: 10, borderBottomColor: "#fff", borderWidth: 1, backgroundColor: "#8603AD" },
+    textIntro: { fontSize: 19, fontWeight: "bold", color: "#9F4ADE", marginTop: 10, marginBottom: 25 },
+    viewLink: { padding: 10, borderBottomColor: "#fff", borderWidth: 1, backgroundColor: "#9F4ADE" },
     textLink: { color: "#fff", fontSize: 17, fontWeight: "bold" },
     view: { padding: 5, marginBottom: 10, borderBottomWidth: 1, borderLeftWidth: 1, borderRightWidth: 1, borderBottomRightRadius: 5, borderBottomLeftRadius: 5, borderColor: "#8603AD" },
     text: { fontWeight: "800", fontSize: 15, marginHorizontal: 10 },

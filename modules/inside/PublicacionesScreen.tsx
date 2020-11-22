@@ -36,6 +36,18 @@ export default function PublicacionesScreen({ ...props }) {
     changeModalVisible(true);
   }
 
+  async function cerrar() {
+    changeCreateType(true);
+    changeItem(null);
+    changeModalVisible(false);
+  }
+
+  async function crear(el:any) {
+    changeCreateType(true);
+    changeItem(null);
+    changeModalVisible(false);
+  }
+
   const renderItem = ({ item }) => {
     return <TouchableOpacity style={styles.item} onPress={() => show(item)}>
       {(item.avatar_url && item.avatar_url !== "")
@@ -59,15 +71,22 @@ export default function PublicacionesScreen({ ...props }) {
       <FlatList data={data} renderItem={renderItem} keyExtractor={item => item.title} />
       <Modal
         animationType="slide"
-        transparent={true}
         visible={modalVisible}
-        onRequestClose={() => { }}>
-        <ScrollView style={[{ flex: 1 }]}>
-          {(createType)
-            ? <PublicacioneScreen item={item} />
-            : <CrearScreen />
-          }
-        </ScrollView>
+        onRequestClose={() => { }}
+      >
+        <View style={[{ flex: 1, marginVertical: 20 }]}>
+          <ScrollView>
+            <TouchableOpacity
+              style={[{ padding: 10, backgroundColor: "#9F4ADE", marginBottom: 10, borderRadius: 5, marginHorizontal: 25 }]}
+              onPress={() => cerrar()}>
+              <Text style={[{ textAlign: "center", color: "#fff", fontSize: 17, fontWeight: "bold" }]}>Cerrar</Text>
+            </TouchableOpacity>
+            {(createType)
+              ? <CrearScreen crear={crear}/>
+              : <PublicacioneScreen item={item} />
+            }
+          </ScrollView>
+        </View>
       </Modal>
     </SafeAreaView>
   );
@@ -79,7 +98,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5, borderRadius: 3, borderColor: "gray",
     padding: 10,
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center", marginBottom:3
   },
   image: { height: 40, width: 40 },
   title: { fontSize: 17, fontWeight: "bold", color: "#9F4ADE" },

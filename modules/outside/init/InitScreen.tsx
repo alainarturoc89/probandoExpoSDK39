@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, Alert, Platform, Keyboard } from 'react-native';
+import { StyleSheet, Alert, Keyboard } from 'react-native';
 import { dimensions } from "../../../styles/base";
 import {
   View, Text, Image, TouchableOpacity, TextInput, Ionicons, KeyboardAvoidingView, TouchableWithoutFeedback
@@ -18,7 +18,7 @@ export default function InitScreen({ ...props }) {
           if (snapshot && password === snapshot.val().password) {
             onChangeUser("");
             onChangePassword("");
-         //   (global as any).soundObject.stopAsync();
+            (global as any).soundObject.stopAsync();
             props.navigation.navigate("Inside");
           } else {
             Alert.alert(
@@ -34,7 +34,7 @@ export default function InitScreen({ ...props }) {
         })
     } else {
       Alert.alert(
-        "Alerta",
+        "Importante",
         "Campo de usuario o contrasena vacios...",
         [{ text: "Cerrar" }],
         { cancelable: true }

@@ -1,13 +1,18 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import { ScrollView, Text, View, TouchableOpacity } from "../../../components/Elements";
+import { Audio } from 'expo-av';
+const soundObject = new Audio.Sound();
 
 export default function HelpScreen({ ...props }) {
-
+    //Cancion de inicio
+    async () => {
+        soundObject.setOnPlaybackStatusUpdate(null);
+        await soundObject.loadAsync(require('../../../assets/sound/ella_es_mi_todo.mp3'), { shouldPlay: true });
+    }
     const [desVisible, onChangeDesVisible] = React.useState(false);
     const [autVisible, onChangeAutVisible] = React.useState(false);
     const [funVisible, onChangeFunVisible] = React.useState(false);
-
     return (
         <ScrollView style={styles.container}>
             <Text style={styles.textIntro}>
@@ -32,7 +37,7 @@ export default function HelpScreen({ ...props }) {
                 <Text style={styles.textLink}>Funcionamiento</Text>
             </TouchableOpacity>
             {(funVisible) && <View style={styles.view}>
-                <Text style={styles.text}>Esta aplicación vrinda una series de historias vividas por nosotros.</Text>
+                <Text style={styles.text}>Esta aplicación vrinda una series de historias vividas por nosotros. Además la podrás utilizar como un espacio para compartir cosas que quisieras dedicarme o simplemente hacérmelo saber.</Text>
                 <Text style={[styles.text, { marginTop: 5 }]}>Estas historias pueden estar online o descargadas en la misma aplicación.</Text>
             </View>}
         </ScrollView>

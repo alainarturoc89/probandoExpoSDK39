@@ -5,8 +5,6 @@ import * as React from 'react';
 import i18n from '../languages';
 import * as firebase from 'firebase';
 //import * as FileSystem from 'expo-file-system';
-import { Audio } from 'expo-av';
-const soundObject = new Audio.Sound();
 
 export default function useCachedResources() {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
@@ -56,11 +54,6 @@ export default function useCachedResources() {
           appId: '1:535636779172:android:e87a9144a7a547e53f4631'
         });
         global.firebase = firebase;
-
-        //Cancion de inicio
-        soundObject.setOnPlaybackStatusUpdate(null);
-        await soundObject.loadAsync(require('../assets/sound/ella_es_mi_todo.mp3'), { shouldPlay: true });
-        (global as any).soundObject = soundObject;
 
       }
       catch (e) {

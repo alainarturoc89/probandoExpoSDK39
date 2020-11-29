@@ -11,18 +11,17 @@ export default function PublicacionesScreen({ ...props }) {
   const [createType, changeCreateType] = React.useState(true);
   const [data, changeData] = React.useState([]);
   const [item, changeItem] = React.useState(null);
-  function getPublicaciones() {
-    global.firebase.database().ref('publications').on("value", function (snapshot: any) {
-      changeData(snapshot.val());
-    }, function (errorObject: any) {
-      console.warn("Error al obtener las publicaciones");
-    });
-  }
 
-  if (!loaded) {
-    changeLoaded(true);
-    getPublicaciones();
-  }
+  React.useEffect(() => {
+    if (!loaded) {
+      changeLoaded(true);
+      global.firebase.database().ref('publications').on("value", function (snapshot: any) {
+        changeData(snapshot.val());
+      }, function (errorObject: any) {
+        console.warn("Error al obtener las publicaciones");
+      });
+    }
+  });
 
   async function create() {
     changeCreateType(true);
@@ -42,7 +41,7 @@ export default function PublicacionesScreen({ ...props }) {
     changeModalVisible(false);
   }
 
-  async function crear(el:any) {
+  async function crear(el: any) {
     changeCreateType(true);
     changeItem(null);
     changeModalVisible(false);
@@ -66,7 +65,7 @@ export default function PublicacionesScreen({ ...props }) {
       <TouchableOpacity
         style={[{ padding: 10, backgroundColor: "#9F4ADE", marginBottom: 10, borderRadius: 5, marginHorizontal: 25 }]}
         onPress={() => create()}>
-        <Text style={[{ textAlign: "center", color: "#fff", fontSize: 17, fontWeight: "bold" }]}>Crear publicacion</Text>
+        <Text style={[{ textAlign: "center", color: "#fff", fontSize: 17, fontWeight: "bold" }]}>Crear publicación</Text>
       </TouchableOpacity>
       <FlatList data={data} renderItem={renderItem} keyExtractor={item => item.title} />
       <Modal
@@ -82,7 +81,7 @@ export default function PublicacionesScreen({ ...props }) {
               <Text style={[{ textAlign: "center", color: "#fff", fontSize: 17, fontWeight: "bold" }]}>Cerrar</Text>
             </TouchableOpacity>
             {(createType)
-              ? <CrearScreen crear={crear}/>
+              ? <CrearScreen crear={crear} />
               : <PublicacioneScreen item={item} />
             }
           </ScrollView>
@@ -98,7 +97,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5, borderRadius: 3, borderColor: "gray",
     padding: 10,
     flexDirection: "row",
-    alignItems: "center", marginBottom:3
+    alignItems: "center", marginBottom: 3
   },
   image: { height: 40, width: 40 },
   title: { fontSize: 17, fontWeight: "bold", color: "#9F4ADE" },

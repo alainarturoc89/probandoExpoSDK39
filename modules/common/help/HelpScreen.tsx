@@ -3,16 +3,18 @@ import { StyleSheet } from 'react-native';
 import { ScrollView, Text, View, TouchableOpacity } from "../../../components/Elements";
 import { Audio } from 'expo-av';
 const soundObject = new Audio.Sound();
-
+soundObject.setOnPlaybackStatusUpdate(null);
+soundObject.loadAsync(require('../../../assets/sound/ella_es_mi_todo.mp3'), { shouldPlay: false });
 export default function HelpScreen({ ...props }) {
-    //Cancion de inicio
-    async () => {
-        soundObject.setOnPlaybackStatusUpdate(null);
-        await soundObject.loadAsync(require('../../../assets/sound/ella_es_mi_todo.mp3'), { shouldPlay: true });
-    }
+
     const [desVisible, onChangeDesVisible] = React.useState(false);
     const [autVisible, onChangeAutVisible] = React.useState(false);
     const [funVisible, onChangeFunVisible] = React.useState(false);
+
+    React.useEffect(() => {
+        soundObject.playAsync();
+        return () => {soundObject.stopAsync();}
+    });
     return (
         <ScrollView style={styles.container}>
             <Text style={styles.textIntro}>

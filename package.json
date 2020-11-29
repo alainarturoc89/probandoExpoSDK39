@@ -43,7 +43,8 @@
     "react-native-web": "~0.13.12",
     "expo-file-system": "~9.2.0",
     "firebase": "7.9.0",
-    "expo-av": "~8.6.0"
+    "expo-av": "~8.6.0",
+    "expo-document-picker": "~8.4.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

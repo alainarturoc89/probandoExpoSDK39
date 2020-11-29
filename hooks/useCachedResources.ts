@@ -2,7 +2,6 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import * as React from 'react';
-import i18n from '../languages';
 import * as firebase from 'firebase';
 //import * as FileSystem from 'expo-file-system';
 
@@ -13,8 +12,6 @@ export default function useCachedResources() {
     async function loadResourcesAndDataAsync() {
       try {
         SplashScreen.preventAutoHideAsync();
-        //Lenguaje
-        (global as any).language = i18n;
         //Fuente
         await Font.loadAsync({
           ...Ionicons.font,

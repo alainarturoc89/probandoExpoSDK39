@@ -18,7 +18,6 @@ export default function InitScreen({ ...props }) {
           if (snapshot && password === snapshot.val().password) {
             onChangeUser("");
             onChangePassword("");
-            (global as any).soundObject.stopAsync();
             props.navigation.navigate("Inside");
           } else {
             Alert.alert(
@@ -54,7 +53,7 @@ export default function InitScreen({ ...props }) {
   return (
     <KeyboardAvoidingView style={styles.container} behavior='height'>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View >
+        <View>
           <View style={{ flexDirection: "row", marginTop: 25, marginBottom: 20 }}>
             <Text style={[styles.textIntro, { flex: 0.99 }]}>
               Para identificar el usuario y la contraseña visitar la ayuda

@@ -1,18 +1,16 @@
 import 'react-native-gesture-handler';
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import { NavigationContainer} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
-import { ColorSchemeName } from 'react-native';
 import { RootStack } from '../types';
 
 import CommonNavigator from './CommonNavigator';
 import OutsideNavigator from './OutsideNavigator';
 import InsideNavigator from './InsideNavigator';
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+export default function Navigation() {
   return (
-    <NavigationContainer
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <NavigationContainer >
       <RootNavigator />
     </NavigationContainer>
   );
@@ -22,7 +20,6 @@ const Stack = createStackNavigator<RootStack>();
 
 function RootNavigator() {
   return (
-   // <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={(global as any).config.isLoggedIn ? "Inside" : "Outside"}>
     <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Outside">
       <Stack.Screen name="Outside" component={OutsideNavigator} />
       <Stack.Screen name="Inside" component={InsideNavigator} />

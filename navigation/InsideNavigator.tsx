@@ -5,6 +5,7 @@ import { Ionicons, View, TouchableOpacity } from "../components/Elements";
 import PublicacionesScreen from '../modules/inside/PublicacionesScreen';
 import DescargasScreen from '../modules/inside/DescargasScreen';
 import { InsideStack } from '../types';
+import InitScreen from '../modules/outside/init/InitScreen';
 
 function InsideTab() {
     const InsideTab = createBottomTabNavigator();
@@ -19,10 +20,12 @@ function InsideTab() {
         }}>
             <InsideTab.Screen name="Publicaciones" component={PublicacionesScreen} />
             <InsideTab.Screen name="Descargas" component={DescargasScreen} />
-            <InsideTab.Screen name="Cerrar" component={function () { return (<View></View>) }}
+            <InsideTab.Screen name="Cerrar"
                 listeners={({ navigation, route }) => ({
                     tabPress: e => { e.preventDefault(); navigation.navigate('Outside'); },
-                })} />
+                })} >
+                {() => null}
+            </InsideTab.Screen>
         </InsideTab.Navigator>
     );
 }

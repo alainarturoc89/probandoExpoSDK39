@@ -1,12 +1,14 @@
 import * as React from 'react';
 import { StyleSheet, Alert } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
-import { TextInput, View, TouchableOpacity, Text, FlatList, Image } from '../../components/Elements';
+import { TextInput, View, TouchableOpacity, Text, FlatList, Image, Ionicons } from '../../components/Elements';
 
 export default function CrearScreen({ ...props }) {
+
     const [title, onChangeTitle] = React.useState('');
     const [description, onChangeDescription] = React.useState('');
     const [contents, onChangeContents] = React.useState([]);
+
     function crear() {
         if (title !== "" && description !== "") {
             console.log(contents);
@@ -28,10 +30,12 @@ export default function CrearScreen({ ...props }) {
         });
         if (result.type === "success") {
             if ((result.size / 1e+6) <= 75) {
-                console.log(result);
-                onChangeContents(contents => [...contents, {
-                    name: result["name"], uri: result["uri"], format: result["name"].split(".")[1]
-                }]);
+                let content = {
+                    name: result["name"],
+                    uri: result["uri"],
+                    format: typeDocument(result["name"].split(".")[1])
+                };
+                onChangeContents(contents => [...contents, content]);
             }
             else
                 Alert.alert(
@@ -46,6 +50,10 @@ export default function CrearScreen({ ...props }) {
         }
     }
 
+    function reproduce(item: any) {
+        return "";
+    }
+
     function typeDocument(type: any) {
         const image = ["png", "jpg", "jpeg"];
         const sound = ["mpeg", "mp3", "ogg"];
@@ -58,6 +66,7 @@ export default function CrearScreen({ ...props }) {
             return { type: "video/" + type, video: true };
         else return null;
     }
+
     return (
         <View style={styles.container}>
             <TextInput
@@ -83,11 +92,15 @@ export default function CrearScreen({ ...props }) {
                 keyExtractor={(item: object, index: number) => index.toString()}
                 numColumns={2}
                 renderItem={({ item, index, separators }) => {
-                    return item.format === "png"
+                    return item.format.image
                         ? <Image source={{ uri: item.uri }} style={{ margin: 15, width: 150, height: 150 }}></Image>
-                        : item.format === "png"
-                            ? <Image source={{ uri: require("../../assets/images/1.png") }} style={{ margin: 15, width: 80 }}></Image>
-                            : <Image source={{ uri: require("../../assets/images/1.png") }} style={{ margin: 15, width: 80 }}></Image>
+                        : item.format.sound
+                            ? <TouchableOpacity style={{}} onPress={() => reproduce(item)}>
+                                <Ionicons name="musical-notes-outline" size={60} color="#9F4ADE" />
+                            </TouchableOpacity>
+                            : <TouchableOpacity style={{}} onPress={() => reproduce(item)}>
+                                <Ionicons name="play-outline" size={60} color="#9F4ADE" />
+                            </TouchableOpacity>
                 }
                 } />
 

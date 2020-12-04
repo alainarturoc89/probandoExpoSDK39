@@ -26,6 +26,7 @@ export default function CrearScreen({ ...props }) {
     async function loadFile() {
         let result = await DocumentPicker.getDocumentAsync({
             // type:"application/pdf; image/png; image/jpeg; image/jpg; audio/mpeg; audio/ogg; video/mp4",
+            type: "image/*",
             copyToCacheDirectory: true,
         });
         if (result.type === "success") {
@@ -93,10 +94,13 @@ export default function CrearScreen({ ...props }) {
                 numColumns={2}
                 renderItem={({ item, index, separators }) => {
                     return item.format.image
-                        ? <Image source={{ uri: item.uri }} style={{ margin: 15, width: 150, height: 150 }}></Image>
+                        ? <TouchableOpacity style={{}} onPress={() => reproduce({item, type:"image"})}>
+                             <Ionicons name="close-outline" size={60} color="#9F4ADE" />
+                            <Image source={{ uri: item.uri }} style={{ margin: 15, width: 150, height: 150 }}></Image>
+                        </TouchableOpacity>
                         : item.format.sound
                             ? <TouchableOpacity style={{}} onPress={() => reproduce(item)}>
-                                <Ionicons name="musical-notes-outline" size={60} color="#9F4ADE" />
+                                <Ionicons name="musical-notes-outline" size={30} color="#9F4ADE" />
                             </TouchableOpacity>
                             : <TouchableOpacity style={{}} onPress={() => reproduce(item)}>
                                 <Ionicons name="play-outline" size={60} color="#9F4ADE" />
@@ -122,5 +126,8 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         marginBottom: 15,
         paddingHorizontal: 5
+    },
+    viewFile:{
+
     }
 });

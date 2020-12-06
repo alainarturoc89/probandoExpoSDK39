@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
-import { SafeAreaView, FlatList, View, Image, Text, TouchableOpacity, Modal, ScrollView } from '../../components/Elements';
+import { SafeAreaView, FlatList, View, Image, Text, TouchableOpacity, Modal, ScrollView, Ionicons } from '../../components/Elements';
+import * as FileSystem from 'expo-file-system';
 
 import PublicacioneScreen from "./PublicacionScreen";
 import CrearScreen from "./CrearScreen";
@@ -10,13 +11,14 @@ export default function PublicacionesScreen({ ...props }) {
   const [modalVisible, changeModalVisible] = React.useState(false);
   const [createType, changeCreateType] = React.useState(true);
   const [data, changeData] = React.useState([]);
+  const [images, changeImages] = React.useState([]);
   const [item, changeItem] = React.useState(null);
 
   React.useEffect(() => {
     if (!loaded) {
       changeLoaded(true);
       global.firebase.database().ref('publications').on("value", function (snapshot: any) {
-        changeData(snapshot.val());
+        changeData(Object.values(snapshot.val()));
       }, function (errorObject: any) {
         console.warn("Error al obtener las publicaciones");
       });
@@ -45,6 +47,45 @@ export default function PublicacionesScreen({ ...props }) {
     changeCreateType(true);
     changeItem(null);
     changeModalVisible(false);
+
+    var d = new Date(),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+    let fecha = [day, month, year].join('-');
+
+    if (el.medias.length) {
+      var storage = global.firebase.storage();
+      for (var i = 0; i < el.medias.length; i++) {
+      //  let image = 'images/' + fecha + '_' + el.medias[i].name;
+        var imagesStorageRef = storage.ref('images/' + fecha + '_' + el.medias[i].name);
+        let file = el.medias[i].base64;
+        file += await FileSystem.readAsStringAsync(el.medias[i].uri, { encoding: FileSystem.EncodingType.Base64 });
+        imagesStorageRef.putString(file, 'data_url', { contentType: el.medias[i].format.type }).then(function (snapshot) {
+          changeImages(images => [...images, 'images/' + fecha + '_' + el.medias[i].name]);
+        });
+      }
+    }
+
+    var publication = {
+      date: [day, month, year].join('/'),
+      description: el.description,
+      images,
+      title: el.title,
+      user: "alain",
+    };
+    var newPublicationKey = global.firebase.database().ref('publications').push().key;
+    var updates = {};
+    updates['/publications/' + newPublicationKey] = publication;
+    updates['/users/' + 'alain' + '/publications/' + newPublicationKey] = publication;
+
+    global.firebase.database().ref().update(updates)
+      .then(() => {
+        changeImages([])});
   }
 
   const renderItem = ({ item }) => {
@@ -63,9 +104,9 @@ export default function PublicacionesScreen({ ...props }) {
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
-        style={[{ padding: 10, backgroundColor: "#9F4ADE", marginBottom: 10, borderRadius: 5, marginHorizontal: 25 }]}
+        style={{ alignItems: "center" }}
         onPress={() => create()}>
-        <Text style={[{ textAlign: "center", color: "#fff", fontSize: 17, fontWeight: "bold" }]}>Crear publicación</Text>
+        <Ionicons name="md-add-circle" size={70} color="#9F4ADE" />
       </TouchableOpacity>
       <FlatList data={data} renderItem={renderItem} keyExtractor={item => item.title} />
       <Modal
@@ -76,9 +117,9 @@ export default function PublicacionesScreen({ ...props }) {
         <View style={[{ flex: 1, marginVertical: 20 }]}>
           <ScrollView>
             <TouchableOpacity
-              style={[{ padding: 10, backgroundColor: "#9F4ADE", marginBottom: 10, borderRadius: 5, marginHorizontal: 25 }]}
+              style={{ alignItems: "center" }}
               onPress={() => cerrar()}>
-              <Text style={[{ textAlign: "center", color: "#fff", fontSize: 17, fontWeight: "bold" }]}>Cerrar</Text>
+              <Ionicons name="md-close-circle" size={70} color="#9F4ADE" />
             </TouchableOpacity>
             {(createType)
               ? <CrearScreen crear={crear} />
@@ -92,12 +133,12 @@ export default function PublicacionesScreen({ ...props }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff', paddingVertical: 20 },
+  container: { flex: 1, backgroundColor: '#fff' },
   item: {
-    borderWidth: 0.5, borderRadius: 3, borderColor: "gray",
+    borderWidth: 0.5, borderRadius: 3, borderColor: "#9F4ADE",
     padding: 10,
     flexDirection: "row",
-    alignItems: "center", marginBottom: 3
+    alignItems: "center", marginBottom: 3, marginHorizontal: 3
   },
   image: { height: 40, width: 40 },
   title: { fontSize: 17, fontWeight: "bold", color: "#9F4ADE" },

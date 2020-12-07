@@ -54,9 +54,9 @@ export default function CrearScreen({ ...props }) {
         if (!result.cancelled) {
             let aux = result.uri.split(".");
             let type = typeDocument(aux[aux.length - 1]);
-            let base64 = "data:[" + type.contentType + "][;base64]," + result.base64;
-            let image = { base64, type, uri: result.uri };
-            onChangeImages(images => [...images, image]);
+            /*  let base64 = "data:[" + type.contentType + "][;base64]," + result.base64;
+              let image = { base64, type, uri: result.uri };*/
+            // onChangeImages(images => [...images, image]);
             /* await fetch(result.uri)
                  .then(res => {
                      console.log(res)
@@ -66,10 +66,14 @@ export default function CrearScreen({ ...props }) {
             /* const imageData = await fetch(result.uri);
              const blob = await imageData.blob();*/
 
-            const blob = b64toBlob(result.base64, type.contentType);
+            /*const blob = b64toBlob(result.base64, type.contentType);
             const blobUrl = URL.createObjectURL(blob);
-            console.log(blobUrl)
+            console.log(blobUrl)*/
 
+            // const base64 = await fetch(result["base64"]);
+            const base64Response = await fetch(`data:${type.contentType};base64,${result.base64}`);
+            const blob = await base64Response.blob();
+            console.log(blob);
         }
     }
 

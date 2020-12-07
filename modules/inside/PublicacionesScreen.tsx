@@ -11,19 +11,17 @@ export default function PublicacionesScreen({ ...props }) {
   const [modalVisible, changeModalVisible] = React.useState(false);
   const [createType, changeCreateType] = React.useState(true);
   const [data, changeData] = React.useState([]);
-  const [images, changeImages] = React.useState([]);
   const [item, changeItem] = React.useState(null);
 
-  React.useEffect(() => {
-    if (!loaded) {
-      changeLoaded(true);
-      global.firebase.database().ref('publications').on("value", function (snapshot: any) {
+  if (!loaded) {
+    changeLoaded(true);
+    global.firebase.database().ref('publications').on("value", function (snapshot: any) {
+      if (snapshot.val())
         changeData(Object.values(snapshot.val()));
-      }, function (errorObject: any) {
-        console.warn("Error al obtener las publicaciones");
-      });
-    }
-  });
+    }, function (errorObject: any) {
+      console.warn("Error al obtener las publicaciones");
+    });
+  }
 
   async function create() {
     changeCreateType(true);
@@ -48,6 +46,8 @@ export default function PublicacionesScreen({ ...props }) {
     changeItem(null);
     changeModalVisible(false);
 
+    var newPublicationKey = global.firebase.database().ref('publications').push().key;
+
     var d = new Date(),
       month = '' + (d.getMonth() + 1),
       day = '' + d.getDate(),
@@ -58,16 +58,14 @@ export default function PublicacionesScreen({ ...props }) {
       day = '0' + day;
     let fecha = [day, month, year].join('-');
 
-    if (el.medias.length) {
-      var storage = global.firebase.storage();
-      for (var i = 0; i < el.medias.length; i++) {
-      //  let image = 'images/' + fecha + '_' + el.medias[i].name;
-        var imagesStorageRef = storage.ref('images/' + fecha + '_' + el.medias[i].name);
-        let file = el.medias[i].base64;
-        file += await FileSystem.readAsStringAsync(el.medias[i].uri, { encoding: FileSystem.EncodingType.Base64 });
-        imagesStorageRef.putString(file, 'data_url', { contentType: el.medias[i].format.type }).then(function (snapshot) {
-          changeImages(images => [...images, 'images/' + fecha + '_' + el.medias[i].name]);
-        });
+    let images = [];
+    if (el.images.length) {
+      for (var i = 0; i < el.images.length; i++) {
+        // let ref = 'images/' + newPublicationKey + "/" + fecha + '_' + i;
+        let base64 = el.images[i].base64;
+        let { contentType } = el.images[i].type;
+        uploadStoragePromise('images/' + newPublicationKey + "/" + fecha + '_' + i, base64, contentType);
+        images.push('images/' + newPublicationKey + "/" + fecha + '_' + i);
       }
     }
 
@@ -78,14 +76,29 @@ export default function PublicacionesScreen({ ...props }) {
       title: el.title,
       user: "alain",
     };
-    var newPublicationKey = global.firebase.database().ref('publications').push().key;
+
     var updates = {};
     updates['/publications/' + newPublicationKey] = publication;
     updates['/users/' + 'alain' + '/publications/' + newPublicationKey] = publication;
 
-    global.firebase.database().ref().update(updates)
-      .then(() => {
-        changeImages([])});
+    global.firebase.database().ref().update(updates);
+  }
+
+  function uploadStoragePromise(ref: string, base64: string, type: string) {
+    return new Promise(function (resolve, reject) {
+      let res = global.firebase.storage().ref(ref).putString(base64, 'data_url', { contentType: type });
+      res.on('state_changed',
+        function progress(snapshot) {
+
+        },
+        function error(err) {
+          console.log(err)
+        },
+        function complete() {
+          console.log(res.snapshot.metadata)
+        }
+      );
+    });
   }
 
   const renderItem = ({ item }) => {

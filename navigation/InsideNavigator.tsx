@@ -3,9 +3,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
 import { Ionicons, View, TouchableOpacity } from "../components/Elements";
 import PublicacionesScreen from '../modules/inside/PublicacionesScreen';
-import DescargasScreen from '../modules/inside/DescargasScreen';
+import HelpScreen from '../modules/common/help/HelpScreen';
 import { InsideStack } from '../types';
-import InitScreen from '../modules/outside/init/InitScreen';
 
 function InsideTab() {
     const InsideTab = createBottomTabNavigator();
@@ -19,7 +18,7 @@ function InsideTab() {
             labelStyle: { fontSize: 15, fontWeight: "bold" }
         }}>
             <InsideTab.Screen name="Publicaciones" component={PublicacionesScreen} />
-            <InsideTab.Screen name="Descargas" component={DescargasScreen} />
+            <InsideTab.Screen name="Ayuda" component={HelpScreen} />
             <InsideTab.Screen name="Cerrar"
                 listeners={({ navigation, route }) => ({
                     tabPress: e => { e.preventDefault(); navigation.navigate('Outside'); },
@@ -46,10 +45,7 @@ export default function InitNavigator({ ...props }) {
                 <View style={{ marginRight: 10 }}><Ionicons name="ios-flower" size={32} color="#fff" /></View>
                 <View style={{ marginRight: 10 }}><Ionicons name="ios-heart-empty" size={32} color="#fff" /></View>
                 <View style={{ marginRight: 10 }}><Ionicons name="ios-flower" size={32} color="#fff" /></View>
-            </View>,
-            headerRight: () => <TouchableOpacity style={{ flexDirection: "row-reverse", marginHorizontal: 10 }} onPress={() => props.navigation.navigate("Common", { screen: 'Help', })}>
-                <Ionicons name="ios-help-circle" size={32} color="#fff" />
-            </TouchableOpacity>
+            </View>
         }}>
             <InsideStack.Screen
                 name="PublicacionesScreen"

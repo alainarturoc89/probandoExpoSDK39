@@ -1,57 +1,80 @@
 import * as React from 'react';
 import { StyleSheet, Alert } from 'react-native';
-import * as DocumentPicker from 'expo-document-picker';
+import * as ImagePicker from 'expo-image-picker';
 import { TextInput, View, TouchableOpacity, Text, FlatList, Image, Ionicons } from '../../components/Elements';
+import Base64 from "../../components/Base64";
 
 export default function CrearScreen({ ...props }) {
 
     const [title, onChangeTitle] = React.useState('');
     const [description, onChangeDescription] = React.useState('');
-    const [medias, onChangeMedias] = React.useState([]);
+    const [images, onChangeImages] = React.useState([]);
 
     function crear() {
-        if (title !== "" && description !== "") {
-            props.crear({ title, description, medias });
-        } else {
-            Alert.alert(
-                "Importante",
-                "Existen datos sin especificar",
-                [{ text: "Cerrar" }],
-                { cancelable: true }
-            );
+        props.crear({ title, description, images });
+        /*  if (title !== "" && description !== "") {
+              props.crear({ title, description, images });
+          } else {
+              Alert.alert(
+                  "Importante",
+                  "Existen datos sin especificar",
+                  [{ text: "Cerrar" }],
+                  { cancelable: true }
+              );
+          }*/
+    }
+
+    const b64toBlob = (b64Data, contentType = '', sliceSize = 512) => {
+        const byteCharacters = Base64.atob(b64Data);
+        const byteArrays = [];
+
+        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+            const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+            const byteNumbers = new Array(slice.length);
+            for (let i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+
+            const byteArray = new Uint8Array(byteNumbers);
+            byteArrays.push(byteArray);
         }
+
+        const blob = new Blob(byteArrays, { type: contentType });
+        return blob;
     }
 
     async function loadFile() {
-        let result = await DocumentPicker.getDocumentAsync({
-            type: "image/*",
-            copyToCacheDirectory: true
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: false,
+            quality: 1,
+            base64: true
         });
-        if (result.type === "success") {
-            if ((result.size / 1e+6) <= 75) {
-                let media = {
-                    name: result["name"],
-                    uri: result["uri"],
-                    format: typeDocument(result["name"].split(".")[1]),
-                    base64: "data:[" + typeDocument(result["name"].split(".")[1]) + "][;base64],"
-                };
-                onChangeMedias(medias => [...medias, media]);
-            }
-            else
-                Alert.alert(
-                    "Importante",
-                    "El fichero debe ser menor a 75 megas", [{ text: "Cerrar" }], { cancelable: true }
-                );
-        } else {
-            Alert.alert(
-                "Error",
-                "Intenta nuevamente", [{ text: "Cerrar" }], { cancelable: true }
-            );
+        if (!result.cancelled) {
+            let aux = result.uri.split(".");
+            let type = typeDocument(aux[aux.length - 1]);
+            let base64 = "data:[" + type.contentType + "][;base64]," + result.base64;
+            let image = { base64, type, uri: result.uri };
+            onChangeImages(images => [...images, image]);
+            /* await fetch(result.uri)
+                 .then(res => {
+                     console.log(res)
+                 })*/
+            //  const blob = await imageData.blob();
+            // console.log(imageData)
+            /* const imageData = await fetch(result.uri);
+             const blob = await imageData.blob();*/
+
+            const blob = b64toBlob(result.base64, type.contentType);
+            const blobUrl = URL.createObjectURL(blob);
+            console.log(blobUrl)
+
         }
     }
 
     function delFile(file: any) {
-        onChangeMedias(medias.filter(item => item !== file.item));
+        onChangeImages(images.filter(item => item !== file.item));
     }
 
     function reproduce(item: any) {
@@ -62,13 +85,13 @@ export default function CrearScreen({ ...props }) {
         const image = ["png", "jpg", "jpeg"];
         const sound = ["mpeg", "mp3", "ogg"];
         const video = ["mp4", "avi"];
-        if (image.includes(type))
-            return { type: "image/" + type, image: true };
-        else if (sound.includes(type))
-            return { type: "audio/" + type, sound: true };
-        else if (video.includes(type))
-            return { type: "video/" + type, video: true };
-        else return null;
+        return { contentType: "image/" + type, image: true };
+        /* if (image.includes(type))
+             res = { contentType: "image/" + type, image: true };
+         else if (sound.includes(type))
+             res = { contentType: "audio/" + type, sound: true };
+         else if (video.includes(type))
+             res = { contentType: "video/" + type, video: true };*/
     }
 
     return (
@@ -94,11 +117,11 @@ export default function CrearScreen({ ...props }) {
             </TouchableOpacity>
 
             <FlatList
-                data={medias}
+                data={images}
                 keyExtractor={(item: object, index: number) => index.toString()}
                 numColumns={2}
                 renderItem={({ item, index, separators }) => {
-                    return item.format.image
+                    return item.type.image
                         ? <View style={{ flexDirection: "row" }}>
                             <TouchableOpacity onPress={() => reproduce({ item, type: "image" })}>
                                 <Image source={{ uri: item.uri }} style={{ margin: 15, width: 150, height: 150 }}></Image>

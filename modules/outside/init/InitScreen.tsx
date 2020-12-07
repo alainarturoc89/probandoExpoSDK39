@@ -4,12 +4,23 @@ import { dimensions } from "../../../styles/base";
 import {
   View, Text, Image, TouchableOpacity, TextInput, Ionicons, KeyboardAvoidingView, TouchableWithoutFeedback
 } from '../../../components/Elements';
+import { Audio } from 'expo-av';
+const soundObject = new Audio.Sound();
+soundObject.setOnPlaybackStatusUpdate(null);
+soundObject.loadAsync(require('../../../assets/sound/ella_es_mi_todo.mp3'), { shouldPlay: false });
 
 export default function InitScreen({ ...props }) {
+
   const [iosEye, onChangeIosEye] = React.useState("ios-eye");
   const [showPass, onShowPass] = React.useState(true);
   const [user, onChangeUser] = React.useState('');
   const [password, onChangePassword] = React.useState('');
+  const [sound, onChangeSound] = React.useState(false);  
+
+  /*if(!sound){
+    soundObject.playAsync();
+    onChangeSound(true);
+  }*/
 
   async function login() {
     if (user !== "" && password !== "") {
@@ -18,6 +29,8 @@ export default function InitScreen({ ...props }) {
           if (snapshot && password === snapshot.val().password) {
             onChangeUser("");
             onChangePassword("");
+            soundObject.stopAsync();
+            onChangeSound(false);
             props.navigation.navigate("Inside");
           } else {
             Alert.alert(

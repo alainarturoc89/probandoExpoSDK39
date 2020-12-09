@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import { SafeAreaView, FlatList, View, Image, Text, TouchableOpacity, Modal, ScrollView, Ionicons } from '../../components/Elements';
-import * as FileSystem from 'expo-file-system';
 
 import PublicacioneScreen from "./PublicacionScreen";
 import CrearScreen from "./CrearScreen";
@@ -12,6 +11,10 @@ export default function PublicacionesScreen({ ...props }) {
   const [createType, changeCreateType] = React.useState(true);
   const [data, changeData] = React.useState([]);
   const [item, changeItem] = React.useState(null);
+
+  const [newPublicationKey, changeNewPublicationKey] = React.useState(null);
+  const [date, changeDate] = React.useState(null);
+  const [refe, changeRefe] = React.useState(null);
 
   if (!loaded) {
     changeLoaded(true);
@@ -24,6 +27,20 @@ export default function PublicacionesScreen({ ...props }) {
   }
 
   async function create() {
+    let newPublicationKey = await global.firebase.database().ref('publications').push().key;
+    changeNewPublicationKey(newPublicationKey);
+    let d = new Date(),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+    let date = [day, month, year].join('-');
+    changeDate(date);
+    let refe = 'images/' + newPublicationKey + "/" + date + '_';
+    changeRefe(refe);
     changeCreateType(true);
     changeItem(null);
     changeModalVisible(true);
@@ -45,69 +62,19 @@ export default function PublicacionesScreen({ ...props }) {
     changeCreateType(true);
     changeItem(null);
     changeModalVisible(false);
-    var newPublicationKey = global.firebase.database().ref('publications').push().key;
-    var d = new Date(),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear();
-    if (month.length < 2)
-      month = '0' + month;
-    if (day.length < 2)
-      day = '0' + day;
-    let fecha = [day, month, year].join('-');
-    let images = [];
-    if (el.images.length) {
-      for (var i = 0; i < el.images.length; i++) {
-        let ref = 'images/' + newPublicationKey + "/" + fecha + '_' + i;
-        let contentType = el.images[i].type;
-        let uri = el.images[i].uri;
-        let base64 = `data:[${contentType}][;base64], ${el.images[i].base64}`;
-        uploadStoragePromise(ref, base64, contentType, uri);
-        images.push(ref);
-      }
-    }
-    /* var publication = {
-       date: [day, month, year].join('/'),
-       description: el.description,
-       images,
-       title: el.title,
-       key: newPublicationKey,
-       user: "alain",
-     };
-     var updates = {};
-     updates['/publications/' + newPublicationKey] = publication;
-     updates['/users/' + 'alain' + '/publications/' + newPublicationKey] = publication;
- 
-     global.firebase.database().ref().update(updates);*/
-  }
+    var publication = {
+      date: date,
+      description: el.description,
+      images: el.images,
+      title: el.title,
+      key: newPublicationKey,
+      user: "alain",
+    };
+    var updates = {};
+    updates['/publications/' + newPublicationKey] = publication;
+    updates['/users/' + 'alain' + '/publications/' + newPublicationKey] = publication;
 
-  function cargarImage(uri: string) {
-    return new Promise(function (resolve, reject) {
-      let xhr = new XMLHttpRequest();
-      xhr.onerror = reject;
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4) {
-          resolve(xhr.response);
-        }
-      }
-      xhr.open("GET", uri);
-      xhr.responseType = "blob";
-      xhr.send();
-    })
-  }
-
-  function uploadStoragePromise(ref: string, base64: string, type: string, uri: string) {
-    return new Promise(function (resolve, reject) {
-      cargarImage(uri)
-        .then(file => {
-          console.log(file)
-          /* let refe = global.firebase.storage().ref().child(ref);
-           refe.put(file);*/
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    });
+    global.firebase.database().ref().update(updates);
   }
 
   const renderItem = ({ item }) => {
@@ -134,7 +101,6 @@ export default function PublicacionesScreen({ ...props }) {
       <Modal
         animationType="slide"
         visible={modalVisible}
-        onRequestClose={() => { }}
       >
         <View style={[{ flex: 1, marginVertical: 20 }]}>
           <ScrollView>
@@ -144,7 +110,7 @@ export default function PublicacionesScreen({ ...props }) {
               <Ionicons name="md-close-circle" size={70} color="#9F4ADE" />
             </TouchableOpacity>
             {(createType)
-              ? <CrearScreen crear={crear} />
+              ? <CrearScreen crear={crear} date={date} newPublicationKey={newPublicationKey} refe={refe} />
               : <PublicacioneScreen item={item} />
             }
           </ScrollView>

@@ -3,7 +3,6 @@ import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import * as React from 'react';
 import * as firebase from 'firebase';
-//import * as FileSystem from 'expo-file-system';
 
 export default function useCachedResources() {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
@@ -17,28 +16,6 @@ export default function useCachedResources() {
           ...Ionicons.font,
           'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
         });
-        //Fichero de configuracion
-        /*    let { exists } = await FileSystem.getInfoAsync(FileSystem.documentDirectory + "/config.json");
-            if (exists) {
-              FileSystem.readAsStringAsync(FileSystem.documentDirectory + "/config.json")
-                .then(conf => {
-                  let config = JSON.parse(conf);
-                  (global as any).config = config;
-                })
-            } else {
-              let config = {
-                user: { user: "123", password: "123" },
-                isLoggedIn: true
-              };
-              await FileSystem.writeAsStringAsync(FileSystem.documentDirectory + "/config.json", JSON.stringify(config))
-                .then(() => {
-                  (global as any).confif = config;
-                })
-            }
-            (global as any).changeConfig = async (config: any) => {
-              await FileSystem.writeAsStringAsync(FileSystem.documentDirectory + "/config.json", JSON.stringify(config))
-            }
-            */
 
         //Configuracion de firebase        
         firebase.initializeApp({

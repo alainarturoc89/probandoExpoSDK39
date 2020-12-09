@@ -2,13 +2,15 @@ import * as React from 'react';
 import { StyleSheet, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
-import { TextInput, View, TouchableOpacity, Text, FlatList, Image, Ionicons } from '../../components/Elements';
+import { TextInput, View, TouchableOpacity, Text, FlatList, Image, Ionicons, ActivityIndicator } from '../../components/Elements';
 
 export default function CrearScreen({ ...props }) {
 
     const [title, onChangeTitle] = React.useState('');
     const [description, onChangeDescription] = React.useState('');
     const [images, onChangeImages] = React.useState([]);
+    const [imagesLocal, onChangeImagesLocals] = React.useState([]);
+    const [loading, onChangeLoading] = React.useState(false);
 
     function crear() {
         if (title !== "" && description !== "") {
@@ -23,19 +25,23 @@ export default function CrearScreen({ ...props }) {
         }
     }
 
-    function cargarImage(uri: string) {
-        return new Promise(function (resolve, reject) {
-            let xhr = new XMLHttpRequest();
-            xhr.onerror = reject;
-            xhr.onreadystatechange = () => {
-                if (xhr.readyState === 4) {console.log(xhr.response);
-                    resolve(xhr.response);
-                }
-            }
-            xhr.open("GET", uri);
-            xhr.responseType = "blob";
-            xhr.send();
-        })
+    async function uploadImageAsync(uri: string, name: string) {
+        const blob = await new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                resolve(xhr.response);
+            };
+            xhr.onerror = function (e) {
+                console.log(e);
+                reject(new TypeError('Network request failed'));
+            };
+            xhr.responseType = 'blob';
+            xhr.open('GET', uri, true);
+            xhr.send(null);
+        });
+        let refs = global.firebase.storage().ref().child(props.refe + name);
+        const snapshot = await refs.put(blob);
+        return await snapshot.ref.getDownloadURL();
     }
 
     async function loadFile() {
@@ -45,37 +51,39 @@ export default function CrearScreen({ ...props }) {
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 allowsEditing: false,
                 quality: 1,
-                base64: true
             });
             if (!result.cancelled) {
+                onChangeLoading(true);
                 let localUri = result.uri;
                 let filename = localUri.split('/').pop();
                 let match = /\.(\w+)$/.exec(filename);
                 let type = match ? `image/${match[1]}` : `image`;
-                let base64 = result.base64;
-                let image = { uri: localUri, name: filename, type, base64 };
-                cargarImage(localUri)
-                    .then(file => {
-                        console.log(file)
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    })
-
-                //onChangeImages(images => [...images, image]);
+                const uploadUrl = await uploadImageAsync(localUri, filename);
+                let imageLocal = { uri: localUri, uploadUrl, type, filename };
+                let image = { uploadUrl };
+                onChangeImagesLocals(imagesLocal => [...imagesLocal, imageLocal]);
+                onChangeImages(images => [...images, image]);
+                onChangeLoading(false);
             }
         }
-
     }
 
     function delFile(file: any) {
-        onChangeImages(images.filter(item => item !== file.item));
+        onChangeLoading(true);
+        let refs = global.firebase.storage().ref().child(props.refe + file.item.filename);
+        refs.delete().then(function () {
+            onChangeImagesLocals(imagesLocal.filter(item => item !== file.item));
+            onChangeImages(images.filter(item => item.uploadUrl !== file.item.uploadUrl));
+            onChangeLoading(false);
+        }).catch(function (error) {
+            console.log("error");
+            onChangeLoading(false);
+        });
     }
 
     function open(item: any) {
         return "";
     }
-
 
     return (
         <View style={styles.container}>
@@ -99,8 +107,10 @@ export default function CrearScreen({ ...props }) {
                 <Ionicons name="md-attach" size={35} color="#9F4ADE" />
             </TouchableOpacity>
 
+            {loading && <ActivityIndicator size="large" color="#9F4ADE" />}
+
             <FlatList
-                data={images}
+                data={imagesLocal}
                 keyExtractor={(item: object, index: number) => index.toString()}
                 numColumns={2}
                 renderItem={({ item, index, separators }) => {

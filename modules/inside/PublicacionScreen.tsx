@@ -4,10 +4,24 @@ import { StyleSheet } from 'react-native';
 import { Text, View, FlatList, Image } from '../../components/Elements';
 
 export default function PublicacionScreen({ ...props }) {
+  // Create a reference under which you want to list
+  var storageRef = global.firebase.storage().ref('images');
+  var listRef = storageRef.child(props.item.key);
 
-    return (
-        <View style={styles.container}>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
+  // Find all the prefixes and items.
+  listRef.listAll().then(function (res) {
+    res.items.forEach(function (itemRef) {
+      console.log(itemRef.storage);
+      // All the items under listRef.
+    });
+  }).catch(function (error) {
+    // Uh-oh, an error occurred!
+  });
+  console.log(props)
+
+  return (
+    <View style={styles.container}>
+      {/*  <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Text style={[styles.title, { flex: 0.7 }]}>{props.item.title}</Text>
                 <Text style={[styles.date, { flex: 0.3 }]}>{props.item.date}</Text>
             </View>
@@ -19,23 +33,23 @@ export default function PublicacionScreen({ ...props }) {
                     numColumns={2}
                     renderItem={({ item, index, separators }) => {
                         let uri;
-                        var storage = global.firebase.storage();
                         var pathReference = global.firebase.storage().ref(item);
                         pathReference.getDownloadURL().then(function (url) {
-                            uri = url;
+                            uri =  url;
                         });
                         return <Image source={{ uri }} style={{ margin: 15, width: 150, height: 150, borderWidth: 1, borderColor: "#9F4ADE" }}></Image>
                     }
                     }
                 />
             }
-        </View>
-    );
+       */ }
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, padding: 20 },
-    title: { fontSize: 20, fontWeight: "bold", textDecorationLine: "underline" },
-    date: { fontSize: 15, fontWeight: "700" },
-    description: { fontSize: 17, fontWeight: "500" }
+  container: { flex: 1, padding: 20 },
+  title: { fontSize: 20, fontWeight: "bold", textDecorationLine: "underline" },
+  date: { fontSize: 15, fontWeight: "700" },
+  description: { fontSize: 17, fontWeight: "500" }
 });

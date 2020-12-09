@@ -45,9 +45,7 @@ export default function PublicacionesScreen({ ...props }) {
     changeCreateType(true);
     changeItem(null);
     changeModalVisible(false);
-
     var newPublicationKey = global.firebase.database().ref('publications').push().key;
-
     var d = new Date(),
       month = '' + (d.getMonth() + 1),
       day = '' + d.getDate(),
@@ -57,47 +55,58 @@ export default function PublicacionesScreen({ ...props }) {
     if (day.length < 2)
       day = '0' + day;
     let fecha = [day, month, year].join('-');
-
     let images = [];
     if (el.images.length) {
       for (var i = 0; i < el.images.length; i++) {
-        // let ref = 'images/' + newPublicationKey + "/" + fecha + '_' + i;
-        let base64 = el.images[i].base64;
-        let { contentType } = el.images[i].type;
-        uploadStoragePromise('images/' + newPublicationKey + "/" + fecha + '_' + i, base64, contentType);
-        images.push('images/' + newPublicationKey + "/" + fecha + '_' + i);
+        let ref = 'images/' + newPublicationKey + "/" + fecha + '_' + i;
+        let contentType = el.images[i].type;
+        let uri = el.images[i].uri;
+        let base64 = `data:[${contentType}][;base64], ${el.images[i].base64}`;
+        uploadStoragePromise(ref, base64, contentType, uri);
+        images.push(ref);
       }
     }
-
-    var publication = {
-      date: [day, month, year].join('/'),
-      description: el.description,
-      images,
-      title: el.title,
-      user: "alain",
-    };
-
-    var updates = {};
-    updates['/publications/' + newPublicationKey] = publication;
-    updates['/users/' + 'alain' + '/publications/' + newPublicationKey] = publication;
-
-    global.firebase.database().ref().update(updates);
+    /* var publication = {
+       date: [day, month, year].join('/'),
+       description: el.description,
+       images,
+       title: el.title,
+       key: newPublicationKey,
+       user: "alain",
+     };
+     var updates = {};
+     updates['/publications/' + newPublicationKey] = publication;
+     updates['/users/' + 'alain' + '/publications/' + newPublicationKey] = publication;
+ 
+     global.firebase.database().ref().update(updates);*/
   }
 
-  function uploadStoragePromise(ref: string, base64: string, type: string) {
+  function cargarImage(uri: string) {
     return new Promise(function (resolve, reject) {
-      let res = global.firebase.storage().ref(ref).putString(base64, 'data_url', { contentType: type });
-      res.on('state_changed',
-        function progress(snapshot) {
-
-        },
-        function error(err) {
-          console.log(err)
-        },
-        function complete() {
-          console.log(res.snapshot.metadata)
+      let xhr = new XMLHttpRequest();
+      xhr.onerror = reject;
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+          resolve(xhr.response);
         }
-      );
+      }
+      xhr.open("GET", uri);
+      xhr.responseType = "blob";
+      xhr.send();
+    })
+  }
+
+  function uploadStoragePromise(ref: string, base64: string, type: string, uri: string) {
+    return new Promise(function (resolve, reject) {
+      cargarImage(uri)
+        .then(file => {
+          console.log(file)
+          /* let refe = global.firebase.storage().ref().child(ref);
+           refe.put(file);*/
+        })
+        .catch(error => {
+          console.log(error)
+        })
     });
   }
 

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { StyleSheet, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
 import { TextInput, View, TouchableOpacity, Text, FlatList, Image, Ionicons } from '../../components/Elements';
-import Base64 from "../../components/Base64";
 
 export default function CrearScreen({ ...props }) {
 
@@ -11,92 +11,71 @@ export default function CrearScreen({ ...props }) {
     const [images, onChangeImages] = React.useState([]);
 
     function crear() {
-        props.crear({ title, description, images });
-        /*  if (title !== "" && description !== "") {
-              props.crear({ title, description, images });
-          } else {
-              Alert.alert(
-                  "Importante",
-                  "Existen datos sin especificar",
-                  [{ text: "Cerrar" }],
-                  { cancelable: true }
-              );
-          }*/
+        if (title !== "" && description !== "") {
+            props.crear({ title, description, images });
+        } else {
+            Alert.alert(
+                "Importante",
+                "Existen datos sin especificar",
+                [{ text: "Cerrar" }],
+                { cancelable: true }
+            );
+        }
     }
 
-    const b64toBlob = (b64Data, contentType = '', sliceSize = 512) => {
-        const byteCharacters = Base64.atob(b64Data);
-        const byteArrays = [];
-
-        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-            const slice = byteCharacters.slice(offset, offset + sliceSize);
-
-            const byteNumbers = new Array(slice.length);
-            for (let i = 0; i < slice.length; i++) {
-                byteNumbers[i] = slice.charCodeAt(i);
+    function cargarImage(uri: string) {
+        return new Promise(function (resolve, reject) {
+            let xhr = new XMLHttpRequest();
+            xhr.onerror = reject;
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4) {console.log(xhr.response);
+                    resolve(xhr.response);
+                }
             }
-
-            const byteArray = new Uint8Array(byteNumbers);
-            byteArrays.push(byteArray);
-        }
-
-        const blob = new Blob(byteArrays, { type: contentType });
-        return blob;
+            xhr.open("GET", uri);
+            xhr.responseType = "blob";
+            xhr.send();
+        })
     }
 
     async function loadFile() {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: false,
-            quality: 1,
-            base64: true
-        });
-        if (!result.cancelled) {
-            let aux = result.uri.split(".");
-            let type = typeDocument(aux[aux.length - 1]);
-            /*  let base64 = "data:[" + type.contentType + "][;base64]," + result.base64;
-              let image = { base64, type, uri: result.uri };*/
-            // onChangeImages(images => [...images, image]);
-            /* await fetch(result.uri)
-                 .then(res => {
-                     console.log(res)
-                 })*/
-            //  const blob = await imageData.blob();
-            // console.log(imageData)
-            /* const imageData = await fetch(result.uri);
-             const blob = await imageData.blob();*/
+        const resultPermissions = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        if (resultPermissions) {
+            let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: false,
+                quality: 1,
+                base64: true
+            });
+            if (!result.cancelled) {
+                let localUri = result.uri;
+                let filename = localUri.split('/').pop();
+                let match = /\.(\w+)$/.exec(filename);
+                let type = match ? `image/${match[1]}` : `image`;
+                let base64 = result.base64;
+                let image = { uri: localUri, name: filename, type, base64 };
+                cargarImage(localUri)
+                    .then(file => {
+                        console.log(file)
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
 
-            /*const blob = b64toBlob(result.base64, type.contentType);
-            const blobUrl = URL.createObjectURL(blob);
-            console.log(blobUrl)*/
-
-            // const base64 = await fetch(result["base64"]);
-            const base64Response = await fetch(`data:${type.contentType};base64,${result.base64}`);
-            const blob = await base64Response.blob();
-            console.log(blob);
+                //onChangeImages(images => [...images, image]);
+            }
         }
+
     }
 
     function delFile(file: any) {
         onChangeImages(images.filter(item => item !== file.item));
     }
 
-    function reproduce(item: any) {
+    function open(item: any) {
         return "";
     }
 
-    function typeDocument(type: any) {
-        const image = ["png", "jpg", "jpeg"];
-        const sound = ["mpeg", "mp3", "ogg"];
-        const video = ["mp4", "avi"];
-        return { contentType: "image/" + type, image: true };
-        /* if (image.includes(type))
-             res = { contentType: "image/" + type, image: true };
-         else if (sound.includes(type))
-             res = { contentType: "audio/" + type, sound: true };
-         else if (video.includes(type))
-             res = { contentType: "video/" + type, video: true };*/
-    }
 
     return (
         <View style={styles.container}>
@@ -125,22 +104,14 @@ export default function CrearScreen({ ...props }) {
                 keyExtractor={(item: object, index: number) => index.toString()}
                 numColumns={2}
                 renderItem={({ item, index, separators }) => {
-                    return item.type.image
-                        ? <View style={{ flexDirection: "row" }}>
-                            <TouchableOpacity onPress={() => reproduce({ item, type: "image" })}>
-                                <Image source={{ uri: item.uri }} style={{ margin: 15, width: 150, height: 150 }}></Image>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{ marginLeft: -30, marginTop: 5 }} onPress={() => delFile({ item, index })}>
-                                <Ionicons name="md-close-circle" size={30} color="red" />
-                            </TouchableOpacity>
-                        </View>
-                        : item.format.sound
-                            ? <TouchableOpacity style={{}} onPress={() => reproduce(item)}>
-                                <Ionicons name="musical-notes-outline" size={30} color="#9F4ADE" />
-                            </TouchableOpacity>
-                            : <TouchableOpacity style={{}} onPress={() => reproduce(item)}>
-                                <Ionicons name="play-outline" size={60} color="#9F4ADE" />
-                            </TouchableOpacity>
+                    return <View style={{ flexDirection: "row" }}>
+                        <TouchableOpacity onPress={() => open(item)}>
+                            <Image source={{ uri: item.uri }} style={{ margin: 15, width: 150, height: 150 }}></Image>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{ marginLeft: -30, marginTop: 5 }} onPress={() => delFile({ item, index })}>
+                            <Ionicons name="md-close-circle" size={30} color="red" />
+                        </TouchableOpacity>
+                    </View>
                 }
                 }
             />

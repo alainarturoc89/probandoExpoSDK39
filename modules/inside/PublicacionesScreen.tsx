@@ -39,7 +39,7 @@ export default function PublicacionesScreen({ ...props }) {
       day = '0' + day;
     let date = [day, month, year].join('-');
     changeDate(date);
-    let refe = 'images/' + newPublicationKey + "/" + date + '_';
+    let refe = 'contents/' + newPublicationKey + "/" + date + '_';
     changeRefe(refe);
     changeCreateType(true);
     changeItem(null);

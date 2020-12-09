@@ -43,7 +43,7 @@ export default function HelpScreen({ ...props }) {
                 <Text style={styles.textLink}>Funcionamiento</Text>
             </TouchableOpacity>
             {(funVisible) && <View style={[styles.view, { marginBottom: 30 }]}>
-                <Text style={styles.text}>El funcionamiento de la aplicación es bastante simple. La cree con el propósito de publicar nuestras vivencias, podrás ponerle un título, una descripción y si lo deseas le puedes agregar imágenes. Además podrías utilizarla como un espacio para compartir cosas que quisieras dedicarme o simplemente hacérmelas saber.</Text>
+                <Text style={styles.text}>El funcionamiento de la aplicación es bastante simple. La cree con el propósito de publicar nuestras vivencias, podrás ponerle un título, una descripción y si lo deseas le puedes agregar contenidos, los contenidos pueden ser imágenes o videos (trata de que los videos no sean tan pesados). Además podrías utilizarla como un espacio para compartir cosas que quisieras dedicarme o simplemente hacérmelas saber.</Text>
             </View>}
         </ScrollView>
     );

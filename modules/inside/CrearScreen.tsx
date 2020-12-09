@@ -48,20 +48,18 @@ export default function CrearScreen({ ...props }) {
         const resultPermissions = await Permissions.askAsync(Permissions.CAMERA_ROLL);
         if (resultPermissions) {
             let result = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                allowsEditing: false,
+                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                allowsEditing: true,
                 quality: 1,
             });
             if (!result.cancelled) {
                 onChangeLoading(true);
                 let localUri = result.uri;
                 let filename = localUri.split('/').pop();
-                let match = /\.(\w+)$/.exec(filename);
-                let type = match ? `image/${match[1]}` : `image`;
                 const uploadUrl = await uploadImageAsync(localUri, filename);
-                let imageLocal = { uri: localUri, uploadUrl, type, filename };
-                let image = { uploadUrl };
+                let imageLocal = { uri: localUri, type: result.type };
                 onChangeImagesLocals(imagesLocal => [...imagesLocal, imageLocal]);
+                let image = { uploadUrl, type: result.type };
                 onChangeImages(images => [...images, image]);
                 onChangeLoading(false);
             }
@@ -103,7 +101,7 @@ export default function CrearScreen({ ...props }) {
             <TouchableOpacity
                 style={{ alignItems: "center", justifyContent: "center", flexDirection: "row" }}
                 onPress={loadFile}>
-                <Text style={[{ marginRight: 5, color: "#9F4ADE", fontSize: 17, fontWeight: "bold" }]}>Adjuntar imagen</Text>
+                <Text style={[{ marginRight: 5, color: "#9F4ADE", fontSize: 17, fontWeight: "bold" }]}>Adjuntar contenido</Text>
                 <Ionicons name="md-attach" size={35} color="#9F4ADE" />
             </TouchableOpacity>
 
@@ -114,14 +112,32 @@ export default function CrearScreen({ ...props }) {
                 keyExtractor={(item: object, index: number) => index.toString()}
                 numColumns={2}
                 renderItem={({ item, index, separators }) => {
-                    return <View style={{ flexDirection: "row" }}>
-                        <TouchableOpacity onPress={() => open(item)}>
-                            <Image source={{ uri: item.uri }} style={{ margin: 15, width: 150, height: 150 }}></Image>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{ marginLeft: -30, marginTop: 5 }} onPress={() => delFile({ item, index })}>
-                            <Ionicons name="md-close-circle" size={30} color="red" />
-                        </TouchableOpacity>
-                    </View>
+                    return item.type === "image"
+                        ? <View style={{ flexDirection: "row" }}>
+                            <TouchableOpacity onPress={() => open(item)}>
+                                <Image source={{ uri: item.uri }} style={{ margin: 15, width: 150, height: 150 }}></Image>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{ marginLeft: -30, marginTop: 5 }} onPress={() => delFile({ item, index })}>
+                                <Ionicons name="md-close-circle" size={30} color="red" />
+                            </TouchableOpacity>
+                        </View>
+                        : item.type === "video"
+                            ? <View style={{ flexDirection: "row" }}>
+                                <TouchableOpacity style={styles.viewFile} onPress={() => open(item)}>
+                                    <Ionicons name="md-videocam" size={80} color="#9F4ADE" />
+                                </TouchableOpacity>
+                                <TouchableOpacity style={{ marginLeft: -30, marginTop: 5 }} onPress={() => delFile({ item, index })}>
+                                    <Ionicons name="md-close-circle" size={30} color="red" />
+                                </TouchableOpacity>
+                            </View>
+                            : <View style={{ flexDirection: "row" }}>
+                                <TouchableOpacity style={styles.viewFile} onPress={() => open(item)}>
+                                    <Ionicons name="md-musical-notes" size={80} color="#9F4ADE" />
+                                </TouchableOpacity>
+                                <TouchableOpacity style={{ marginLeft: -30, marginTop: 5 }} onPress={() => delFile({ item, index })}>
+                                    <Ionicons name="md-close-circle" size={30} color="red" />
+                                </TouchableOpacity>
+                            </View>
                 }
                 }
             />
@@ -144,7 +160,5 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         paddingHorizontal: 5
     },
-    viewFile: {
-
-    }
+    viewFile: { width: 150, height: 150, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: "#9F4ADE", margin: 15 }
 });

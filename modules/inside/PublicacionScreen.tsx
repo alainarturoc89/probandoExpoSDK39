@@ -1,9 +1,14 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { Text, View, FlatList, Image } from '../../components/Elements';
+import { Text, View, FlatList, Image, TouchableOpacity, Ionicons } from '../../components/Elements';
 
 export default function PublicacionScreen({ ...props }) {
+
+  function open(item: any) {
+
+  }
+
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -17,10 +22,18 @@ export default function PublicacionScreen({ ...props }) {
           keyExtractor={(item: object, index: number) => index.toString()}
           numColumns={2}
           renderItem={({ item, index }) => {
-            return <Image
-              source={{ uri: item.uploadUrl }}
-              style={{ margin: 15, width: 150, height: 150 }}
-            ></Image>
+            return item.type === "image"
+              ? <Image
+                source={{ uri: item.uploadUrl }}
+                style={{ margin: 15, width: 150, height: 150 }}
+              ></Image>
+              : item.type === "video"
+                ? <TouchableOpacity style={styles.viewFile} onPress={() => open(item)}>
+                  <Ionicons name="md-videocam" size={80} color="#9F4ADE" />
+                </TouchableOpacity>
+                : <TouchableOpacity style={styles.viewFile} onPress={() => open(item)}>
+                  <Ionicons name="md-musical-notes" size={80} color="#9F4ADE" />
+                </TouchableOpacity>
           }
           }
         />
@@ -33,5 +46,6 @@ const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },
   title: { fontSize: 20, fontWeight: "bold", textDecorationLine: "underline" },
   date: { fontSize: 15, fontWeight: "700" },
-  description: { fontSize: 17, fontWeight: "500" }
+  description: { fontSize: 17, fontWeight: "500" },
+  viewFile: { width: 150, height: 150, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: "#9F4ADE", margin: 15 }
 });

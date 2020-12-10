@@ -4,6 +4,11 @@ import * as SplashScreen from 'expo-splash-screen';
 import * as React from 'react';
 import * as firebase from 'firebase';
 
+import { Audio } from 'expo-av';
+const soundObject = new Audio.Sound();
+soundObject.setOnPlaybackStatusUpdate(null);
+soundObject.loadAsync(require('../assets/sound/ella_es_mi_todo.mp3'), { shouldPlay: false });
+
 export default function useCachedResources() {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
 
@@ -29,6 +34,7 @@ export default function useCachedResources() {
         });
         global.firebase = firebase;
 
+        global.soundObject = soundObject;
       }
       catch (e) {
         console.warn(e);

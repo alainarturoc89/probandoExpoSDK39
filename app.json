@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "aniversario",
-    "slug": "aniversario",
+    "name": "Lisbet",
+    "slug": "Lisbet",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/favicon.png",
-    "scheme": "aniversario",
+    "scheme": "lisbet",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/prueba.png",
@@ -22,7 +22,7 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "alainarturoc.aniversario",
+      "package": "alainarturoc.lisbet",
       "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/favicon.png",

@@ -8,19 +8,23 @@ import { Audio } from 'expo-av';
 const soundObject = new Audio.Sound();
 soundObject.setOnPlaybackStatusUpdate(null);
 soundObject.loadAsync(require('../../../assets/sound/ella_es_mi_todo.mp3'), { shouldPlay: false });
-
 export default function InitScreen({ ...props }) {
 
   const [iosEye, onChangeIosEye] = React.useState("ios-eye");
   const [showPass, onShowPass] = React.useState(true);
   const [user, onChangeUser] = React.useState('');
   const [password, onChangePassword] = React.useState('');
-  const [sound, onChangeSound] = React.useState(false);  
+  const [sound, onChangeSound] = React.useState(false);
 
-  /*if(!sound){
-    soundObject.playAsync();
+  if (!sound)
     onChangeSound(true);
-  }*/
+
+  React.useEffect(() => {
+    if (sound){
+      soundObject.playAsync();}
+    else{
+      soundObject.stopAsync();}
+  }, [sound]);
 
   async function login() {
     if (user !== "" && password !== "") {
@@ -29,7 +33,6 @@ export default function InitScreen({ ...props }) {
           if (snapshot && password === snapshot.val().password) {
             onChangeUser("");
             onChangePassword("");
-            soundObject.stopAsync();
             onChangeSound(false);
             props.navigation.navigate("Inside");
           } else {

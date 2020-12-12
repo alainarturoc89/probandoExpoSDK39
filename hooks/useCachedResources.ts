@@ -19,7 +19,6 @@ export default function useCachedResources() {
         //Fuente
         await Font.loadAsync({
           ...Ionicons.font,
-          'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
           'courgette': require('../assets/fonts/Courgette-Regular.ttf'),
           'notoSerif': require('../assets/fonts/Noto_Serif/NotoSerif-Regular.ttf'),
           'notoSerif-bold': require('../assets/fonts/Noto_Serif/NotoSerif-Bold.ttf'),

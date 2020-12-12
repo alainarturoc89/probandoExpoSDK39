@@ -1,7 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
-import { Ionicons, View, TouchableOpacity } from "../components/Elements";
+import { Ionicons, View, Text } from "../components/Elements";
 import PublicacionesScreen from '../modules/inside/PublicacionesScreen';
 import HelpScreen from '../modules/common/help/HelpScreen';
 import { InsideStack } from '../types';
@@ -29,7 +29,12 @@ function InsideTab() {
                         }).catch(function (error) {
                         });
                     },
-                })} >
+                })}
+                options={{
+                    tabBarLabel: () => <Text style={{
+                        fontSize: 15, fontFamily: 'notoSerif-bold-italic', color: "#CD0D0D"
+                    }}>Cerrar</Text>
+                }}>
                 {() => null}
             </InsideTab.Screen>
         </InsideTab.Navigator>

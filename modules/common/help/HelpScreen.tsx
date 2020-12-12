@@ -50,9 +50,9 @@ export default function HelpScreen({ ...props }) {
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: '#fff', paddingVertical: 20, paddingHorizontal: 10 },
+    container: { flex: 1, backgroundColor: '#fff', paddingVertical: 20, paddingHorizontal: 7 },
     textIntro: { fontSize: 20, color: "black", marginTop: 10, marginBottom: 25, fontFamily: 'notoSerif-bold-italic' },
-    viewLink: { padding: 10, borderBottomColor: "#fff", borderWidth: 1, backgroundColor: "#CD0D0D" },
+    viewLink: { padding: 10, borderColor: "#CD0D0D", borderWidth: 1, backgroundColor: "#CD0D0D" },
     textLink: { color: "#fff", fontSize: 19, fontFamily: 'notoSerif-bold' },
     view: { padding: 5, marginBottom: 10, borderBottomWidth: 1, borderLeftWidth: 1, borderRightWidth: 1, borderBottomRightRadius: 5, borderBottomLeftRadius: 5, borderColor: "#CD0D0D" },
     text: { fontSize: 19, marginHorizontal: 10, fontFamily: 'notoSerif-italic' },

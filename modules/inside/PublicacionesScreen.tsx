@@ -72,21 +72,18 @@ export default function PublicacionesScreen({ ...props }) {
     };
     var updates = {};
     updates['/publications/' + newPublicationKey] = publication;
-    updates['/users/' + 'alain' + '/publications/' + newPublicationKey] = publication;
 
     global.firebase.database().ref().update(updates);
   }
 
   const renderItem = ({ item }) => {
-    return <TouchableOpacity style={styles.item} onPress={() => show(item)}>
+    return <TouchableOpacity style={[styles.item, styles.view]} onPress={() => show(item)}>
       {(item.avatar_url && item.avatar_url !== "")
         ? <Image source={item.avatar_url} style={styles.image} />
-        : <Image source={require("../../assets/images/publicacion.png")} style={styles.image} />
+        : <Image source={require("../../assets/images/publicacion.jpg")} style={styles.image} />
       }
-      <View style={{ marginLeft: 15 }}>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.date}>{item.date}</Text>
-      </View>
+      <Text style={styles.title}>{item.title}</Text>
+      <Text style={styles.date}>{item.date}</Text>
     </TouchableOpacity>
   };
 
@@ -98,16 +95,13 @@ export default function PublicacionesScreen({ ...props }) {
         <Ionicons name="md-add-circle" size={70} color="#9F4ADE" />
       </TouchableOpacity>
       <FlatList data={data} renderItem={renderItem} keyExtractor={item => item.title} />
-      <Modal
-        animationType="slide"
-        visible={modalVisible}
-      >
+      <Modal animationType="slide" visible={modalVisible}      >
         <View style={[{ flex: 1, marginVertical: 20 }]}>
           <ScrollView>
             <TouchableOpacity
               style={{ alignItems: "center" }}
               onPress={() => cerrar()}>
-              <Ionicons name="md-close-circle" size={70} color="#9F4ADE" />
+              <Ionicons name="md-close-circle" size={70} color="#CD0D0D" />
             </TouchableOpacity>
             {(createType)
               ? <CrearScreen crear={crear} date={date} newPublicationKey={newPublicationKey} refe={refe} />
@@ -123,12 +117,15 @@ export default function PublicacionesScreen({ ...props }) {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff' },
   item: {
-    borderWidth: 0.5, borderRadius: 3, borderColor: "#9F4ADE",
-    padding: 10,
+    height: 80,
     flexDirection: "row",
-    alignItems: "center", marginBottom: 3, marginHorizontal: 3
+    marginHorizontal: 3
   },
-  image: { height: 40, width: 40 },
-  title: { fontSize: 17, fontWeight: "bold", color: "#9F4ADE" },
-  date: { fontSize: 15, color: "#9F4ADE" },
+  image: { height: 40, width: 40, marginRight: 10 },
+  view: {
+    marginLeft: 10, flex: 1, flexDirection: "row", alignItems: "center",
+    borderBottomWidth: 0.5, borderRadius: 3, borderColor: "#CDC1C1"
+  },
+  title: { fontSize: 19, fontWeight: "900", color: "black", flex: 0.95 },
+  date: { fontSize: 15, color: "black" },
 });

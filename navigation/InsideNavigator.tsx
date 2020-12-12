@@ -12,7 +12,7 @@ function InsideTab() {
         <InsideTab.Navigator tabBarOptions={{
             activeBackgroundColor: "#9F4ADE",
             activeTintColor: "#fff",
-            inactiveTintColor: "#9F4ADE",
+            inactiveTintColor: "#CD0D0D",
             style: { backgroundColor: "#fff" },
             tabStyle: { justifyContent: "center" },
             labelStyle: { fontSize: 15, fontWeight: "bold" }
@@ -21,7 +21,12 @@ function InsideTab() {
             <InsideTab.Screen name="Ayuda" component={HelpScreen} />
             <InsideTab.Screen name="Cerrar"
                 listeners={({ navigation, route }) => ({
-                    tabPress: e => { e.preventDefault(); navigation.navigate('Outside'); },
+                    tabPress: e => { e.preventDefault(); 
+                    global.firebase.auth().signOut().then(function() {
+                        navigation.navigate('Outside');
+                      }).catch(function(error) {
+                      });
+                },
                 })} >
                 {() => null}
             </InsideTab.Screen>

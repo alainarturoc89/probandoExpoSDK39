@@ -7,62 +7,67 @@ import {
 
 export default function InitScreen({ ...props }) {
 
-  const [iosEye, onChangeIosEye] = React.useState("ios-eye");
-  const [showPass, onShowPass] = React.useState(true);
-  const [user, onChangeUser] = React.useState('');
+  const [iosEye, onChangeIosEye] = React.useState("ios-eye-off");
+  const [showPass, onShowPass] = React.useState(false);
+  const [email, onChangeEmail] = React.useState('');
   const [password, onChangePassword] = React.useState('');
   const [sound, onChangeSound] = React.useState(false);
 
   async function login() {
-    if (user !== "" && password !== "") {
-      global.firebase.database().ref('/users/' + user).once('value')
-        .then(function (snapshot) {
-          if (snapshot && password === snapshot.val().password) {
-            onChangeUser("");
+    if (email !== "" && password !== "") {
+      global.firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((user) => {
+          if (user !== null) {
+            onChangeEmail("");
             onChangePassword("");
+            onShowPass(false);
+            onChangeIosEye("ios-eye-off");
             onChangeSound(false);
             props.navigation.navigate("Inside");
-          } else {
-            Alert.alert(
-              "Ummmmm",
-              "Qué pasa, no recuerdas la información que se solicita? jejeje, prueba una vez más y no me desiluciones...",
-              [{ text: "Cerrar" }],
-              { cancelable: true }
-            );
           }
         })
         .catch((error) => {
-          console.log(error)
-        })
+          Alert.alert(
+            "Ummmmm",
+            "Qué pasa, no recuerdas la información que se solicita? jejeje, prueba una vez más y no me desiluciones...",
+            [{ text: "Cerrar" }],
+            { cancelable: true }
+          );
+        });
     } else {
       Alert.alert(
         "Importante",
-        "Campo de usuario o contrasena vacios...",
+        "Campo de usuario o contraseña vacios...",
         [{ text: "Cerrar" }],
         { cancelable: true }
       );
     }
   }
+
   function help() {
     props.navigation.navigate("Common", { screen: 'Help', });
   }
+
   function showHidePass() {
-    if (showPass)
+    if (showPass) {
       onChangeIosEye("ios-eye-off");
-    else
+    }
+    else {
       onChangeIosEye("ios-eye");
+    }
     onShowPass(!showPass);
   }
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior='height'>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View>
           <View style={{ flexDirection: "row", marginTop: 25, marginBottom: 20 }}>
             <Text style={[styles.textIntro, { flex: 0.99 }]}>
-              Para identificar el usuario y la contraseña visitar la ayuda
+              Para identificar el usuario y la contraseña visita la ayuda
             </Text>
             <TouchableOpacity style={{}} onPress={() => help()}>
-              <Ionicons name="ios-help-circle" size={60} color="#9F4ADE" />
+              <Ionicons name="ios-help-circle" size={60} color="#CD0D0D" />
             </TouchableOpacity>
           </View>
           <Image
@@ -70,7 +75,11 @@ export default function InitScreen({ ...props }) {
             resizeMode="stretch" style={styles.image}>
           </Image>
           <TextInput
-            placeholder="Usuario..."
+            placeholder="Correo electrónico..."
+            autoCompleteType="email"
+            autoCorrect={true}
+            autoFocus={true}
+            keyboardType="email-address"
             style={[{
               height: 50,
               borderRadius: 3,
@@ -79,12 +88,12 @@ export default function InitScreen({ ...props }) {
               marginBottom: 10,
               paddingHorizontal: 5
             }]}
-            onChangeText={text => onChangeUser(text)}
-            value={user} />
+            onChangeText={text => onChangeEmail(text)}
+            value={email} />
           <View style={{ alignItems: "center", flexDirection: "row", borderRadius: 3, borderColor: 'gray', borderWidth: 0.5, marginBottom: 10, marginTop: 20 }}>
             <TextInput
               placeholder="Contraseña..."
-              secureTextEntry={showPass}
+              secureTextEntry={!showPass}
               style={[{
                 height: 50,
                 paddingHorizontal: 5,
@@ -93,11 +102,11 @@ export default function InitScreen({ ...props }) {
               onChangeText={text => onChangePassword(text)}
               value={password} />
             <TouchableOpacity style={{ marginHorizontal: 5 }} onPress={() => { showHidePass() }}>
-              <Ionicons name={iosEye} size={32} color="#9F4ADE" />
+              <Ionicons name={iosEye} size={32} color="#CD0D0D" />
             </TouchableOpacity>
           </View>
           <TouchableOpacity
-            style={[{ padding: 10, backgroundColor: "#9F4ADE", marginTop: 5, borderRadius: 5, marginHorizontal: 125 }]}
+            style={[{ padding: 10, backgroundColor: "#CD0D0D", marginTop: 5, borderRadius: 5, marginHorizontal: 110 }]}
             onPress={() => login()}>
             <Text style={[{ textAlign: "center", color: "#fff", fontSize: 17, fontWeight: "bold" }]}>Autenticar</Text>
           </TouchableOpacity>
@@ -113,7 +122,7 @@ export default function InitScreen({ ...props }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, paddingHorizontal: 10, backgroundColor: "#fff" },
-  textIntro: { fontSize: 19, fontWeight: "bold", color: "#9F4ADE", textAlign: "left" },
+  textIntro: { fontSize: 23, color: "black", textAlign: "left" },
   image: { marginVertical: 40, width: dimensions.fullWidth - 30, height: 100, },
   text: { marginVertical: 5, color: "#9F4ADE", fontWeight: "bold", fontSize: 20 },
 });

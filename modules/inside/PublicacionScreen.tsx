@@ -44,8 +44,8 @@ export default function PublicacionScreen({ ...props }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },
-  title: { fontSize: 20, fontWeight: "bold", textDecorationLine: "underline" },
-  date: { fontSize: 15, fontWeight: "700" },
-  description: { fontSize: 17, fontWeight: "500" },
-  viewFile: { width: 150, height: 150, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: "#9F4ADE", margin: 15 }
+  title: { fontSize: 23 },
+  date: { fontSize: 17 },
+  description: { fontSize: 17, marginTop: 15, marginBottom: 10 },
+  viewFile: { width: 150, height: 150, alignItems: "center", justifyContent: "center", borderWidth: 0.5, borderColor: "#9F4ADE", borderRadius: 5, margin: 15 }
 });

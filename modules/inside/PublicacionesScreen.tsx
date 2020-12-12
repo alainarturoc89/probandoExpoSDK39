@@ -126,6 +126,6 @@ const styles = StyleSheet.create({
     marginLeft: 10, flex: 1, flexDirection: "row", alignItems: "center",
     borderBottomWidth: 0.5, borderRadius: 3, borderColor: "#CDC1C1"
   },
-  title: { fontSize: 19, fontWeight: "900", color: "black", flex: 0.95 },
-  date: { fontSize: 15, color: "black" },
+  title: { fontSize: 19, fontFamily: 'courgette', color: "black", flex: 0.95 },
+  date: { fontSize: 15, color: "black", fontFamily: 'courgette' },
 });

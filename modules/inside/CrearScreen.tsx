@@ -100,7 +100,7 @@ export default function CrearScreen({ ...props }) {
             <TouchableOpacity
                 style={{ alignItems: "center", justifyContent: "center", flexDirection: "row" }}
                 onPress={loadFile}>
-                <Text style={[{ marginRight: 5, color: "#9F4ADE", fontSize: 17, fontWeight: "bold" }]}>Adjuntar contenido</Text>
+                <Text style={[{ marginRight: 5, color: "#9F4ADE", fontSize: 20, fontFamily:"courgette" }]}>Adjuntar contenido</Text>
                 <Ionicons name="md-attach" size={35} color="#9F4ADE" />
             </TouchableOpacity>
 
@@ -141,9 +141,9 @@ export default function CrearScreen({ ...props }) {
                 }
             />
             <TouchableOpacity
-                style={[{ padding: 10, backgroundColor: "#9F4ADE", marginTop: 15, borderRadius: 5 }]}
+                style={[{ padding: 10, backgroundColor: "#9F4ADE", marginTop: 15, borderRadius: 5 , marginHorizontal:20}]}
                 onPress={() => crear()}>
-                <Text style={[{ textAlign: "center", color: "#fff", fontSize: 17, fontWeight: "bold" }]}>Publicar</Text>
+                <Text style={[{ textAlign: "center", color: "#fff", fontSize: 23, fontFamily:"courgette" }]}>Publicar</Text>
             </TouchableOpacity>
         </View>
     );
@@ -157,7 +157,9 @@ const styles = StyleSheet.create({
         borderColor: '#9F4ADE',
         borderWidth: 0.5,
         marginBottom: 15,
-        paddingHorizontal: 5
+        paddingHorizontal: 5,
+        fontFamily:"courgette",
+        fontSize:17
     },
     viewFile: { width: 150, height: 150, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: "#9F4ADE", margin: 15 }
 });

@@ -26,8 +26,8 @@ export default function HelpScreen({ ...props }) {
             {(autVisible) && <View style={styles.view}>
                 <Text style={[styles.text]}>Hola Lis, si es la primera vez que usas esta apk o simplemente no recuerdas cúal es tu usuario o tu contraseña te invito a que continues leyendo.</Text>
                 <Text style={[styles.text, {}]}>En esta sección se describe el proceso de autenticación:</Text>
-                <Text style={[styles.text, { marginTop: 5, fontWeight: "bold" }]}>El campo correo es su correo Gmail... Ejemplo: malahembra@gmail.com</Text>
-                <Text style={[styles.text, { marginTop: 5, fontWeight: "bold" }]}>El campo contraseña de mi tóxica esposa es la cantidad de niños que quiere tener, seguido de una coma, seguido del mes y día de nuestra primera firma, seguido de otra coma, seguido de la fecha de nuestra segunda firma... Ejemplo: 4,0321,12061002</Text>
+                <Text style={[styles.text, { marginTop: 5, fontFamily: "notoSerif-bold-italic" }]}>El campo correo es su correo Gmail... Ejemplo: malahembra@gmail.com</Text>
+                <Text style={[styles.text, { marginTop: 5, fontFamily: "notoSerif-bold-italic" }]}>El campo contraseña de mi tóxica esposa es la cantidad de niños que quiere tener, seguido de una coma, seguido del mes y día de nuestra primera firma, seguido de otra coma, seguido de la fecha de nuestra segunda firma... Ejemplo: 4,0321,12061002</Text>
                 <Text style={[styles.text, { marginTop: 5, }]}>En una próxima actualización (si te lo ganas) te agregaré la funcionalidad de poder modificar el usuario y la contraseña, mientras tanto te toca usar lo que te he definido.</Text>
             </View>}
             <TouchableOpacity activeOpacity={0} style={styles.viewLink} onPress={() => onChangeReqVisible(!reqVisible)}>
@@ -35,8 +35,8 @@ export default function HelpScreen({ ...props }) {
             </TouchableOpacity>
             {(reqVisible) && <View style={styles.view}>
                 <Text style={styles.text}>Pues a la verdad que no se necesita de mucho para poder usar la aplicación:</Text>
-                <Text style={[styles.text, { marginTop: 5, fontWeight: "bold" }]}>- Tener creado un usuario (Los usuarios los creo yo).</Text>
-                <Text style={[styles.text, { marginTop: 5, fontWeight: "bold" }]}>- Conexión a internet para realizar la autenticación, obtener y crear publicaciones.</Text>
+                <Text style={[styles.text, { marginTop: 5, fontFamily: 'notoSerif-bold-italic' }]}>- Tener creado un usuario (Los usuarios los creo yo).</Text>
+                <Text style={[styles.text, { marginTop: 5, fontFamily: "notoSerif-bold-italic" }]}>- Conexión a internet para realizar la autenticación, obtener y crear publicaciones.</Text>
                 <Text style={[styles.text, { marginTop: 5 }]}>Y ya eso sería todo, ya lo otro es tener deseo de usarla.</Text>
             </View>}
             <TouchableOpacity activeOpacity={0} style={styles.viewLink} onPress={() => onChangeFunVisible(!funVisible)}>
@@ -51,9 +51,9 @@ export default function HelpScreen({ ...props }) {
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: '#fff', paddingVertical: 20, paddingHorizontal: 10 },
-    textIntro: { fontSize: 23, color: "black", marginTop: 10, marginBottom: 25 },
+    textIntro: { fontSize: 20, color: "black", marginTop: 10, marginBottom: 25, fontFamily: 'notoSerif-bold-italic' },
     viewLink: { padding: 10, borderBottomColor: "#fff", borderWidth: 1, backgroundColor: "#CD0D0D" },
-    textLink: { color: "#fff", fontSize: 17, fontWeight: "bold" },
+    textLink: { color: "#fff", fontSize: 19, fontFamily: 'notoSerif-bold' },
     view: { padding: 5, marginBottom: 10, borderBottomWidth: 1, borderLeftWidth: 1, borderRightWidth: 1, borderBottomRightRadius: 5, borderBottomLeftRadius: 5, borderColor: "#CD0D0D" },
-    text: { fontWeight: "800", fontSize: 15, marginHorizontal: 10 },
+    text: { fontSize: 19, marginHorizontal: 10, fontFamily: 'notoSerif-italic' },
 });

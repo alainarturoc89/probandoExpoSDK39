@@ -13,6 +13,11 @@ export default function InitScreen({ ...props }) {
   const [password, onChangePassword] = React.useState('');
   const [sound, onChangeSound] = React.useState(false);
 
+  if (!sound) {
+    global.soundObject.playAsync();
+    onChangeSound(true);
+  }
+
   async function login() {
     if (email !== "" && password !== "") {
       global.firebase.auth().signInWithEmailAndPassword(email, password)
@@ -23,6 +28,7 @@ export default function InitScreen({ ...props }) {
             onShowPass(false);
             onChangeIosEye("ios-eye-off");
             onChangeSound(false);
+            global.soundObject.stopAsync();
             props.navigation.navigate("Inside");
           }
         })
@@ -86,7 +92,9 @@ export default function InitScreen({ ...props }) {
               borderColor: 'gray',
               borderWidth: 0.5,
               marginBottom: 10,
-              paddingHorizontal: 5
+              paddingHorizontal: 5,
+              fontFamily: 'courgette',
+              fontSize: 17
             }]}
             onChangeText={text => onChangeEmail(text)}
             value={email} />
@@ -97,7 +105,9 @@ export default function InitScreen({ ...props }) {
               style={[{
                 height: 50,
                 paddingHorizontal: 5,
-                flex: 0.99
+                flex: 0.99,
+                fontFamily: 'courgette',
+                fontSize: 17
               }]}
               onChangeText={text => onChangePassword(text)}
               value={password} />
@@ -108,7 +118,7 @@ export default function InitScreen({ ...props }) {
           <TouchableOpacity
             style={[{ padding: 10, backgroundColor: "#CD0D0D", marginTop: 5, borderRadius: 5, marginHorizontal: 110 }]}
             onPress={() => login()}>
-            <Text style={[{ textAlign: "center", color: "#fff", fontSize: 17, fontWeight: "bold" }]}>Autenticar</Text>
+            <Text style={[{ textAlign: "center", color: "#fff", fontSize: 20, fontFamily: 'courgette' }]}>Autenticar</Text>
           </TouchableOpacity>
           <Image
             source={require("../../../assets/images/1.png")}
@@ -122,7 +132,6 @@ export default function InitScreen({ ...props }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, paddingHorizontal: 10, backgroundColor: "#fff" },
-  textIntro: { fontSize: 23, color: "black", textAlign: "left" },
+  textIntro: { fontSize: 23, color: "black", textAlign: "left", fontFamily: 'courgette' },
   image: { marginVertical: 40, width: dimensions.fullWidth - 30, height: 100, },
-  text: { marginVertical: 5, color: "#9F4ADE", fontWeight: "bold", fontSize: 20 },
 });

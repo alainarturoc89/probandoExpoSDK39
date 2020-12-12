@@ -15,18 +15,20 @@ function InsideTab() {
             inactiveTintColor: "#CD0D0D",
             style: { backgroundColor: "#fff" },
             tabStyle: { justifyContent: "center" },
-            labelStyle: { fontSize: 15, fontWeight: "bold" }
+            labelStyle: { fontSize: 15, fontFamily: 'notoSerif-bold-italic', }
         }}>
             <InsideTab.Screen name="Publicaciones" component={PublicacionesScreen} />
             <InsideTab.Screen name="Ayuda" component={HelpScreen} />
             <InsideTab.Screen name="Cerrar"
                 listeners={({ navigation, route }) => ({
-                    tabPress: e => { e.preventDefault(); 
-                    global.firebase.auth().signOut().then(function() {
-                        navigation.navigate('Outside');
-                      }).catch(function(error) {
-                      });
-                },
+                    tabPress: e => {
+                        e.preventDefault();
+                        global.firebase.auth().signOut().then(function () {
+                            global.soundObject.playAsync();
+                            navigation.navigate('Outside');
+                        }).catch(function (error) {
+                        });
+                    },
                 })} >
                 {() => null}
             </InsideTab.Screen>

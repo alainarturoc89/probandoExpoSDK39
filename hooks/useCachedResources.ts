@@ -37,7 +37,8 @@ export default function useCachedResources() {
           appId: '1:535636779172:android:e87a9144a7a547e53f4631'
         });
         global.firebase = firebase;
-
+        
+        soundObject.playAsync();
         global.soundObject = soundObject;
       }
       catch (e) {

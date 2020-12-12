@@ -23,11 +23,8 @@
     },
     "android": {
       "package": "alainarturoc.lisbet",
-      "versionCode": 1,
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/favicon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+      "icon": "./assets/images/favicon.png",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/images/favicon.png"

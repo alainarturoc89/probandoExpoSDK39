@@ -23,12 +23,12 @@ export default function InitScreen({ ...props }) {
       global.firebase.auth().signInWithEmailAndPassword(email, password)
         .then((user) => {
           if (user !== null) {
+            global.soundObject.stopAsync();
             onChangeEmail("");
             onChangePassword("");
             onShowPass(false);
             onChangeIosEye("ios-eye-off");
             onChangeSound(false);
-            global.soundObject.stopAsync();
             props.navigation.navigate("Inside");
           }
         })

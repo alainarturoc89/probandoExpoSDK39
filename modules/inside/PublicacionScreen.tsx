@@ -1,12 +1,21 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
-
-import { Text, View, FlatList, Image, TouchableOpacity, Ionicons } from '../../components/Elements';
-
+import { Video } from 'expo-av';
+import { Text, View, FlatList, Image, TouchableOpacity, Ionicons, Modal } from '../../components/Elements';
+import {dimensions} from "../../styles/base";
 export default function PublicacionScreen({ ...props }) {
+  const [modalVisible, changeModalVisible] = React.useState(false);
+  const [item, changeItem] = React.useState(null);
+
 
   function open(item: any) {
+    changeItem(item);
+    changeModalVisible(true);
+  }
 
+  function cerrar() {
+    changeItem(null);
+    changeModalVisible(false);
   }
 
   return (
@@ -22,22 +31,56 @@ export default function PublicacionScreen({ ...props }) {
           keyExtractor={(item: object, index: number) => index.toString()}
           numColumns={2}
           renderItem={({ item, index }) => {
-            return item.type === "image"
-              ? <Image
-                source={{ uri: item.uploadUrl }}
-                style={{ margin: 15, width: 150, height: 150 }}
-              ></Image>
-              : item.type === "video"
-                ? <TouchableOpacity style={styles.viewFile} onPress={() => open(item)}>
-                  <Ionicons name="md-videocam" size={80} color="#9F4ADE" />
-                </TouchableOpacity>
-                : <TouchableOpacity style={styles.viewFile} onPress={() => open(item)}>
-                  <Ionicons name="md-musical-notes" size={80} color="#9F4ADE" />
-                </TouchableOpacity>
+            return <TouchableOpacity style={styles.viewFile} onPress={() => open(item)}>
+              {item.type === "image"
+                ? <Image source={{ uri: item.uploadUrl }}
+                  style={{ margin: 15, width: 150, height: 150 }}></Image>
+                : item.type === "video"
+                  ? <Video
+                    source={{ uri: item.uploadUrl }}
+                    rate={1.0}
+                    volume={1.0}
+                    isMuted={false}
+                    resizeMode="cover"
+                    shouldPlay={false}
+                    style={{ width: 150, height: 150 }}
+                  />
+                  : <Ionicons name="md-musical-notes" size={80} color="#9F4ADE" />
+              }
+            </TouchableOpacity>
           }
           }
         />
       }
+      <Modal animationType="slide" visible={modalVisible}>
+        <TouchableOpacity
+          style={{ alignItems: "center" }}
+          onPress={() => cerrar()}>
+          <Ionicons name="md-close-circle" size={70} color="#CD0D0D" />
+        </TouchableOpacity>
+        {
+          item && <View style={[{ flex: 1, marginVertical: 20 }]}>
+            {
+              item.type === "video"
+                ? <Video
+                  source={{ uri: (item) ? item.uploadUrl : "" }}
+                  rate={1.0}
+                  volume={1.0}
+                  isMuted={false}
+                  resizeMode="cover"
+                  shouldPlay={true}
+                  isLooping={true}
+                  style={{ height: 100+"%", marginHorizontal: 10 }}
+                />
+                : <Image
+                  source={{ uri: item.uploadUrl }}
+                  resizeMode="stretch"
+                  style={{ height: dimensions.fullHeight-100, width:dimensions.fullWidth-20, marginHorizontal: 10  }}
+                ></Image>
+            }
+          </View>
+        }
+      </Modal>
     </View>
   );
 }

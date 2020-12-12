@@ -12,7 +12,7 @@ function InsideTab() {
         <InsideTab.Navigator tabBarOptions={{
             activeBackgroundColor: "#9F4ADE",
             activeTintColor: "#fff",
-            inactiveTintColor: "#CD0D0D",
+            inactiveTintColor: "#9F4ADE",
             style: { backgroundColor: "#fff" },
             tabStyle: { justifyContent: "center" },
             labelStyle: { fontSize: 15, fontFamily: 'notoSerif-bold-italic', }

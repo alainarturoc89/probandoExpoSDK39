@@ -24,7 +24,6 @@ function InsideTab() {
                     tabPress: e => {
                         e.preventDefault();
                         global.firebase.auth().signOut().then(function () {
-                            global.soundObject.playAsync();
                             navigation.navigate('Outside');
                         }).catch(function (error) {
                         });

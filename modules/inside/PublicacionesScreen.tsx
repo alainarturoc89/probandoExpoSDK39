@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
-import { SafeAreaView, FlatList, View, Image, Text, TouchableOpacity, Modal, ScrollView, Ionicons } from '../../components/Elements';
+import { SafeAreaView, FlatList, View, Image, Text, TouchableOpacity, Modal, ActivityIndicator, Ionicons } from '../../components/Elements';
 
 import PublicacioneScreen from "./PublicacionScreen";
 import CrearScreen from "./CrearScreen";
 
 export default function PublicacionesScreen({ ...props }) {
   const [loaded, changeLoaded] = React.useState(false);
+  const [loading, changeLoading] = React.useState(false);
   const [modalVisible, changeModalVisible] = React.useState(false);
   const [createType, changeCreateType] = React.useState(true);
   const [data, changeData] = React.useState([]);
@@ -17,33 +18,40 @@ export default function PublicacionesScreen({ ...props }) {
   const [refe, changeRefe] = React.useState(null);
 
   if (!loaded) {
+    changeLoading(true);
     changeLoaded(true);
-    global.firebase.database().ref('publications').on("value", function (snapshot: any) {
-      if (snapshot.val())
-        changeData(Object.values(snapshot.val()));
-    }, function (errorObject: any) {
-      console.warn("Error al obtener las publicaciones");
-    });
+    if (global.firebase.auth().currentUser !== null) {
+      global.firebase.database().ref('publications').on("value", function (snapshot: any) {
+        if (snapshot.val()) {
+          changeData(Object.values(snapshot.val()).reverse());
+          changeLoading(false);
+        }
+      }, function (errorObject: any) {
+        console.log(errorObject);
+      });
+    }
   }
 
   async function create() {
-    let newPublicationKey = await global.firebase.database().ref('publications').push().key;
-    changeNewPublicationKey(newPublicationKey);
-    let d = new Date(),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear();
-    if (month.length < 2)
-      month = '0' + month;
-    if (day.length < 2)
-      day = '0' + day;
-    let date = [day, month, year].join('-');
-    changeDate(date);
-    let refe = 'contents/' + newPublicationKey + "/" + date + '_';
-    changeRefe(refe);
-    changeCreateType(true);
-    changeItem(null);
-    changeModalVisible(true);
+    if (global.firebase.auth().currentUser !== null) {
+      let newPublicationKey = await global.firebase.database().ref('publications').push().key;
+      changeNewPublicationKey(newPublicationKey);
+      let d = new Date(),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+      if (month.length < 2)
+        month = '0' + month;
+      if (day.length < 2)
+        day = '0' + day;
+      let date = [day, month, year].join('-');
+      changeDate(date);
+      let refe = 'contents/' + newPublicationKey + "/" + date + '_';
+      changeRefe(refe);
+      changeCreateType(true);
+      changeItem(null);
+      changeModalVisible(true);
+    }
   }
 
   async function show(item: any) {
@@ -78,10 +86,7 @@ export default function PublicacionesScreen({ ...props }) {
 
   const renderItem = ({ item }) => {
     return <TouchableOpacity style={[styles.item, styles.view]} onPress={() => show(item)}>
-      {(item.avatar_url && item.avatar_url !== "")
-        ? <Image source={item.avatar_url} style={styles.image} />
-        : <Image source={require("../../assets/images/publicacion.jpg")} style={styles.image} />
-      }
+      <Image source={require("../../assets/images/publicacion.jpg")} style={styles.image} />
       <Text style={styles.title}>{item.title}</Text>
       <Text style={styles.date}>{item.date}</Text>
     </TouchableOpacity>
@@ -94,20 +99,19 @@ export default function PublicacionesScreen({ ...props }) {
         onPress={() => create()}>
         <Ionicons name="md-add-circle" size={70} color="#9F4ADE" />
       </TouchableOpacity>
+      {loading && <ActivityIndicator size="large" color="#9F4ADE" />}
       <FlatList data={data} renderItem={renderItem} keyExtractor={item => item.title} />
-      <Modal animationType="slide" visible={modalVisible}      >
+      <Modal animationType="slide" visible={modalVisible}>
         <View style={[{ flex: 1, marginVertical: 20 }]}>
-          <ScrollView>
-            <TouchableOpacity
-              style={{ alignItems: "center" }}
-              onPress={() => cerrar()}>
-              <Ionicons name="md-close-circle" size={70} color="#CD0D0D" />
-            </TouchableOpacity>
-            {(createType)
-              ? <CrearScreen crear={crear} date={date} newPublicationKey={newPublicationKey} refe={refe} />
-              : <PublicacioneScreen item={item} />
-            }
-          </ScrollView>
+          <TouchableOpacity
+            style={{ alignItems: "center" }}
+            onPress={() => cerrar()}>
+            <Ionicons name="md-close-circle" size={70} color="#CD0D0D" />
+          </TouchableOpacity>
+          {(createType)
+            ? <CrearScreen crear={crear} date={date} newPublicationKey={newPublicationKey} refe={refe} />
+            : <PublicacioneScreen item={item} />
+          }
         </View>
       </Modal>
     </SafeAreaView>
@@ -126,6 +130,6 @@ const styles = StyleSheet.create({
     marginLeft: 10, flex: 1, flexDirection: "row", alignItems: "center",
     borderBottomWidth: 0.5, borderRadius: 3, borderColor: "#CDC1C1"
   },
-  title: { fontSize: 19, fontFamily: 'courgette', color: "black", flex: 0.95 },
-  date: { fontSize: 15, color: "black", fontFamily: 'courgette' },
+  title: { fontSize: 19, fontFamily: 'courgette', flex: 0.95 },
+  date: { fontSize: 15, fontFamily: 'courgette' },
 });

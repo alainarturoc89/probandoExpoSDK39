@@ -56,16 +56,17 @@ export default function CrearScreen({ ...props }) {
                 let localUri = result.uri;
                 let filename = localUri.split('/').pop();
                 const uploadUrl = await uploadImageAsync(localUri, filename);
-                let imageLocal = { uri: localUri, type: result.type };
-                onChangeImagesLocals(imagesLocal => [...imagesLocal, imageLocal]);
+                let imageLocal = { uri: localUri, type: result.type, filename };
+                onChangeImagesLocals(imagesLocal => [imageLocal, ...imagesLocal]);
                 let image = { uploadUrl, type: result.type };
-                onChangeImages(images => [...images, image]);
+                onChangeImages(images => [image, ...images]);
                 onChangeLoading(false);
             }
         }
     }
 
     function delFile(file: any) {
+        console.log(file)
         onChangeLoading(true);
         let refs = global.firebase.storage().ref().child(props.refe + file.item.filename);
         refs.delete().then(function () {
@@ -73,7 +74,7 @@ export default function CrearScreen({ ...props }) {
             onChangeImages(images.filter(item => item.uploadUrl !== file.item.uploadUrl));
             onChangeLoading(false);
         }).catch(function (error) {
-            console.log("error");
+            console.log(error);
             onChangeLoading(false);
         });
     }
@@ -100,7 +101,7 @@ export default function CrearScreen({ ...props }) {
             <TouchableOpacity
                 style={{ alignItems: "center", justifyContent: "center", flexDirection: "row" }}
                 onPress={loadFile}>
-                <Text style={[{ marginRight: 5, color: "#9F4ADE", fontSize: 20, fontFamily:"courgette" }]}>Adjuntar contenido</Text>
+                <Text style={[{ marginRight: 5, color: "#9F4ADE", fontSize: 20, fontFamily: "courgette" }]}>Adjuntar contenido</Text>
                 <Ionicons name="md-attach" size={35} color="#9F4ADE" />
             </TouchableOpacity>
 
@@ -141,9 +142,9 @@ export default function CrearScreen({ ...props }) {
                 }
             />
             <TouchableOpacity
-                style={[{ padding: 10, backgroundColor: "#9F4ADE", marginTop: 15, borderRadius: 5 , marginHorizontal:20}]}
+                style={[{ padding: 10, backgroundColor: "#9F4ADE", marginTop: 15, borderRadius: 5, marginHorizontal: 20 }]}
                 onPress={() => crear()}>
-                <Text style={[{ textAlign: "center", color: "#fff", fontSize: 23, fontFamily:"courgette" }]}>Publicar</Text>
+                <Text style={[{ textAlign: "center", color: "#fff", fontSize: 23, fontFamily: "courgette" }]}>Publicar</Text>
             </TouchableOpacity>
         </View>
     );
@@ -158,8 +159,8 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         marginBottom: 15,
         paddingHorizontal: 5,
-        fontFamily:"courgette",
-        fontSize:17
+        fontFamily: "courgette",
+        fontSize: 17
     },
     viewFile: { width: 150, height: 150, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: "#9F4ADE", margin: 15 }
 });

@@ -26,13 +26,13 @@ export default function useCachedResources() {
 
         if (!global.firebase) {
           firebase.initializeApp({
-            apiKey: 'AIzaSyAGtjEe3SZyNbLqVTS9FOGHCfOc8sQkAPY',
-            authDomain: 'probandoexposdk39.firebaseapp.com',
-            databaseURL: 'https://probandoexposdk39.firebaseio.com',
-            projectId: 'probandoexposdk39',
-            storageBucket: 'probandoexposdk39.appspot.com',
-            messagingSenderId: '535636779172',
-            appId: '1:535636779172:android:e87a9144a7a547e53f4631'
+            apiKey: 'AIzaSyAvCVeh6YBJar7VuhRhazArN5T0qLzCzvY',
+            authDomain: 'lisbet-b7ed9.firebaseapp.com',
+            databaseURL: 'https://lisbet-b7ed9.firebaseio.com',
+            projectId: 'lisbet-b7ed9',
+            storageBucket: 'lisbet-b7ed9.appspot.com',
+            messagingSenderId: '853129856245',
+            appId: '1:853129856245:android:88d80ddbd2552b647931bc'
           });
           global.firebase = firebase;
         }

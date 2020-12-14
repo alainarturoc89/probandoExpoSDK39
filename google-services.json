@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "535636779172",
-    "firebase_url": "https://probandoexposdk39.firebaseio.com",
-    "project_id": "probandoexposdk39",
-    "storage_bucket": "probandoexposdk39.appspot.com"
+    "project_number": "853129856245",
+    "firebase_url": "https://lisbet-b7ed9-default-rtdb.firebaseio.com",
+    "project_id": "lisbet-b7ed9",
+    "storage_bucket": "lisbet-b7ed9.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:535636779172:android:e87a9144a7a547e53f4631",
+        "mobilesdk_app_id": "1:853129856245:android:88d80ddbd2552b647931bc",
         "android_client_info": {
-          "package_name": "alainarturoc.aplicacion"
+          "package_name": "alainarturoc.lisbet"
         }
       },
       "oauth_client": [
         {
-          "client_id": "535636779172-48mbdgj9154nsuoemukr504f9uan6e3j.apps.googleusercontent.com",
+          "client_id": "853129856245-48k27miiovbi175p4tsfakmu6fs8k5k5.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAGtjEe3SZyNbLqVTS9FOGHCfOc8sQkAPY"
+          "current_key": "AIzaSyAhnlp7RcK6YAVH35puEuL7BpCYZTe4IWw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "535636779172-48mbdgj9154nsuoemukr504f9uan6e3j.apps.googleusercontent.com",
+              "client_id": "853129856245-48k27miiovbi175p4tsfakmu6fs8k5k5.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

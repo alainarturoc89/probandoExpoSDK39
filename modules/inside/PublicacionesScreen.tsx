@@ -18,15 +18,16 @@ export default function PublicacionesScreen({ ...props }) {
   const [refe, changeRefe] = React.useState(null);
 
   if (!loaded) {
-    changeLoading(true);
-    changeLoaded(true);
     if (global.firebase.auth().currentUser !== null) {
+      changeLoading(true);
+      changeLoaded(true);
       global.firebase.database().ref('publications').on("value", function (snapshot: any) {
+        changeLoading(false);
         if (snapshot.val()) {
           changeData(Object.values(snapshot.val()).reverse());
-          changeLoading(false);
         }
       }, function (errorObject: any) {
+        changeLoading(false);
         console.log(errorObject);
       });
     }
@@ -97,9 +98,9 @@ export default function PublicacionesScreen({ ...props }) {
       <TouchableOpacity
         style={{ alignItems: "center" }}
         onPress={() => create()}>
-        <Ionicons name="md-add-circle" size={70} color="#9F4ADE" />
+        <Ionicons name="md-add-circle" size={70} color="#c96eb7" />
       </TouchableOpacity>
-      {loading && <ActivityIndicator size="large" color="#9F4ADE" />}
+      {loading && <ActivityIndicator size="large" color="#c96eb7" />}
       <FlatList data={data} renderItem={renderItem} keyExtractor={item => item.title} />
       <Modal animationType="slide" visible={modalVisible}>
         <View style={[{ flex: 1, marginVertical: 20 }]}>

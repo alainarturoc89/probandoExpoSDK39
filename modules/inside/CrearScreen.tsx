@@ -101,11 +101,11 @@ export default function CrearScreen({ ...props }) {
             <TouchableOpacity
                 style={{ alignItems: "center", justifyContent: "center", flexDirection: "row" }}
                 onPress={loadFile}>
-                <Text style={[{ marginRight: 5, color: "#9F4ADE", fontSize: 20, fontFamily: "courgette" }]}>Adjuntar contenido</Text>
-                <Ionicons name="md-attach" size={35} color="#9F4ADE" />
+                <Text style={[{ marginRight: 5, color: "#c96eb7", fontSize: 20, fontFamily: "courgette" }]}>Adjuntar contenido</Text>
+                <Ionicons name="md-attach" size={35} color="#c96eb7" />
             </TouchableOpacity>
 
-            {loading && <ActivityIndicator size="large" color="#9F4ADE" />}
+            {loading && <ActivityIndicator size="large" color="#c96eb7" />}
 
             <FlatList
                 data={imagesLocal}
@@ -124,7 +124,7 @@ export default function CrearScreen({ ...props }) {
                         : item.type === "video"
                             ? <View style={{ flexDirection: "row" }}>
                                 <TouchableOpacity style={styles.viewFile} onPress={() => open(item)}>
-                                    <Ionicons name="md-videocam" size={80} color="#9F4ADE" />
+                                    <Ionicons name="md-videocam" size={80} color="#c96eb7" />
                                 </TouchableOpacity>
                                 <TouchableOpacity style={{ marginLeft: -30, marginTop: 5 }} onPress={() => delFile({ item, index })}>
                                     <Ionicons name="md-close-circle" size={30} color="red" />
@@ -132,7 +132,7 @@ export default function CrearScreen({ ...props }) {
                             </View>
                             : <View style={{ flexDirection: "row" }}>
                                 <TouchableOpacity style={styles.viewFile} onPress={() => open(item)}>
-                                    <Ionicons name="md-musical-notes" size={80} color="#9F4ADE" />
+                                    <Ionicons name="md-musical-notes" size={80} color="#c96eb7" />
                                 </TouchableOpacity>
                                 <TouchableOpacity style={{ marginLeft: -30, marginTop: 5 }} onPress={() => delFile({ item, index })}>
                                     <Ionicons name="md-close-circle" size={30} color="red" />
@@ -142,7 +142,7 @@ export default function CrearScreen({ ...props }) {
                 }
             />
             <TouchableOpacity
-                style={[{ padding: 10, backgroundColor: "#9F4ADE", marginTop: 15, borderRadius: 5, marginHorizontal: 20 }]}
+                style={[{ padding: 10, backgroundColor: "#c96eb7", marginTop: 15, borderRadius: 5, marginHorizontal: 20 }]}
                 onPress={() => crear()}>
                 <Text style={[{ textAlign: "center", color: "#fff", fontSize: 23, fontFamily: "courgette" }]}>Publicar</Text>
             </TouchableOpacity>
@@ -155,12 +155,12 @@ const styles = StyleSheet.create({
     input: {
         height: 50,
         borderRadius: 3,
-        borderColor: '#9F4ADE',
+        borderColor: '#c96eb7',
         borderWidth: 0.5,
         marginBottom: 15,
         paddingHorizontal: 5,
         fontFamily: "courgette",
         fontSize: 17
     },
-    viewFile: { width: 150, height: 150, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: "#9F4ADE", margin: 15 }
+    viewFile: { width: 150, height: 150, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: "#c96eb7", margin: 15 }
 });

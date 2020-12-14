@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
-import { ScrollView, Text, View, TouchableOpacity } from "../../../components/Elements";
+import { dimensions } from "../../../styles/base";
+import { ScrollView, Text, View, TouchableOpacity, Image } from "../../../components/Elements";
 
 export default function HelpScreen({ ...props }) {
 
@@ -11,6 +12,12 @@ export default function HelpScreen({ ...props }) {
 
     return (
         <ScrollView style={styles.container}>
+            <View style={{ alignItems: "center" }}>
+                <Image
+                    source={require("../../../assets/images/cinta.png")}
+                    resizeMode="stretch" style={styles.image}>
+                </Image>
+            </View>
             <Text style={styles.textIntro}>
                 En este apartado encontrarás la ayuda brindada por el creador de esta aplicación
             </Text>
@@ -51,9 +58,10 @@ export default function HelpScreen({ ...props }) {
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: '#fff', paddingVertical: 20, paddingHorizontal: 7 },
-    textIntro: { fontSize: 20, color: "black", marginTop: 10, marginBottom: 25, fontFamily: 'notoSerif-bold-italic' },
-    viewLink: { padding: 10, borderColor: "#CD0D0D", borderWidth: 1, backgroundColor: "#CD0D0D" },
+    image: { marginTop: 5, marginBottom: -15, width: dimensions.fullWidth - 30, height: 110 },
+    textIntro: { fontSize: 21, color: "black", marginTop: 10, marginBottom: 25, fontFamily: 'notoSerif-italic' },
+    viewLink: { padding: 10, borderColor: "#c96eb7", borderWidth: 1, backgroundColor: "#c96eb7" },
     textLink: { color: "#fff", fontSize: 19, fontFamily: 'notoSerif-bold' },
-    view: { padding: 5, marginBottom: 10, borderBottomWidth: 1, borderLeftWidth: 1, borderRightWidth: 1, borderBottomRightRadius: 5, borderBottomLeftRadius: 5, borderColor: "#CD0D0D" },
+    view: { padding: 5, marginBottom: 10, borderBottomWidth: 1, borderLeftWidth: 1, borderRightWidth: 1, borderBottomRightRadius: 5, borderBottomLeftRadius: 5, borderColor: "#945186" },
     text: { fontSize: 19, marginHorizontal: 10, fontFamily: 'notoSerif-italic' },
 });

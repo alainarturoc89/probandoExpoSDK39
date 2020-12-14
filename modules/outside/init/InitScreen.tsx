@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { StyleSheet, Alert } from 'react-native';
-import { dimensions } from "../../../styles/base";
 import {
   View, Text, Image, TouchableOpacity, TextInput, Ionicons
 } from '../../../components/Elements';
@@ -58,37 +57,31 @@ export default function InitScreen({ ...props }) {
 
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: "row", marginTop: 25, marginBottom: 20 }}>
-        <Text style={[styles.textIntro, { flex: 0.99 }]}>
-          Para identificar el usuario y la contraseña visita la ayuda
-            </Text>
-        <TouchableOpacity style={{}} onPress={() => help()}>
-          <Ionicons name="ios-help-circle" size={60} color="#CD0D0D" />
-        </TouchableOpacity>
+      <View style={{ alignItems: "center", marginTop: 15 }}>
+        <Image
+          source={require("../../../assets/images/alain_lisbet.png")}
+          resizeMode="stretch" style={[styles.logo]}>
+        </Image>
       </View>
-      <Image
-        source={require("../../../assets/images/1.png")}
-        resizeMode="stretch" style={styles.image}>
-      </Image>
+     
       <TextInput
         placeholder="Correo electrónico..."
         keyboardType="email-address"
         style={[{
           height: 50,
           borderRadius: 3,
-          borderColor: 'gray',
+          borderColor: '#c96eb7',
           borderWidth: 0.5,
-          marginBottom: 10,
           paddingHorizontal: 5,
           fontFamily: 'courgette',
           fontSize: 17
         }]}
         onChangeText={text => onChangeEmail(text)}
         value={email} />
-      <View style={{ alignItems: "center", flexDirection: "row", borderRadius: 3, borderColor: 'gray', borderWidth: 0.5, marginBottom: 10, marginTop: 20 }}>
+      { <View style={{ alignItems: "center", flexDirection: "row", borderRadius: 3, borderColor: '#c96eb7', borderWidth: 0.5, marginBottom: 10, marginTop: 30 }}>
         <TextInput
           placeholder="Contraseña..."
-          secureTextEntry={!showPass}
+          // secureTextEntry={!showPass}
           style={[{
             height: 50,
             paddingHorizontal: 5,
@@ -99,24 +92,26 @@ export default function InitScreen({ ...props }) {
           onChangeText={text => onChangePassword(text)}
           value={password} />
         <TouchableOpacity style={{ marginHorizontal: 5 }} onPress={() => { showHidePass() }}>
-          <Ionicons name={iosEye} size={32} color="#CD0D0D" />
+          <Ionicons name={iosEye} size={32} color="#c96eb7" />
         </TouchableOpacity>
-      </View>
+      </View>}
       <TouchableOpacity
-        style={[{ padding: 10, backgroundColor: "#CD0D0D", marginTop: 5, borderRadius: 5, marginHorizontal: 110 }]}
+        style={[{ padding: 10, backgroundColor: "#c96eb7", marginTop: 15, borderRadius: 5, marginHorizontal: 110 }]}
         onPress={() => login()}>
         <Text style={[{ textAlign: "center", color: "#fff", fontSize: 20, fontFamily: 'courgette' }]}>Autenticar</Text>
       </TouchableOpacity>
-      <Image
-        source={require("../../../assets/images/1.png")}
-        resizeMode="stretch" style={[styles.image]}>
-      </Image>
+      <View style={{ marginTop: 25, alignItems: "center" }}>
+        <Text style={styles.text_ayuda}>Para identificar usuario y contraseña por favor consulte la ayuda de la aplicación.</Text>
+        <TouchableOpacity style={{ alignItems: "flex-end" }} onPress={() => help()}>
+          <Ionicons name="ios-help-circle" size={60} color="#c96eb7" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, paddingHorizontal: 10, backgroundColor: "#fff" },
-  textIntro: { fontSize: 23, color: "black", textAlign: "left", fontFamily: 'courgette' },
-  image: { marginVertical: 40, width: dimensions.fullWidth - 30, height: 100, },
+  logo: { width: 270, height: 270, marginBottom:20}, 
+  text_ayuda: { fontFamily: 'courgette', fontSize: 17, textAlign: "center" }
 });

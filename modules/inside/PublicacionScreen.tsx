@@ -7,7 +7,6 @@ export default function PublicacionScreen({ ...props }) {
   const [modalVisible, changeModalVisible] = React.useState(false);
   const [item, changeItem] = React.useState(null);
 
-
   function open(item: any) {
     changeItem(item);
     changeModalVisible(true);
@@ -45,7 +44,7 @@ export default function PublicacionScreen({ ...props }) {
                     shouldPlay={false}
                     style={{ width: 150, height: 150 }}
                   />
-                  : <Ionicons name="md-musical-notes" size={80} color="#9F4ADE" />
+                  : <Ionicons name="md-musical-notes" size={80} color="#c96eb7" />
               }
             </TouchableOpacity>
           }
@@ -90,5 +89,5 @@ const styles = StyleSheet.create({
   title: { fontSize: 23, fontFamily: "courgette" },
   date: { fontSize: 17, fontFamily: "courgette" },
   description: { fontSize: 18, marginTop: 15, marginBottom: 10, fontFamily: "courgette" },
-  viewFile: { width: 150, height: 150, alignItems: "center", justifyContent: "center", borderWidth: 0.5, borderColor: "#9F4ADE", borderRadius: 5, margin: 15 }
+  viewFile: { width: 150, height: 150, alignItems: "center", justifyContent: "center", borderWidth: 0.5, borderColor: "#c96eb7", borderRadius: 5, margin: 15 }
 });

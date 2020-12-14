@@ -4,11 +4,11 @@
     "slug": "Lisbet",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/favicon.png",
+    "icon": "./assets/images/alain_lisbet.png",
     "scheme": "lisbet",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/prueba.png",
+      "image": "./assets/images/alain_lisbet.png",
       "resizeMode": "contain",
       "backgroundColor": "#fff"
     },
@@ -23,11 +23,11 @@
     },
     "android": {
       "package": "alainarturoc.lisbet",
-      "icon": "./assets/images/favicon.png",
+      "icon": "./assets/images/alain_lisbet.png",
       "versionCode": 1
     },
     "web": {
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/alain_lisbet.png"
     }
   }
 }

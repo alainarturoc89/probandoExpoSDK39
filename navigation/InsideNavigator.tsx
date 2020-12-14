@@ -1,7 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
-import { Ionicons, View, Text } from "../components/Elements";
+import { Ionicons, View, TouchableOpacity } from "../components/Elements";
 import PublicacionesScreen from '../modules/inside/PublicacionesScreen';
 import HelpScreen from '../modules/common/help/HelpScreen';
 import { InsideStack } from '../types';
@@ -19,23 +19,6 @@ function InsideTab() {
         }}>
             <InsideTab.Screen name="Publicaciones" component={PublicacionesScreen} />
             <InsideTab.Screen name="Ayuda" component={HelpScreen} />
-            <InsideTab.Screen name="Cerrar"
-                listeners={({ navigation, route }) => ({
-                    tabPress: e => {
-                        e.preventDefault();
-                        global.firebase.auth().signOut().then(function () {
-                            navigation.navigate('Outside');
-                        }).catch(function (error) {
-                        });
-                    },
-                })}
-                options={{
-                    tabBarLabel: () => <Text style={{
-                        fontSize: 15, fontFamily: 'notoSerif-bold-italic', color: "#CD0D0D"
-                    }}>Cerrar</Text>
-                }}>
-                {() => null}
-            </InsideTab.Screen>
         </InsideTab.Navigator>
     );
 }
@@ -56,12 +39,17 @@ export default function InitNavigator({ ...props }) {
                 <View style={{ marginRight: 10 }}><Ionicons name="ios-flower" size={32} color="#fff" /></View>
                 <View style={{ marginRight: 10 }}><Ionicons name="ios-heart-empty" size={32} color="#fff" /></View>
                 <View style={{ marginRight: 10 }}><Ionicons name="ios-flower" size={32} color="#fff" /></View>
-            </View>
+            </View>,
+            headerRight: () => <TouchableOpacity style={{ alignItems: "center", marginRight: 10 }} onPress={() => {
+                global.firebase.auth().signOut().then(function () {
+                    props.navigation.navigate('Outside');
+                }).catch(function (error) {
+                });
+            }}>
+                <Ionicons name="ios-power" size={40} color="#fff" />
+            </TouchableOpacity>
         }}>
-            <InsideStack.Screen
-                name="PublicacionesScreen"
-                component={InsideTab}
-            />
+            <InsideStack.Screen name="PublicacionesScreen" component={InsideTab} />
         </InsideStack.Navigator>
     );
 }

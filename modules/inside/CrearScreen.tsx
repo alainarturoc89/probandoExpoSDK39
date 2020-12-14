@@ -32,7 +32,6 @@ export default function CrearScreen({ ...props }) {
                 resolve(xhr.response);
             };
             xhr.onerror = function (e) {
-                console.log(e);
                 reject(new TypeError('Network request failed'));
             };
             xhr.responseType = 'blob';
@@ -66,7 +65,6 @@ export default function CrearScreen({ ...props }) {
     }
 
     function delFile(file: any) {
-        console.log(file)
         onChangeLoading(true);
         let refs = global.firebase.storage().ref().child(props.refe + file.item.filename);
         refs.delete().then(function () {
@@ -74,7 +72,6 @@ export default function CrearScreen({ ...props }) {
             onChangeImages(images.filter(item => item.uploadUrl !== file.item.uploadUrl));
             onChangeLoading(false);
         }).catch(function (error) {
-            console.log(error);
             onChangeLoading(false);
         });
     }

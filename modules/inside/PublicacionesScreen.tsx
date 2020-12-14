@@ -28,7 +28,6 @@ export default function PublicacionesScreen({ ...props }) {
         }
       }, function (errorObject: any) {
         changeLoading(false);
-        console.log(errorObject);
       });
     }
   }
@@ -76,8 +75,7 @@ export default function PublicacionesScreen({ ...props }) {
       description: el.description,
       images: el.images,
       title: el.title,
-      key: newPublicationKey,
-      user: "alain",
+      key: newPublicationKey
     };
     var updates = {};
     updates['/publications/' + newPublicationKey] = publication;

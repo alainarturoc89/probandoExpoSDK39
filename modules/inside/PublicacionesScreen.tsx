@@ -105,7 +105,8 @@ export default function PublicacionesScreen({ ...props }) {
   }
 
   async function eliminar(item: any) {
-    console.log(item);
+    changeItem(null);
+    global.firebase.database().ref('publications/' + publicationKey).remove();
   }
 
   const renderItem = ({ item }) => {

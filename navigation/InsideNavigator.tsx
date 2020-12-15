@@ -10,9 +10,9 @@ function InsideTab() {
     const InsideTab = createBottomTabNavigator();
     return (
         <InsideTab.Navigator tabBarOptions={{
-            activeBackgroundColor: "#9F4ADE",
+            activeBackgroundColor: "#c96eb7",
             activeTintColor: "#fff",
-            inactiveTintColor: "#9F4ADE",
+            inactiveTintColor: "#c96eb7",
             style: { backgroundColor: "#fff" },
             tabStyle: { justifyContent: "center" },
             labelStyle: { fontSize: 15, fontFamily: 'notoSerif-bold-italic', }
@@ -29,7 +29,7 @@ export default function InitNavigator({ ...props }) {
         <InsideStack.Navigator screenOptions={{
             headerLeft: () => null,
             headerTitleAlign: "center",
-            headerStyle: { backgroundColor: "#9F4ADE" },
+            headerStyle: { backgroundColor: "#c96eb7" },
             headerTintColor: "#fff",
             headerTitle: () => <View style={{ alignItems: "center", flexDirection: "row" }}>
                 <View style={{ marginRight: 10 }}><Ionicons name="ios-flower" size={32} color="#fff" /></View>

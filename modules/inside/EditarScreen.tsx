@@ -4,17 +4,17 @@ import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import { TextInput, View, TouchableOpacity, Text, FlatList, Image, Ionicons, ActivityIndicator } from '../../components/Elements';
 
-export default function CrearScreen({ ...props }) {
+export default function EdiatrScreen({ ...props }) {
 
-    const [title, onChangeTitle] = React.useState('');
-    const [description, onChangeDescription] = React.useState('');
-    const [images, onChangeImages] = React.useState([]);
+    const [title, onChangeTitle] = React.useState(props.item.title);
+    const [description, onChangeDescription] = React.useState(props.item.description);
+    const [images, onChangeImages] = React.useState(props.item.images ?? []);
     const [imagesLocal, onChangeImagesLocals] = React.useState([]);
     const [loading, onChangeLoading] = React.useState(false);
 
-    function crear() {
+    function editar() {
         if (title !== "" && description !== "") {
-            props.crear({ title, description, images });
+            props.editar({ title, description, images });
         } else {
             Alert.alert(
                 "Importante",
@@ -76,23 +76,22 @@ export default function CrearScreen({ ...props }) {
         });
     }
 
-    function open(item: any) {
-        return "";
-    }
-
     return (
         <View style={styles.container}>
 
-            <Text style={[{ fontFamily: "courgette", fontSize: 21, textAlign: "center", marginBottom:30 }]}>Crear publicación</Text>
+            <Text style={[{ fontFamily: "courgette", fontSize: 21, textAlign: "center", marginBottom: 30 }]}>Editar publicación</Text>
+
+            <Text style={[styles.text]}>Título de la publicación *</Text>
 
             <TextInput
-                placeholder="Título de la publicación *"
                 multiline
                 style={[styles.input]}
                 onChangeText={text => onChangeTitle(text)}
                 value={title} />
+
+            <Text style={[styles.text]}>Descripción de la publicación *</Text>
+
             <TextInput
-                placeholder="Descripción de la publicación *"
                 multiline
                 style={[styles.input, { height: 100 }]}
                 onChangeText={text => onChangeDescription(text)}
@@ -143,8 +142,8 @@ export default function CrearScreen({ ...props }) {
             />
             <TouchableOpacity
                 style={[{ padding: 10, backgroundColor: "#c96eb7", marginTop: 15, borderRadius: 5, marginHorizontal: 20 }]}
-                onPress={() => crear()}>
-                <Text style={[{ textAlign: "center", color: "#fff", fontSize: 23, fontFamily: "courgette" }]}>Publicar</Text>
+                onPress={() => editar()}>
+                <Text style={[{ textAlign: "center", color: "#fff", fontSize: 23, fontFamily: "courgette" }]}>Editar</Text>
             </TouchableOpacity>
         </View>
     );
@@ -152,6 +151,7 @@ export default function CrearScreen({ ...props }) {
 
 const styles = StyleSheet.create({
     container: { flex: 1, padding: 20 },
+    text: { fontFamily: "courgette", fontSize: 18 },
     input: {
         height: 50,
         borderRadius: 3,

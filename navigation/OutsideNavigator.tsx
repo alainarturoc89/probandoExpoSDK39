@@ -20,7 +20,7 @@ export default function InitNavigator() {
             <View style={{ marginRight: 10 }}><Ionicons name="ios-heart-empty" size={32} color="#fff" /></View>
           </View>,
           headerTitleAlign: "center",
-          headerStyle: { backgroundColor: "#9F4ADE" },
+          headerStyle: { backgroundColor: "#c96eb7" },
           headerTintColor: "#fff",
           headerTitle: () => null,
           headerRight: () => <View style={{ marginHorizontal: 10, flexDirection: "row" }}>

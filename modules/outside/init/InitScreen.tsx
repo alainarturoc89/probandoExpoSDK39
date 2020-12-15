@@ -16,6 +16,7 @@ export default function InitScreen({ ...props }) {
       global.firebase.auth().signInWithEmailAndPassword(email, password)
         .then((user) => {
           if (user !== null) {
+            global.user = user.user;
             onChangeEmail("");
             onChangePassword("");
             onShowPass(false);
@@ -63,7 +64,7 @@ export default function InitScreen({ ...props }) {
           resizeMode="stretch" style={[styles.logo]}>
         </Image>
       </View>
-     
+
       <TextInput
         placeholder="Correo electrónico..."
         keyboardType="email-address"
@@ -81,7 +82,7 @@ export default function InitScreen({ ...props }) {
       { <View style={{ alignItems: "center", flexDirection: "row", borderRadius: 3, borderColor: '#c96eb7', borderWidth: 0.5, marginBottom: 10, marginTop: 30 }}>
         <TextInput
           placeholder="Contraseña..."
-          // secureTextEntry={!showPass}
+          secureTextEntry={!showPass}
           style={[{
             height: 50,
             paddingHorizontal: 5,
@@ -112,6 +113,6 @@ export default function InitScreen({ ...props }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, paddingHorizontal: 10, backgroundColor: "#fff" },
-  logo: { width: 270, height: 270, marginBottom:20}, 
+  logo: { width: 270, height: 270, marginBottom: 20 },
   text_ayuda: { fontFamily: 'courgette', fontSize: 17, textAlign: "center" }
 });

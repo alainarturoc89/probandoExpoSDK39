@@ -2,7 +2,7 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import { Video } from 'expo-av';
 import { Text, View, FlatList, Image, TouchableOpacity, Ionicons, Modal } from '../../components/Elements';
-import {dimensions} from "../../styles/base";
+import { dimensions } from "../../styles/base";
 export default function PublicacionScreen({ ...props }) {
   const [modalVisible, changeModalVisible] = React.useState(false);
   const [item, changeItem] = React.useState(null);
@@ -19,6 +19,9 @@ export default function PublicacionScreen({ ...props }) {
 
   return (
     <View style={styles.container}>
+
+      <Text style={[{ fontFamily: "courgette", fontSize: 21, textAlign: "center", marginBottom: 30 }]}>Información de la publicación</Text>
+
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <Text style={[styles.title, { flex: 0.7 }]}>{props.item.title}</Text>
         <Text style={[styles.date, { flex: 0.3 }]}>{props.item.date}</Text>
@@ -69,12 +72,12 @@ export default function PublicacionScreen({ ...props }) {
                   resizeMode="cover"
                   shouldPlay={true}
                   isLooping={true}
-                  style={{ height: 100+"%", marginHorizontal: 10 }}
+                  style={{ height: 100 + "%", marginHorizontal: 10 }}
                 />
                 : <Image
                   source={{ uri: item.uploadUrl }}
                   resizeMode="stretch"
-                  style={{ height: dimensions.fullHeight-100, width:dimensions.fullWidth-20, marginHorizontal: 10  }}
+                  style={{ height: dimensions.fullHeight - 100, width: dimensions.fullWidth - 20, marginHorizontal: 10 }}
                 ></Image>
             }
           </View>
@@ -86,8 +89,8 @@ export default function PublicacionScreen({ ...props }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },
-  title: { fontSize: 23, fontFamily: "courgette" },
-  date: { fontSize: 17, fontFamily: "courgette" },
-  description: { fontSize: 18, marginTop: 15, marginBottom: 10, fontFamily: "courgette" },
+  title: { fontSize: 19, fontFamily: "courgette" },
+  date: { fontSize: 15, fontFamily: "courgette" },
+  description: { fontSize: 17, marginTop: 15, marginBottom: 10, fontFamily: "courgette" },
   viewFile: { width: 150, height: 150, alignItems: "center", justifyContent: "center", borderWidth: 0.5, borderColor: "#c96eb7", borderRadius: 5, margin: 15 }
 });

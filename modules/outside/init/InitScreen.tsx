@@ -87,7 +87,7 @@ export default function InitScreen({ ...props }) {
 
     <View style={styles.container}>
 
-      <View style={{ alignItems: "center", marginTop: 15 }}>
+      <View style={{ alignItems: "center", marginTop: 10 }}>
 
         <Image
           source={require("../../../assets/images/alain_lisbet.png")}
@@ -96,8 +96,9 @@ export default function InitScreen({ ...props }) {
 
       </View>
 
+      <Text style={[styles.text]}>Correo electrónico *</Text>
+
       <TextInput
-        placeholder="Correo electrónico..."
         keyboardType="email-address"
         style={[{
           height: 50,
@@ -111,10 +112,11 @@ export default function InitScreen({ ...props }) {
         onChangeText={text => onChangeEmail(text)}
         value={email} />
 
-      { <View style={{ alignItems: "center", flexDirection: "row", borderRadius: 3, borderColor: '#c96eb7', borderWidth: 0.5, marginBottom: 10, marginTop: 30 }}>
+      <Text style={[styles.text, { marginTop: 20 }]}>Contraseña *</Text>
+
+      <View style={{ alignItems: "center", flexDirection: "row", borderRadius: 3, borderColor: '#c96eb7', borderWidth: 0.5, marginBottom: 10 }}>
 
         <TextInput
-          placeholder="Contraseña..."
           secureTextEntry={!showPass}
           style={[{
             height: 50,
@@ -132,17 +134,17 @@ export default function InitScreen({ ...props }) {
 
         </TouchableOpacity>
 
-      </View>}
+      </View>
 
       <TouchableOpacity
-        style={[{ padding: 10, backgroundColor: "#c96eb7", marginTop: 15, borderRadius: 5, marginHorizontal: 110 }]}
+        style={[{ padding: 10, backgroundColor: "#c96eb7", marginTop: 10, borderRadius: 5, marginHorizontal: 110 }]}
         onPress={() => login()}>
 
         <Text style={[{ textAlign: "center", color: "#fff", fontSize: 20, fontFamily: 'courgette' }]}>Autenticar</Text>
 
       </TouchableOpacity>
 
-      <View style={{ marginTop: 25, alignItems: "center" }}>
+      <View style={{ marginTop: 20, alignItems: "center" }}>
 
         <Text style={styles.text_ayuda}>Para identificar usuario y contraseña por favor consulte la ayuda de la aplicación.</Text>
 
@@ -160,6 +162,7 @@ export default function InitScreen({ ...props }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, paddingHorizontal: 10, backgroundColor: "#fff" },
+  text: { fontFamily: "courgette", fontSize: 18 },
   logo: { width: 270, height: 270, marginBottom: 20 },
   text_ayuda: { fontFamily: 'courgette', fontSize: 17, textAlign: "center" }
 });

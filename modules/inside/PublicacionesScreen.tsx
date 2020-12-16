@@ -174,7 +174,7 @@ export default function PublicacionesScreen({ ...props }) {
     });
   }
 
-  async function eliminar(item: any) {
+  async function eliminar(ref: any) {
 
     Alert.alert(
       "Confirmación",
@@ -191,12 +191,20 @@ export default function PublicacionesScreen({ ...props }) {
 
             changeItem(null);
 
-            global.firebase.database().ref('publications/' + item).update(null);
+            global.firebase.database().ref('publications/' + ref).remove();
+
+            if (data.length === 1)
+
+              changeData([]);
 
           }
+
         }
+
       ],
+
       { cancelable: false }
+
     );
 
   }

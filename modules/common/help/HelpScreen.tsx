@@ -40,7 +40,7 @@ export default function HelpScreen({ ...props }) {
 
             {(desVisible) && <View style={styles.view}>
 
-                <Text style={styles.text}>Esta aplicación fue creada con el objetivo de demostrarle a mi esposa cuanto la amo. Aunque creería que no debería de hacerlo, ya que ella es una mala mujer, mala hembra y muy muy tóxica. Jejeje, na es en broma, es la mejor esposa de este mundo.</Text>
+                <Text style={styles.text}>Esta aplicación fue creada con el objetivo de demostrarle a mi esposa cuanto la amo, aunque creería que no debería de hacerlo, ya que es una mala mujer, mala hembra y muy muy tóxica. Jejeje, na es en broma, es la mejor esposa del mundo.</Text>
 
             </View>}
 
@@ -52,11 +52,11 @@ export default function HelpScreen({ ...props }) {
 
             {(autVisible) && <View style={styles.view}>
 
-                <Text style={[styles.text]}>Hola Lis, si es la primera vez que usas esta apk o simplemente no recuerdas cúal es tu usuario o tu contraseña te invito a que continues leyendo.</Text>
+                <Text style={[styles.text]}>Hola amor, si es la primera vez que usas esta apk o simplemente no recuerdas cúal es tu usuario o tu contraseña te invito a que continues leyendo.</Text>
 
                 <Text style={[styles.text, {}]}>En esta sección se describe el proceso de autenticación:</Text>
 
-                <Text style={[styles.text, { marginTop: 5, fontFamily: "notoSerif-bold-italic" }]}>El campo correo es su correo Gmail... Ejemplo: malahembra@gmail.com</Text>
+                <Text style={[styles.text, { marginTop: 5, fontFamily: "notoSerif-bold-italic" }]}>El campo correo es tú correo Gmail... Ejemplo: malahembra@gmail.com</Text>
 
                 <Text style={[styles.text, { marginTop: 5, fontFamily: "notoSerif-bold-italic" }]}>El campo contraseña de mi tóxica esposa es la cantidad de niños que quiere tener, seguido de una coma, seguido del mes y día de nuestra primera firma, seguido de otra coma, seguido de la fecha de nuestra segunda firma... Ejemplo: 4,0321,12061002</Text>
 
@@ -76,7 +76,7 @@ export default function HelpScreen({ ...props }) {
 
                 <Text style={[styles.text, { marginTop: 5, fontFamily: 'notoSerif-bold-italic' }]}>- Tener creado un usuario (Los usuarios los creo yo).</Text>
 
-                <Text style={[styles.text, { marginTop: 5, fontFamily: "notoSerif-bold-italic" }]}>- Conexión a internet para realizar la autenticación, obtener y crear publicaciones.</Text>
+                <Text style={[styles.text, { marginTop: 5, fontFamily: "notoSerif-bold-italic" }]}>- Conexión a internet para realizar la autenticación, crear, obtener, modificar y eliminar publicaciones.</Text>
 
                 <Text style={[styles.text, { marginTop: 5 }]}>Y ya eso sería todo, ya lo otro es tener deseo de usarla.</Text>
 
@@ -84,13 +84,13 @@ export default function HelpScreen({ ...props }) {
 
             <TouchableOpacity activeOpacity={0} style={styles.viewLink} onPress={() => onChangeFunVisible(!funVisible)}>
 
-                <Text style={styles.textLink}>Funcionamiento</Text>
+                <Text style={styles.textLink}>Propósito</Text>
 
             </TouchableOpacity>
 
             {(funVisible) && <View style={[styles.view, { marginBottom: 30 }]}>
 
-                <Text style={styles.text}>El funcionamiento de la aplicación es bastante simple. La cree con el propósito de publicar nuestras vivencias, podrás ponerle un título, una descripción y si lo deseas le puedes agregar contenidos, los contenidos pueden ser imágenes o videos (trata de que los videos no sean tan pesados). Además podrías utilizarla como un espacio para compartir cosas que quisieras dedicarme o simplemente hacérmelas saber.</Text>
+                <Text style={styles.text}>El propósito de la aplicación es bastante simple, la cree con el objetivo de publicar nuestras vivencias, podrás ponerle un título, una descripción y si lo deseas le puedes agregar contenidos, los contenidos pueden ser imágenes o videos (trata de que los videos no sean tan pesados). Además podrías utilizarla como un espacio para compartir cosas que quisieras dedicarme o simplemente hacérmelas saber.</Text>
 
             </View>}
 

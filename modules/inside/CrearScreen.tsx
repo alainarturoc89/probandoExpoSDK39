@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, Alert } from 'react-native';
+import { dimensions } from "../../styles/base";
 import { Video } from 'expo-av';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';

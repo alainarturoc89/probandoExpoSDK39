@@ -1,21 +1,33 @@
 import * as React from 'react';
 import { StyleSheet, Alert } from 'react-native';
+import { dimensions } from "../../styles/base";
+import { Video } from 'expo-av';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
-import { TextInput, View, TouchableOpacity, Text, FlatList, Image, Ionicons, ActivityIndicator } from '../../components/Elements';
+import { TextInput, View, TouchableOpacity, Text, FlatList, Image, Ionicons, ActivityIndicator, Modal } from '../../components/Elements';
 
 export default function EdiatrScreen({ ...props }) {
 
     const [title, onChangeTitle] = React.useState(props.item.title);
+
     const [description, onChangeDescription] = React.useState(props.item.description);
+
     const [images, onChangeImages] = React.useState(props.item.images ?? []);
-    const [imagesLocal, onChangeImagesLocals] = React.useState([]);
+
     const [loading, onChangeLoading] = React.useState(false);
 
+    const [modalVisible, changeModalVisible] = React.useState(false);
+
+    const [item, changeItem] = React.useState(null);
+
     function editar() {
+
         if (title !== "" && description !== "") {
+
             props.editar({ title, description, images });
+
         } else {
+
             Alert.alert(
                 "Importante",
                 "Existen datos sin especificar",
@@ -26,54 +38,106 @@ export default function EdiatrScreen({ ...props }) {
     }
 
     async function uploadImageAsync(uri: string, name: string) {
+
         const blob = await new Promise((resolve, reject) => {
+
             const xhr = new XMLHttpRequest();
+
             xhr.onload = function () {
+
                 resolve(xhr.response);
+
             };
+
             xhr.onerror = function (e) {
+
                 reject(new TypeError('Network request failed'));
+
             };
+
             xhr.responseType = 'blob';
+
             xhr.open('GET', uri, true);
+
             xhr.send(null);
+
         });
+
         let refs = global.firebase.storage().ref().child(props.refe + name);
+
         const snapshot = await refs.put(blob);
+
         return await snapshot.ref.getDownloadURL();
+
     }
 
     async function loadFile() {
+
         const resultPermissions = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
         if (resultPermissions) {
+
             let result = await ImagePicker.launchImageLibraryAsync({
+
                 mediaTypes: ImagePicker.MediaTypeOptions.All,
+
                 quality: 1,
             });
+
             if (!result.cancelled) {
+
                 onChangeLoading(true);
+
                 let localUri = result.uri;
+
                 let filename = localUri.split('/').pop();
+
                 const uploadUrl = await uploadImageAsync(localUri, filename);
-                let imageLocal = { uri: localUri, type: result.type, filename };
-                onChangeImagesLocals(imagesLocal => [imageLocal, ...imagesLocal]);
-                let image = { uploadUrl, type: result.type };
+
+                let image = { uploadUrl, type: result.type, filename };
+
                 onChangeImages(images => [image, ...images]);
+
                 onChangeLoading(false);
+
             }
         }
     }
 
     function delFile(file: any) {
+
         onChangeLoading(true);
+
         let refs = global.firebase.storage().ref().child(props.refe + file.item.filename);
+
         refs.delete().then(function () {
-            onChangeImagesLocals(imagesLocal.filter(item => item !== file.item));
+
             onChangeImages(images.filter(item => item.uploadUrl !== file.item.uploadUrl));
+
             onChangeLoading(false);
-        }).catch(function (error) {
-            onChangeLoading(false);
-        });
+
+        })
+            .catch(function (error) {
+
+                onChangeLoading(false);
+
+            });
+    }
+
+    function open(item: any) {
+
+        changeItem(item);
+
+        changeModalVisible(true);
+
+    }
+
+    function cerrar() {
+
+        changeItem(null);
+
+        changeModalVisible(false);
+
     }
 
     return (
@@ -98,53 +162,121 @@ export default function EdiatrScreen({ ...props }) {
                 value={description} />
 
             <TouchableOpacity
-                style={{ alignItems: "center", justifyContent: "center", flexDirection: "row" }}
+                style={{ alignItems: "center", justifyContent: "center", flexDirection: "row", marginHorizontal: 80 }}
                 onPress={loadFile}>
+
                 <Text style={[{ marginRight: 5, color: "#c96eb7", fontSize: 20, fontFamily: "courgette" }]}>Adjuntar contenido</Text>
+               
                 <Ionicons name="md-attach" size={35} color="#c96eb7" />
+           
             </TouchableOpacity>
 
             {loading && <ActivityIndicator size="large" color="#c96eb7" />}
 
             <FlatList
-                data={imagesLocal}
+                data={images}
                 keyExtractor={(item: object, index: number) => index.toString()}
                 numColumns={2}
                 renderItem={({ item, index, separators }) => {
                     return item.type === "image"
                         ? <View style={{ flexDirection: "row" }}>
+                           
                             <TouchableOpacity onPress={() => open(item)}>
-                                <Image source={{ uri: item.uri }} style={{ margin: 15, width: 150, height: 150 }}></Image>
+                              
+                                <Image source={{ uri: item.uploadUrl }} style={{ margin: 15, width: 150, height: 150 }}></Image>
+                         
                             </TouchableOpacity>
+                           
                             <TouchableOpacity style={{ marginLeft: -30, marginTop: 5 }} onPress={() => delFile({ item, index })}>
+                               
                                 <Ionicons name="md-close-circle" size={30} color="red" />
+                          
                             </TouchableOpacity>
+
                         </View>
                         : item.type === "video"
                             ? <View style={{ flexDirection: "row" }}>
+                               
                                 <TouchableOpacity style={styles.viewFile} onPress={() => open(item)}>
-                                    <Ionicons name="md-videocam" size={80} color="#c96eb7" />
+                                  
+                                    <Video
+                                        source={{ uri: item.uploadUrl }}
+                                        rate={1.0}
+                                        volume={1.0}
+                                        isMuted={false}
+                                        resizeMode="cover"
+                                        shouldPlay={false}
+                                        style={{ width: 150, height: 150 }}
+                                    />
+                               
                                 </TouchableOpacity>
+                               
                                 <TouchableOpacity style={{ marginLeft: -30, marginTop: 5 }} onPress={() => delFile({ item, index })}>
+                                   
                                     <Ionicons name="md-close-circle" size={30} color="red" />
+                              
                                 </TouchableOpacity>
+                           
                             </View>
                             : <View style={{ flexDirection: "row" }}>
+                               
                                 <TouchableOpacity style={styles.viewFile} onPress={() => open(item)}>
+                                   
                                     <Ionicons name="md-musical-notes" size={80} color="#c96eb7" />
+                               
                                 </TouchableOpacity>
+                               
                                 <TouchableOpacity style={{ marginLeft: -30, marginTop: 5 }} onPress={() => delFile({ item, index })}>
+                                   
                                     <Ionicons name="md-close-circle" size={30} color="red" />
+                               
                                 </TouchableOpacity>
+                           
                             </View>
-                }
-                }
+                }}
             />
+
             <TouchableOpacity
                 style={[{ padding: 10, backgroundColor: "#c96eb7", marginTop: 15, borderRadius: 5, marginHorizontal: 20 }]}
                 onPress={() => editar()}>
+               
                 <Text style={[{ textAlign: "center", color: "#fff", fontSize: 23, fontFamily: "courgette" }]}>Editar</Text>
+          
             </TouchableOpacity>
+
+            <Modal animationType="slide" visible={modalVisible}>
+               
+                <TouchableOpacity
+                    style={{ alignItems: "center" }}
+                    onPress={() => cerrar()}>
+                   
+                    <Ionicons name="md-close-circle" size={70} color="#CD0D0D" />
+              
+                </TouchableOpacity>
+                {
+                    item && <View style={[{ flex: 1, marginVertical: 20 }]}>
+                        {
+                            item.type === "video"
+                                ? <Video
+                                    source={{ uri: (item) ? item.uploadUrl : "" }}
+                                    rate={1.0}
+                                    volume={1.0}
+                                    isMuted={false}
+                                    resizeMode="cover"
+                                    shouldPlay={true}
+                                    isLooping={true}
+                                    style={{ height: 100 + "%", marginHorizontal: 10 }}
+                                />
+                                : <Image
+                                    source={{ uri: item.uploadUrl }}
+                                    resizeMode="stretch"
+                                    style={{ height: dimensions.fullHeight - 100, width: dimensions.fullWidth - 20, marginHorizontal: 10 }}
+                                ></Image>
+                        }
+                    </View>
+                }
+            </Modal>
+
         </View>
     );
 }

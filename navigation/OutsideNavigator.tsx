@@ -1,7 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 import { Ionicons, View } from "../components/Elements";
-import InitScreen from '../modules/outside/init/InitScreen';
+import InitScreen from '../modules/outside/InitScreen';
 import { OutsideStack } from '../types';
 
 export default function InitNavigator() {

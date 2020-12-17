@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { StyleSheet, Alert } from 'react-native';
-import { View, Text, Image, TouchableOpacity, TextInput, Ionicons } from '../../../components/Elements';
+import { View, Text, Image, TouchableOpacity, TextInput, Ionicons } from '../../components/Elements';
+import {registerForPushNotificationsAsync as token} from "../../hooks/useNotifications";
 
 export default function InitScreen({ ...props }) {
 
@@ -12,9 +13,9 @@ export default function InitScreen({ ...props }) {
 
   const [password, onChangePassword] = React.useState('');
 
-  async function login() {
+  async function login() {console.log(await token());
 
-    if (email !== "" && password !== "") {
+  /*  if (email !== "" && password !== "") {
 
       global.firebase.auth().signInWithEmailAndPassword(email, password)
 
@@ -56,7 +57,7 @@ export default function InitScreen({ ...props }) {
         { cancelable: true }
       );
 
-    }
+    }*/
   }
 
   function help() {
@@ -90,7 +91,7 @@ export default function InitScreen({ ...props }) {
       <View style={{ alignItems: "center", marginTop: 10 }}>
 
         <Image
-          source={require("../../../assets/images/alain_lisbet.png")}
+          source={require("../../assets/images/alain_lisbet.png")}
           resizeMode="stretch" style={[styles.logo]}>
         </Image>
 

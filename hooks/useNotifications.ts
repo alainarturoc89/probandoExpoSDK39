@@ -12,7 +12,7 @@ Notifications.setNotificationHandler({
     }),
 });
 
-export default function useNotifications() {
+function useNotifications() {
     const [expoPushToken, setExpoPushToken] = React.useState('');
     const [notification, setNotification] = React.useState(false);
     const notificationListener = React.useRef();
@@ -73,7 +73,6 @@ async function registerForPushNotificationsAsync() {
             return;
         }
         token = (await Notifications.getExpoPushTokenAsync()).data;
-        console.log(token);
     } else {
         alert('Usa un celular para las notificaciones');
     }
@@ -89,3 +88,5 @@ async function registerForPushNotificationsAsync() {
 
     return token;
 }
+
+export { registerForPushNotificationsAsync, sendPushNotification }

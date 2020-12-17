@@ -149,6 +149,16 @@ export default function PublicacionesScreen({ ...props }) {
 
     global.firebase.database().ref().update(updates);
 
+    /*
+    {
+        to: expoPushToken,
+        sound: 'default',
+        title: 'Nueva publicacion',
+        body: 'And here is the body!',
+        data: { data: 'goes here' },
+    }
+    */
+
   }
 
   async function editar(item: any) {

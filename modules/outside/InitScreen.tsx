@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StyleSheet, Alert } from 'react-native';
 import { View, Text, Image, TouchableOpacity, TextInput, Ionicons } from '../../components/Elements';
-import {registerForPushNotificationsAsync as token} from "../../hooks/useNotifications";
+import { registerForPushNotificationsAsync as t } from "../../hooks/useNotifications";
 
 export default function InitScreen({ ...props }) {
 
@@ -13,9 +13,9 @@ export default function InitScreen({ ...props }) {
 
   const [password, onChangePassword] = React.useState('');
 
-  async function login() {console.log(await token());
+  async function authenticate() {
 
-  /*  if (email !== "" && password !== "") {
+    if (email !== "" && password !== "") {
 
       global.firebase.auth().signInWithEmailAndPassword(email, password)
 
@@ -23,17 +23,7 @@ export default function InitScreen({ ...props }) {
 
           if (user !== null) {
 
-            global.user = user.user;
-
-            onChangeEmail("");
-
-            onChangePassword("");
-
-            onShowPass(false);
-
-            onChangeIosEye("ios-eye-off");
-
-            props.navigation.navigate("Inside");
+            login(user.user);
 
           }
         })
@@ -57,7 +47,30 @@ export default function InitScreen({ ...props }) {
         { cancelable: true }
       );
 
-    }*/
+    }
+  }
+
+  async function login(user: any) {
+
+    const token = await t();
+    
+    await global.firebase.database().ref('users/' + user.uid).set({
+
+      token
+
+    });
+
+    global.user = user;
+
+    onChangeEmail("");
+
+    onChangePassword("");
+
+    onShowPass(false);
+
+    onChangeIosEye("ios-eye-off");
+
+    props.navigation.navigate("Inside");
   }
 
   function help() {
@@ -139,7 +152,7 @@ export default function InitScreen({ ...props }) {
 
       <TouchableOpacity
         style={[{ padding: 10, backgroundColor: "#c96eb7", marginTop: 10, borderRadius: 5, marginHorizontal: 110 }]}
-        onPress={() => login()}>
+        onPress={() => authenticate()}>
 
         <Text style={[{ textAlign: "center", color: "#fff", fontSize: 20, fontFamily: 'courgette' }]}>Autenticar</Text>
 

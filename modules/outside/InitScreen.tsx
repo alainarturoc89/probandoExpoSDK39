@@ -2,6 +2,7 @@ import * as React from 'react';
 import { StyleSheet, Alert } from 'react-native';
 import { View, Text, Image, TouchableOpacity, TextInput, Ionicons, ScrollView, ActivityIndicator } from '../../components/Elements';
 import { registerForPushNotificationsAsync as t } from "../../hooks/useNotifications";
+import { firebase } from "../../hooks/useFirebase";
 
 export default function InitScreen({ ...props }) {
 
@@ -20,8 +21,8 @@ export default function InitScreen({ ...props }) {
     if (email !== "" && password !== "") {
 
       changeLoading(true);
-      
-      global.firebase.auth().signInWithEmailAndPassword(email, password)
+
+      await firebase.auth().signInWithEmailAndPassword(email, password)
 
         .then((user) => {
 
@@ -31,11 +32,11 @@ export default function InitScreen({ ...props }) {
 
           }
 
-        else{
+          else {
 
-          changeLoading(false);
-          
-        }
+            changeLoading(false);
+
+          }
 
         })
 
@@ -63,11 +64,11 @@ export default function InitScreen({ ...props }) {
     }
   }
 
-  async function login(user: any) {    
+  async function login(user: any) {
 
     const token = await t();
 
-    await global.firebase.database().ref('users/' + user.uid).set({
+    await firebase.database().ref('users/' + user.uid).set({
 
       token
 
@@ -84,7 +85,7 @@ export default function InitScreen({ ...props }) {
     onChangeIosEye("ios-eye-off");
 
     changeLoading(false);
-    
+
     props.navigation.navigate("Inside");
   }
 

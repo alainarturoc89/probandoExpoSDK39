@@ -5,6 +5,7 @@ import { Ionicons, View, TouchableOpacity } from "../components/Elements";
 import PublicacionesScreen from '../modules/inside/PublicacionesScreen';
 import HelpScreen from '../modules/common/help/HelpScreen';
 import { InsideStack } from '../types';
+import { firebase } from "../hooks/useFirebase";
 
 function InsideTab() {
 
@@ -57,11 +58,12 @@ export default function InitNavigator({ ...props }) {
                 <View style={{ marginRight: 10 }}><Ionicons name="ios-flower" size={32} color="#fff" /></View>
 
             </View>,
-            headerRight: () => <TouchableOpacity style={{ alignItems: "center", marginRight: 10 }} onPress={() => {
+            headerRight: () => <TouchableOpacity style={{ alignItems: "center", marginRight: 10 }} onPress={async () => {
 
-                global.firebase.auth().signOut().then(function () {
+                await firebase.auth().signOut().then(function () {
 
                     props.navigation.navigate('Outside');
+                    
                 })
                     .catch(function (error) {
                     });

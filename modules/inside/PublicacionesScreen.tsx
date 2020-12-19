@@ -5,7 +5,7 @@ import PublicacionScreen from "./PublicacionScreen";
 import CrearScreen from "./CrearScreen";
 import EditarScreen from "./EditarScreen";
 import { sendPushNotification } from "../../hooks/useNotifications";
-
+import { firebase } from "../../hooks/useFirebase";
 
 export default function PublicacionesScreen({ ...props }) {
 
@@ -28,13 +28,13 @@ export default function PublicacionesScreen({ ...props }) {
   const [refe, changeRefe] = React.useState(null);
 
   if (!loaded) {
-    if (global.firebase.auth().currentUser !== null) {
+    if (firebase.auth().currentUser !== null) {
 
       changeLoading(true);
 
       changeLoaded(true);
 
-      global.firebase.database().ref('publications').on("value", function (snapshot: any) {
+      firebase.database().ref('publications').on("value", function (snapshot: any) {
 
         changeLoading(false);
 
@@ -53,9 +53,9 @@ export default function PublicacionesScreen({ ...props }) {
 
   async function showCreate() {
 
-    if (global.firebase.auth().currentUser !== null) {
+    if (await firebase.auth().currentUser !== null) {
 
-      let publicationKey = await global.firebase.database().ref('publications').push().key;
+      let publicationKey = await firebase.database().ref('publications').push().key;
 
       changePublicationKey(publicationKey);
 
@@ -149,7 +149,7 @@ export default function PublicacionesScreen({ ...props }) {
 
     updates['/publications/' + publicationKey] = publication;
 
-    await global.firebase.database().ref().update(updates);
+    await firebase.database().ref().update(updates);
 
     sendPushNotification({ title: 'Nueva publicación', body: `${global.user.email} ha creado una publicación` });
 
@@ -161,7 +161,7 @@ export default function PublicacionesScreen({ ...props }) {
 
     changeModalVisible(false);
 
-    await global.firebase.database().ref('publications/' + publicationKey).set({
+    await firebase.database().ref('publications/' + publicationKey).set({
 
       date: date,
 
@@ -212,7 +212,7 @@ export default function PublicacionesScreen({ ...props }) {
 
   async function del(ref: any) {
 
-    await global.firebase.database().ref('publications/' + ref).remove();
+    await firebase.database().ref('publications/' + ref).remove();
 
     changeItem(null);
 

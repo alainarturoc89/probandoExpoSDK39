@@ -5,6 +5,7 @@ import { Video } from 'expo-av';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import { TextInput, View, TouchableOpacity, Text, FlatList, Image, Ionicons, ActivityIndicator, Modal, ScrollView } from '../../components/Elements';
+import { firebase } from "../../hooks/useFirebase";
 
 export default function EdiatrScreen({ ...props }) {
 
@@ -63,7 +64,7 @@ export default function EdiatrScreen({ ...props }) {
 
         });
 
-        let refs = global.firebase.storage().ref().child(props.refe + name);
+        let refs = await firebase.storage().ref().child(props.refe + name);
 
         const snapshot = await refs.put(blob);
 
@@ -104,11 +105,11 @@ export default function EdiatrScreen({ ...props }) {
         }
     }
 
-    function delFile(file: any) {
+    async function delFile(file: any) {
 
         onChangeLoading(true);
 
-        let refs = global.firebase.storage().ref().child(props.refe + file.item.filename);
+        let refs = await firebase.storage().ref().child(props.refe + file.item.filename);
 
         refs.delete().then(function () {
 

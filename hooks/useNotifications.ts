@@ -1,47 +1,12 @@
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
-import * as React from 'react';
 import { Platform } from 'react-native';
-
-Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-        shouldShowAlert: true,
-        shouldPlaySound: false,
-        shouldSetBadge: false,
-    }),
-});
-
-function useNotifications() {
-    const [expoPushToken, setExpoPushToken] = React.useState('');
-    const [notification, setNotification] = React.useState(false);
-    const notificationListener = React.useRef();
-    const responseListener = React.useRef();
-
-    React.useEffect(() => {
-        registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
-
-        // This listener is fired whenever a notification is received while the app is foregrounded
-        notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-            setNotification(notification);
-        });
-
-        // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-        responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-            console.log(response);
-        });
-
-        return () => {
-            Notifications.removeNotificationSubscription(notificationListener);
-            Notifications.removeNotificationSubscription(responseListener);
-        };
-    }, []);
-
-}
+import { firebase } from "./useFirebase";
 
 async function sendPushNotification(data: any) {
     let tokens = new Array;
-    await global.firebase.database().ref('/users/').once('value').then((snapshot) => {
+    await firebase.database().ref('/users/').once('value').then((snapshot) => {
         tokens = Object.values(snapshot.val()).map((user: any) => { return user.token });
     });
     let notifications = [];

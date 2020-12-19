@@ -2,7 +2,6 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import * as React from 'react';
-import * as firebase from 'firebase';
 
 export default function useCachedResources() {
 
@@ -32,30 +31,6 @@ export default function useCachedResources() {
           'notoSerif-italic': require('../assets/fonts/Noto_Serif/NotoSerif-Italic.ttf'),
 
         });
-
-        if (!global.firebase) {
-
-         await firebase.initializeApp({
-
-            apiKey: 'AIzaSyAvCVeh6YBJar7VuhRhazArN5T0qLzCzvY',
-
-            authDomain: 'lisbet-b7ed9.firebaseapp.com',
-
-            databaseURL: 'https://lisbet-b7ed9-default-rtdb.firebaseio.com',
-
-            projectId: 'lisbet-b7ed9',
-
-            storageBucket: 'lisbet-b7ed9.appspot.com',
-
-            messagingSenderId: '853129856245',
-
-            appId: '1:853129856245:android:88d80ddbd2552b647931bc'
-
-          });
-
-          global.firebase = firebase;
-
-        }
 
       }
       catch (e) { console.warn(e); }

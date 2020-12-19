@@ -52,7 +52,7 @@ export default function HelpScreen({ ...props }) {
 
             {(autVisible) && <View style={styles.view}>
 
-                <Text style={[styles.text]}>Hola amor, si es la primera vez que usas esta apk o simplemente no recuerdas cúal es tu usuario o tu contraseña te invito a que continues leyendo.</Text>
+                <Text style={[styles.text]}>Hola amor, si es la primera vez que usas esta aplicación o simplemente no recuerdas cúal es tú usuario o tú contraseña te invito a que continues leyendo.</Text>
 
                 <Text style={[styles.text, {}]}>En esta sección se describe el proceso de autenticación:</Text>
 
@@ -76,9 +76,9 @@ export default function HelpScreen({ ...props }) {
 
                 <Text style={[styles.text, { marginTop: 5, fontFamily: 'notoSerif-bold-italic' }]}>- Tener creado un usuario (Los usuarios los creo yo).</Text>
 
-                <Text style={[styles.text, { marginTop: 5, fontFamily: "notoSerif-bold-italic" }]}>- Conexión a internet para realizar la autenticación, crear, obtener, modificar y eliminar publicaciones.</Text>
+                <Text style={[styles.text, { marginTop: 5, fontFamily: "notoSerif-bold-italic" }]}>- Conexión a internet para realizar la autenticación en la aplicación, crear, obtener, modificar y eliminar publicaciones.</Text>
 
-                <Text style={[styles.text, { marginTop: 5 }]}>Y ya eso sería todo, ya lo otro es tener deseo de usarla.</Text>
+                <Text style={[styles.text, { marginTop: 5 }]}>Y ya, eso sería todo, lo otro es tener deseos de usarla.</Text>
 
             </View>}
 
@@ -90,7 +90,7 @@ export default function HelpScreen({ ...props }) {
 
             {(funVisible) && <View style={[styles.view, { marginBottom: 30 }]}>
 
-                <Text style={styles.text}>El propósito de la aplicación es bastante simple, la cree con el objetivo de publicar nuestras vivencias, podrás ponerle un título, una descripción y si lo deseas le puedes agregar contenidos, los contenidos pueden ser imágenes o videos (trata de que los videos no sean tan pesados). Además podrías utilizarla como un espacio para compartir cosas que quisieras dedicarme o simplemente hacérmelas saber.</Text>
+                <Text style={styles.text}>El propósito de la aplicación es bastante simple, la implementé con el objetivo de publicar nuestras vivencias, podrás ponerle un título, una descripción y si lo deseas le puedes agregar contenidos, los contenidos pueden ser imágenes o videos (trata de que los videos no sean tan pesados). Además podrías utilizarla como un espacio para compartir cosas que quisieras dedicarme o simplemente hacérmelas saber.</Text>
 
             </View>}
 

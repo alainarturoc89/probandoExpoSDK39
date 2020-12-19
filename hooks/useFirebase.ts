@@ -4,7 +4,7 @@ import "firebase/firestore";
 
 firebase.initializeApp({
 
-    apiKey: 'AIzaSyAvCVeh6YBJar7VuhRhazArN5T0qLzCzvY',
+    apiKey: 'AIzaSyAhnlp7RcK6YAVH35puEuL7BpCYZTe4IWw',
 
     authDomain: 'lisbet-b7ed9.firebaseapp.com',
 

@@ -9,6 +9,8 @@ import { firebase } from "../../hooks/useFirebase";
 
 export default function EdiatrScreen({ ...props }) {
 
+    const [date] = React.useState(props.item.date);
+
     const [title, onChangeTitle] = React.useState(props.item.title);
 
     const [description, onChangeDescription] = React.useState(props.item.description);
@@ -25,7 +27,7 @@ export default function EdiatrScreen({ ...props }) {
 
         if (title !== "" && description !== "") {
 
-            props.editar({ title, description, images });
+            props.editar({ title, description, images, date });
 
         } else {
 

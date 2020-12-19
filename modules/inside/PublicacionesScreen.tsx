@@ -27,29 +27,36 @@ export default function PublicacionesScreen({ ...props }) {
 
   const [refe, changeRefe] = React.useState(null);
 
-  if (!loaded) {
-    if (firebase.auth().currentUser !== null) {
 
-      changeLoading(true);
+  async function cargaInicial() {
 
-      changeLoaded(true);
+    if (!loaded) {
+      if (await firebase.auth().currentUser !== null) {
 
-      firebase.database().ref('publications').on("value", function (snapshot: any) {
+        changeLoading(true);
 
-        changeLoading(false);
+        changeLoaded(true);
 
-        if (snapshot.val()) {
+       await firebase.database().ref('publications').on("value", function (snapshot: any) {
 
-          changeData(Object.values(snapshot.val()).reverse());
+          changeLoading(false);
 
-        }
-      }, function (errorObject: any) {
+          if (snapshot.val()) {
 
-        changeLoading(false);
+            changeData(Object.values(snapshot.val()).reverse());
 
-      });
+          }
+        }, function (errorObject: any) {
+
+          changeLoading(false);
+
+        });
+      }
     }
+
   }
+
+  cargaInicial();
 
   async function showCreate() {
 
@@ -163,7 +170,7 @@ export default function PublicacionesScreen({ ...props }) {
 
     await firebase.database().ref('publications/' + publicationKey).set({
 
-      date: date,
+      date: item.date,
 
       description: item.description,
 

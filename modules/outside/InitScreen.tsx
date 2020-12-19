@@ -28,7 +28,7 @@ export default function InitScreen({ ...props }) {
 
           if (user !== null) {
 
-            login(user.user);
+            return login(user.user);
 
           }
 
@@ -112,82 +112,84 @@ export default function InitScreen({ ...props }) {
     onShowPass(!showPass);
 
   }
-
+  /*
+   loading ? <ActivityIndicator size="large" color="#c96eb7" />
+  
+        :
+  */
   return (
-    loading ? <ActivityIndicator size="large" color="#c96eb7" />
+    <ScrollView style={styles.container}>
 
-      : <ScrollView style={styles.container}>
+      <View style={{ alignItems: "center", marginTop: 10 }}>
 
-        <View style={{ alignItems: "center", marginTop: 10 }}>
+        <Image
+          source={require("../../assets/images/alain_lisbet.png")}
+          resizeMode="stretch" style={[styles.logo]}>
+        </Image>
 
-          <Image
-            source={require("../../assets/images/alain_lisbet.png")}
-            resizeMode="stretch" style={[styles.logo]}>
-          </Image>
+      </View>
 
-        </View>
+      <Text style={[styles.text]}>Correo electrónico *</Text>
 
-        <Text style={[styles.text]}>Correo electrónico *</Text>
+      <TextInput
+        keyboardType="email-address"
+        style={[{
+          height: 50,
+          borderRadius: 3,
+          borderColor: '#c96eb7',
+          borderWidth: 0.5,
+          paddingHorizontal: 5,
+          fontFamily: 'courgette',
+          fontSize: 17
+        }]}
+        onChangeText={text => onChangeEmail(text)}
+        value={email} />
+
+      <Text style={[styles.text, { marginTop: 20 }]}>Contraseña *</Text>
+
+      <View style={{ alignItems: "center", flexDirection: "row", borderRadius: 3, borderColor: '#c96eb7', borderWidth: 0.5, marginBottom: 10 }}>
 
         <TextInput
-          keyboardType="email-address"
+          secureTextEntry={!showPass}
           style={[{
             height: 50,
-            borderRadius: 3,
-            borderColor: '#c96eb7',
-            borderWidth: 0.5,
             paddingHorizontal: 5,
+            flex: 0.99,
             fontFamily: 'courgette',
             fontSize: 17
           }]}
-          onChangeText={text => onChangeEmail(text)}
-          value={email} />
+          onChangeText={text => onChangePassword(text)}
+          value={password} />
 
-        <Text style={[styles.text, { marginTop: 20 }]}>Contraseña *</Text>
+        <TouchableOpacity style={{ marginHorizontal: 5 }} onPress={() => { showHidePass() }}>
 
-        <View style={{ alignItems: "center", flexDirection: "row", borderRadius: 3, borderColor: '#c96eb7', borderWidth: 0.5, marginBottom: 10 }}>
-
-          <TextInput
-            secureTextEntry={!showPass}
-            style={[{
-              height: 50,
-              paddingHorizontal: 5,
-              flex: 0.99,
-              fontFamily: 'courgette',
-              fontSize: 17
-            }]}
-            onChangeText={text => onChangePassword(text)}
-            value={password} />
-
-          <TouchableOpacity style={{ marginHorizontal: 5 }} onPress={() => { showHidePass() }}>
-
-            <Ionicons name={iosEye} size={32} color="#c96eb7" />
-
-          </TouchableOpacity>
-
-        </View>
-
-        <TouchableOpacity
-          style={[{ padding: 10, backgroundColor: "#c96eb7", marginTop: 10, borderRadius: 5, marginHorizontal: 110 }]}
-          onPress={() => authenticate()}>
-
-          <Text style={[{ textAlign: "center", color: "#fff", fontSize: 20, fontFamily: 'courgette' }]}>Autenticar</Text>
+          <Ionicons name={iosEye} size={32} color="#c96eb7" />
 
         </TouchableOpacity>
 
-        <View style={{ marginTop: 20, alignItems: "center" }}>
+      </View>
 
-          <Text style={styles.text_ayuda}>Para identificar usuario y contraseña por favor consulte la ayuda de la aplicación.</Text>
+      <TouchableOpacity
+        style={[{ padding: 10, backgroundColor: "#c96eb7", marginTop: 10, borderRadius: 5, marginHorizontal: 110 }]}
+        onPress={() => authenticate()}>
 
-          <TouchableOpacity style={{ alignItems: "flex-end" }} onPress={() => help()}>
+        <Text style={[{ textAlign: "center", color: "#fff", fontSize: 20, fontFamily: 'courgette' }]}>Autenticar</Text>
 
-            <Ionicons name="ios-help-circle" size={60} color="#c96eb7" />
+      </TouchableOpacity>
 
-          </TouchableOpacity>
+      <View style={{ marginTop: 20, alignItems: "center" }}>
 
-        </View>
+        <Text style={styles.text_ayuda}>Para identificar usuario y contraseña por favor consulte la ayuda de la aplicación.</Text>
 
-      </ScrollView>
+        <TouchableOpacity style={{ alignItems: "flex-end" }} onPress={() => help()}>
+
+          <Ionicons name="ios-help-circle" size={60} color="#c96eb7" />
+
+        </TouchableOpacity>
+
+      </View>
+
+    </ScrollView>
   );
 }
 

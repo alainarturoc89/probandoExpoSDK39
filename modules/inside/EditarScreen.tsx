@@ -4,7 +4,7 @@ import { dimensions } from "../../styles/base";
 import { Video } from 'expo-av';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
-import { TextInput, View, TouchableOpacity, Text, FlatList, Image, Ionicons, ActivityIndicator, Modal } from '../../components/Elements';
+import { TextInput, View, TouchableOpacity, Text, FlatList, Image, Ionicons, ActivityIndicator, Modal, ScrollView } from '../../components/Elements';
 
 export default function EdiatrScreen({ ...props }) {
 
@@ -157,7 +157,7 @@ export default function EdiatrScreen({ ...props }) {
 
             <TextInput
                 multiline
-                style={[styles.input, { height: 100 }]}
+                style={[styles.input, { height: 150 }]}
                 onChangeText={text => onChangeDescription(text)}
                 value={description} />
 
@@ -166,9 +166,9 @@ export default function EdiatrScreen({ ...props }) {
                 onPress={loadFile}>
 
                 <Text style={[{ marginRight: 5, color: "#c96eb7", fontSize: 20, fontFamily: "courgette" }]}>Adjuntar contenido</Text>
-               
+
                 <Ionicons name="md-attach" size={35} color="#c96eb7" />
-           
+
             </TouchableOpacity>
 
             {loading && <ActivityIndicator size="large" color="#c96eb7" />}
@@ -180,25 +180,25 @@ export default function EdiatrScreen({ ...props }) {
                 renderItem={({ item, index, separators }) => {
                     return item.type === "image"
                         ? <View style={{ flexDirection: "row" }}>
-                           
+
                             <TouchableOpacity onPress={() => open(item)}>
-                              
+
                                 <Image source={{ uri: item.uploadUrl }} style={{ margin: 15, width: 150, height: 150 }}></Image>
-                         
+
                             </TouchableOpacity>
-                           
+
                             <TouchableOpacity style={{ marginLeft: -30, marginTop: 5 }} onPress={() => delFile({ item, index })}>
-                               
+
                                 <Ionicons name="md-close-circle" size={30} color="red" />
-                          
+
                             </TouchableOpacity>
 
                         </View>
                         : item.type === "video"
                             ? <View style={{ flexDirection: "row" }}>
-                               
+
                                 <TouchableOpacity style={styles.viewFile} onPress={() => open(item)}>
-                                  
+
                                     <Video
                                         source={{ uri: item.uploadUrl }}
                                         rate={1.0}
@@ -208,30 +208,30 @@ export default function EdiatrScreen({ ...props }) {
                                         shouldPlay={false}
                                         style={{ width: 150, height: 150 }}
                                     />
-                               
+
                                 </TouchableOpacity>
-                               
+
                                 <TouchableOpacity style={{ marginLeft: -30, marginTop: 5 }} onPress={() => delFile({ item, index })}>
-                                   
+
                                     <Ionicons name="md-close-circle" size={30} color="red" />
-                              
+
                                 </TouchableOpacity>
-                           
+
                             </View>
                             : <View style={{ flexDirection: "row" }}>
-                               
+
                                 <TouchableOpacity style={styles.viewFile} onPress={() => open(item)}>
-                                   
+
                                     <Ionicons name="md-musical-notes" size={80} color="#c96eb7" />
-                               
+
                                 </TouchableOpacity>
-                               
+
                                 <TouchableOpacity style={{ marginLeft: -30, marginTop: 5 }} onPress={() => delFile({ item, index })}>
-                                   
+
                                     <Ionicons name="md-close-circle" size={30} color="red" />
-                               
+
                                 </TouchableOpacity>
-                           
+
                             </View>
                 }}
             />
@@ -239,19 +239,19 @@ export default function EdiatrScreen({ ...props }) {
             <TouchableOpacity
                 style={[{ padding: 10, backgroundColor: "#c96eb7", marginTop: 15, borderRadius: 5, marginHorizontal: 20 }]}
                 onPress={() => editar()}>
-               
+
                 <Text style={[{ textAlign: "center", color: "#fff", fontSize: 23, fontFamily: "courgette" }]}>Editar</Text>
-          
+
             </TouchableOpacity>
 
             <Modal animationType="slide" visible={modalVisible}>
-               
+
                 <TouchableOpacity
                     style={{ alignItems: "center" }}
                     onPress={() => cerrar()}>
-                   
+
                     <Ionicons name="md-close-circle" size={70} color="#CD0D0D" />
-              
+
                 </TouchableOpacity>
                 {
                     item && <View style={[{ flex: 1, marginVertical: 20 }]}>
@@ -294,5 +294,6 @@ const styles = StyleSheet.create({
         fontFamily: "courgette",
         fontSize: 15
     },
+    scrollView: { marginTop: 15, marginBottom: 10, },
     viewFile: { width: 150, height: 150, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: "#c96eb7", margin: 15 }
 });

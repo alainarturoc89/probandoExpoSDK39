@@ -4,6 +4,8 @@ import { SafeAreaView, FlatList, View, Image, Text, TouchableOpacity, Modal, Act
 import PublicacionScreen from "./PublicacionScreen";
 import CrearScreen from "./CrearScreen";
 import EditarScreen from "./EditarScreen";
+import { sendPushNotification } from "../../hooks/useNotifications";
+
 
 export default function PublicacionesScreen({ ...props }) {
 
@@ -147,17 +149,9 @@ export default function PublicacionesScreen({ ...props }) {
 
     updates['/publications/' + publicationKey] = publication;
 
-    global.firebase.database().ref().update(updates);
+    await global.firebase.database().ref().update(updates);
 
-    /*
-    {
-        to: expoPushToken,
-        sound: 'default',
-        title: 'Nueva publicacion',
-        body: 'And here is the body!',
-        data: { data: 'goes here' },
-    }
-    */
+    sendPushNotification({ title: 'Nueva publicación', body: `${global.user.email} ha creado una publicación` });
 
   }
 
@@ -167,7 +161,7 @@ export default function PublicacionesScreen({ ...props }) {
 
     changeModalVisible(false);
 
-    global.firebase.database().ref('publications/' + publicationKey).set({
+    await global.firebase.database().ref('publications/' + publicationKey).set({
 
       date: date,
 
@@ -182,9 +176,12 @@ export default function PublicacionesScreen({ ...props }) {
       uid: global.user.uid
 
     });
+
+    sendPushNotification({ title: 'Publicación editada', body: `${global.user.email} ha modificado una publicación` });
+
   }
 
-  async function eliminar(ref: any) {
+  function eliminar(ref: any) {
 
     Alert.alert(
       "Confirmación",
@@ -199,13 +196,7 @@ export default function PublicacionesScreen({ ...props }) {
         {
           text: "Si", onPress: () => {
 
-            changeItem(null);
-
-            global.firebase.database().ref('publications/' + ref).remove();
-
-            if (data.length === 1)
-
-              changeData([]);
+            del(ref);
 
           }
 
@@ -219,13 +210,27 @@ export default function PublicacionesScreen({ ...props }) {
 
   }
 
+  async function del(ref: any) {
+
+    await global.firebase.database().ref('publications/' + ref).remove();
+
+    changeItem(null);
+
+    if (data.length === 1)
+
+      changeData([]);
+
+    sendPushNotification({ title: 'Publicación eliminada', body: `${global.user.email} ha eliminado una publicación` });
+
+  }
+
   const renderItem = ({ item }) => {
 
     return <View style={[styles.item]}>
 
       <TouchableOpacity style={[styles.first]} onPress={() => showShow(item)}>
 
-        <Image source={require("../../assets/images/publicacion.jpg")} style={styles.image} />
+        <Image source={require("../../assets/images/alain_lisbet.png")} style={styles.image} />
 
         <Text style={styles.title}>{item.title}</Text>
 
@@ -280,7 +285,7 @@ export default function PublicacionesScreen({ ...props }) {
 
       <Modal animationType="slide" visible={modalVisible}>
 
-        <View style={[{ flex: 1, marginVertical: 20 }]}>
+        <View style={[{ flex: 1, marginVertical: 10 }]}>
 
           <View style={[{ alignItems: "center" }]}>
 

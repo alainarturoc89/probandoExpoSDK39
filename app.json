@@ -24,7 +24,8 @@
     "android": {
       "package": "alainarturoc.lisbet",
       "icon": "./assets/images/alain_lisbet.png",
-      "versionCode": 1
+      "versionCode": 1,
+      "useNextNotificationsApi": true
     },
     "web": {
       "favicon": "./assets/images/alain_lisbet.png"

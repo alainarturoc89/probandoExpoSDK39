@@ -4,7 +4,7 @@ import { dimensions } from "../../styles/base";
 import { Video } from 'expo-av';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
-import { TextInput, View, TouchableOpacity, Text, FlatList, Image, Ionicons, ActivityIndicator, Modal } from '../../components/Elements';
+import { TextInput, View, TouchableOpacity, Text, FlatList, Image, Ionicons, ActivityIndicator, Modal, ScrollView } from '../../components/Elements';
 
 export default function CrearScreen({ ...props }) {
 
@@ -153,11 +153,15 @@ export default function CrearScreen({ ...props }) {
 
             <Text style={[styles.text]}>Descripción de la publicación *</Text>
 
-            <TextInput
-                multiline
-                style={[styles.input, { height: 100 }]}
-                onChangeText={text => onChangeDescription(text)}
-                value={description} />
+            <ScrollView style={[styles.scrollView]}>
+
+                <TextInput
+                    multiline
+                    style={[styles.input, { height: 150 }]}
+                    onChangeText={text => onChangeDescription(text)}
+                    value={description} />
+
+            </ScrollView>
 
             <TouchableOpacity
                 style={{ alignItems: "center", justifyContent: "center", flexDirection: "row", marginHorizontal: 80 }}
@@ -278,5 +282,6 @@ const styles = StyleSheet.create({
         fontFamily: "courgette",
         fontSize: 15
     },
+    scrollView: { marginTop: 15, marginBottom: 10, },
     viewFile: { width: 150, height: 150, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: "#c96eb7", margin: 15 }
 });

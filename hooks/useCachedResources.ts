@@ -35,7 +35,7 @@ export default function useCachedResources() {
 
         if (!global.firebase) {
 
-          firebase.initializeApp({
+         await firebase.initializeApp({
 
             apiKey: 'AIzaSyAvCVeh6YBJar7VuhRhazArN5T0qLzCzvY',
 

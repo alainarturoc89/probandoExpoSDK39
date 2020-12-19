@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { Video } from 'expo-av';
 import { Text, View, FlatList, Image, TouchableOpacity, Ionicons, Modal } from '../../components/Elements';
 import { dimensions } from "../../styles/base";
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function PublicacionScreen({ ...props }) {
 
@@ -30,9 +31,7 @@ export default function PublicacionScreen({ ...props }) {
 
     <View style={styles.container}>
 
-      <Text style={[{ fontFamily: "courgette", fontSize: 21, textAlign: "center", marginBottom: 30 }]}>Información de la publicación</Text>
-
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
+     <View style={{ flexDirection: "row", alignItems: "center" }}>
 
         <Text style={[styles.title, { flex: 0.7 }]}>{props.item.title}</Text>
 
@@ -40,7 +39,11 @@ export default function PublicacionScreen({ ...props }) {
 
       </View>
 
-      <Text style={[styles.description]}>{props.item.description}</Text>
+      <ScrollView style={[styles.scrollView]}>
+
+        <Text style={[styles.description]}>{props.item.description}</Text>
+        
+      </ScrollView>
 
       {
         props.item.images && <FlatList
@@ -90,7 +93,7 @@ export default function PublicacionScreen({ ...props }) {
         </TouchableOpacity>
 
         {
-          item && <View style={[{ flex: 1, marginVertical: 20 }]}>
+          item && <View style={[{ flex: 1, marginVertical: 10 }]}>
 
             {
               item.type === "video"
@@ -129,6 +132,7 @@ const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },
   title: { fontSize: 19, fontFamily: "courgette" },
   date: { fontSize: 15, fontFamily: "courgette" },
-  description: { fontSize: 17, marginTop: 15, marginBottom: 10, fontFamily: "courgette" },
+  scrollView:{marginTop: 15, marginBottom: 10,},
+  description: { fontSize: 17,  fontFamily: "courgette" },
   viewFile: { width: 150, height: 150, alignItems: "center", justifyContent: "center", borderWidth: 0.5, borderColor: "#c96eb7", borderRadius: 5, margin: 15 }
 });

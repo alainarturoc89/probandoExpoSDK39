@@ -39,7 +39,21 @@ function useNotifications() {
 
 }
 
-async function sendPushNotification(message: any) {
+async function sendPushNotification(data: any) {
+    let tokens = new Array;
+    await global.firebase.database().ref('/users/').once('value').then((snapshot) => {
+        tokens = Object.values(snapshot.val()).map((user: any) => { return user.token });
+    });
+    let notifications = [];
+    for (let token of tokens) {
+        if (token === "") { continue; }
+        notifications.push({
+            to: token,
+            title: data.title,
+            body: data.body,
+            android: { channelId: 'lisbet' }
+        })
+    }
     await fetch('https://exp.host/--/api/v2/push/send', {
         method: 'POST',
         headers: {
@@ -47,7 +61,7 @@ async function sendPushNotification(message: any) {
             'Accept-encoding': 'gzip, deflate',
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(message),
+        body: JSON.stringify(notifications),
     });
 }
 
@@ -70,11 +84,11 @@ async function registerForPushNotificationsAsync() {
     }
 
     if (Platform.OS === 'android') {
-        Notifications.setNotificationChannelAsync('default', {
-            name: 'default',
+        Notifications.setNotificationChannelAsync('lisbet', {
+            name: 'lisbet',
             importance: Notifications.AndroidImportance.MAX,
             vibrationPattern: [0, 250, 250, 250],
-            lightColor: '#FF231F7C',
+            lightColor: '#FF231F7C'
         });
     }
 

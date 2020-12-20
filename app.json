@@ -25,7 +25,8 @@
       "package": "alainarturoc.lisbet",
       "icon": "./assets/images/alain_lisbet.png",
       "versionCode": 1,
-      "useNextNotificationsApi": true
+      "useNextNotificationsApi": true,
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/images/alain_lisbet.png"

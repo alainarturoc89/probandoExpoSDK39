@@ -1,8 +1,6 @@
 import * as firebase from 'firebase';
 
-import "firebase/firestore";
-
-firebase.initializeApp({
+const firebaseConfig = {
 
     apiKey: 'AIzaSyAhnlp7RcK6YAVH35puEuL7BpCYZTe4IWw',
 
@@ -18,11 +16,8 @@ firebase.initializeApp({
 
     appId: '1:853129856245:android:88d80ddbd2552b647931bc'
 
-});
-
-const db = firebase.firestore();
-
-export {
-    firebase,
-    db
 }
+
+firebase.initializeApp(firebaseConfig);
+
+export { firebase }

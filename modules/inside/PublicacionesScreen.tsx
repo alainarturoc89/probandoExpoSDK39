@@ -37,7 +37,7 @@ export default function PublicacionesScreen({ ...props }) {
 
         changeLoaded(true);
 
-       await firebase.database().ref('publications').on("value", function (snapshot: any) {
+        await firebase.database().ref('publications').on("value", function (snapshot: any) {
 
           changeLoading(false);
 

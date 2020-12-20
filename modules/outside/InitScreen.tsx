@@ -21,8 +21,8 @@ export default function InitScreen({ ...props }) {
     if (email !== "" && password !== "") {
 
       changeLoading(true);
-      
-      await firebase.auth().signInWithEmailAndPassword(email, password)
+
+      firebase.auth().signInWithEmailAndPassword(email, password)
 
         .then((user) => {
 

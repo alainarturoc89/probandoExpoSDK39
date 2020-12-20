@@ -31,7 +31,7 @@ export default function PublicacionesScreen({ ...props }) {
   async function cargaInicial() {
 
     if (!loaded) {
-      if (await firebase.auth().currentUser !== null) {
+      if (firebase.auth().currentUser !== null) {
 
         changeLoading(true);
 

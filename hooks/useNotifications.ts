@@ -9,15 +9,10 @@ async function sendPushNotification(data: any) {
     await firebase.database().ref('/users/').once('value').then((snapshot) => {
         tokens = Object.values(snapshot.val()).map((user: any) => { return user.token });
     });
-    let notifications = [];
+    let to = [];
     for (let token of tokens) {
         if (token === "") { continue; }
-        notifications.push({
-            to: token,
-            title: data.title,
-            body: data.body,
-            android: { channelId: 'lisbet' }
-        })
+        to.push(token)
     }
     await fetch('https://exp.host/--/api/v2/push/send', {
         method: 'POST',
@@ -26,7 +21,12 @@ async function sendPushNotification(data: any) {
             'Accept-encoding': 'gzip, deflate',
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(notifications),
+        body: JSON.stringify({
+            to,
+            title: data.title,
+            body: data.body,
+            android: { channelId: 'lisbet' }
+        }),
     });
 }
 

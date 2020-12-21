@@ -162,7 +162,7 @@ export default function EdiatrScreen({ route: { params } }) {
 
             <TextInput
                 multiline
-                style={[styles.input, { height: 150 }]}
+                style={[styles.input, { height: 150, textAlignVertical: "top" }]}
                 onChangeText={text => onChangeDescription(text)}
                 value={description} />
 
@@ -288,7 +288,7 @@ export default function EdiatrScreen({ route: { params } }) {
 
 const styles = StyleSheet.create({
     container: { flex: 1, padding: 20 },
-    text: { fontFamily: "courgette", fontSize: 18 },
+    text: { fontFamily: "courgette", fontSize: 18, marginBottom: 2 },
     input: {
         height: 50,
         borderRadius: 3,

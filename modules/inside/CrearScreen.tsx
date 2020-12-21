@@ -154,11 +154,9 @@ export default function CrearScreen({ route: { params } }) {
 
             <Text style={[styles.text]}>Descripción de la publicación *</Text>
 
-
-
             <TextInput
                 multiline
-                style={[styles.input, { height: 150 }]}
+                style={[styles.input, { height: 150, textAlignVertical: "top" }]}
                 onChangeText={text => onChangeDescription(text)}
                 value={description} />
 
@@ -270,7 +268,7 @@ export default function CrearScreen({ route: { params } }) {
 
 const styles = StyleSheet.create({
     container: { flex: 1, padding: 20 },
-    text: { fontFamily: "courgette", fontSize: 18 },
+    text: { fontFamily: "courgette", fontSize: 18, marginBottom:2 },
     input: {
         height: 50,
         borderRadius: 3,
@@ -279,7 +277,7 @@ const styles = StyleSheet.create({
         marginBottom: 25,
         paddingHorizontal: 5,
         fontFamily: "courgette",
-        fontSize: 15
+        fontSize: 15,
     },
     viewFile: { width: 150, height: 150, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: "#c96eb7", margin: 15 }
 });

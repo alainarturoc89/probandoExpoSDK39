@@ -33,7 +33,7 @@ export default function useCachedResources() {
         });
 
       }
-      catch (e) { console.warn(e); }
+      catch (e) {  }
 
       finally {
 

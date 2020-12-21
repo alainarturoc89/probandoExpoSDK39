@@ -140,7 +140,7 @@ export default function CrearScreen({ route: { params } }) {
     }
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
 
             <Text style={[{ fontFamily: "courgette", fontSize: 21, textAlign: "center", marginBottom: 30 }]}>Crear publicación</Text>
 
@@ -154,15 +154,13 @@ export default function CrearScreen({ route: { params } }) {
 
             <Text style={[styles.text]}>Descripción de la publicación *</Text>
 
-            <ScrollView style={[styles.scrollView]}>
 
-                <TextInput
-                    multiline
-                    style={[styles.input, { height: 150 }]}
-                    onChangeText={text => onChangeDescription(text)}
-                    value={description} />
 
-            </ScrollView>
+            <TextInput
+                multiline
+                style={[styles.input, { height: 150 }]}
+                onChangeText={text => onChangeDescription(text)}
+                value={description} />
 
             <TouchableOpacity
                 style={{ alignItems: "center", justifyContent: "center", flexDirection: "row", marginHorizontal: 80 }}
@@ -266,7 +264,7 @@ export default function CrearScreen({ route: { params } }) {
                     </View>
                 }
             </Modal>
-        </View>
+        </ScrollView>
     );
 }
 
@@ -283,6 +281,5 @@ const styles = StyleSheet.create({
         fontFamily: "courgette",
         fontSize: 15
     },
-    scrollView: { marginTop: 15, marginBottom: 10, },
     viewFile: { width: 150, height: 150, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: "#c96eb7", margin: 15 }
 });

@@ -146,7 +146,7 @@ export default function EdiatrScreen({ route: { params } }) {
     }
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
 
             <Text style={[{ fontFamily: "courgette", fontSize: 21, textAlign: "center", marginBottom: 30 }]}>Editar publicación</Text>
 
@@ -282,7 +282,7 @@ export default function EdiatrScreen({ route: { params } }) {
                 }
             </Modal>
 
-        </View>
+        </ScrollView>
     );
 }
 
@@ -299,6 +299,5 @@ const styles = StyleSheet.create({
         fontFamily: "courgette",
         fontSize: 15
     },
-    scrollView: { marginTop: 15, marginBottom: 10, },
     viewFile: { width: 150, height: 150, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: "#c96eb7", margin: 15 }
 });

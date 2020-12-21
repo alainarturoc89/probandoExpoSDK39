@@ -13,6 +13,9 @@ export type OutsideStack = {
 
 export type InsideStack = {
   PublicacionesScreen: undefined;
+  CrearScreen: undefined;
+  EditarScreen: undefined;
+  PublicacionScreen: undefined;
 }
 
 export type CommonStack = {

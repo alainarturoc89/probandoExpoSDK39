@@ -5,7 +5,7 @@ import { Text, View, FlatList, Image, TouchableOpacity, Ionicons, Modal } from '
 import { dimensions } from "../../styles/base";
 import { ScrollView } from 'react-native-gesture-handler';
 
-export default function PublicacionScreen({ ...props }) {
+export default function PublicacionScreen({ route: { params } }) {
 
   const [modalVisible, changeModalVisible] = React.useState(false);
 
@@ -31,23 +31,23 @@ export default function PublicacionScreen({ ...props }) {
 
     <View style={styles.container}>
 
-     <View style={{ flexDirection: "row", alignItems: "center" }}>
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
 
-        <Text style={[styles.title, { flex: 0.7 }]}>{props.item.title}</Text>
+        <Text style={[styles.title, { flex: 0.7 }]}>{params.item.title}</Text>
 
-        <Text style={[styles.date, { flex: 0.3 }]}>{props.item.date}</Text>
+        <Text style={[styles.date, { flex: 0.3 }]}>{params.item.date}</Text>
 
       </View>
 
       <ScrollView style={[styles.scrollView]}>
 
-        <Text style={[styles.description]}>{props.item.description}</Text>
-        
+        <Text style={[styles.description]}>{params.item.description}</Text>
+
       </ScrollView>
 
       {
-        props.item.images && <FlatList
-          data={props.item.images}
+        params.item.images && <FlatList
+          data={params.item.images}
           keyExtractor={(item: object, index: number) => index.toString()}
           numColumns={2}
           renderItem={({ item, index }) => {
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },
   title: { fontSize: 19, fontFamily: "courgette" },
   date: { fontSize: 15, fontFamily: "courgette" },
-  scrollView:{marginTop: 15, marginBottom: 10,},
-  description: { fontSize: 17,  fontFamily: "courgette" },
+  scrollView: { marginTop: 15, marginBottom: 10, },
+  description: { fontSize: 17, fontFamily: "courgette" },
   viewFile: { width: 150, height: 150, alignItems: "center", justifyContent: "center", borderWidth: 0.5, borderColor: "#c96eb7", borderRadius: 5, margin: 15 }
 });

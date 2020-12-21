@@ -7,7 +7,7 @@ import * as Permissions from 'expo-permissions';
 import { TextInput, View, TouchableOpacity, Text, FlatList, Image, Ionicons, ActivityIndicator, Modal, ScrollView } from '../../components/Elements';
 import { firebase } from "../../hooks/useFirebase";
 
-export default function CrearScreen({ ...props }) {
+export default function CrearScreen({ route: { params } }) {
 
     const [title, onChangeTitle] = React.useState('');
 
@@ -41,7 +41,7 @@ export default function CrearScreen({ ...props }) {
 
         if (title !== "" && description !== "") {
 
-            props.crear({ title, description, images });
+            params.crear({ title, description, images });
 
         } else {
 
@@ -78,7 +78,7 @@ export default function CrearScreen({ ...props }) {
 
         });
 
-        let refs = await firebase.storage().ref().child(props.refe + name);
+        let refs = await firebase.storage().ref().child(params.refe + name);
 
         const snapshot = await refs.put(blob);
 
@@ -123,7 +123,7 @@ export default function CrearScreen({ ...props }) {
 
         onChangeLoading(true);
 
-        let refs = await firebase.storage().ref().child(props.refe + file.item.filename);
+        let refs = await firebase.storage().ref().child(params.refe + file.item.filename);
 
         refs.delete().then(function () {
 

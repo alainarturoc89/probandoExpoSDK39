@@ -1,9 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, Alert } from 'react-native';
-import { SafeAreaView, FlatList, View, Image, Text, TouchableOpacity, Modal, ActivityIndicator, Ionicons } from '../../components/Elements';
-import PublicacionScreen from "./PublicacionScreen";
-import CrearScreen from "./CrearScreen";
-import EditarScreen from "./EditarScreen";
+import { SafeAreaView, FlatList, View, Image, Text, TouchableOpacity, ActivityIndicator, Ionicons } from '../../components/Elements';
 import { sendPushNotification } from "../../hooks/useNotifications";
 import { firebase } from "../../hooks/useFirebase";
 
@@ -13,20 +10,11 @@ export default function PublicacionesScreen({ ...props }) {
 
   const [loading, changeLoading] = React.useState(false);
 
-  const [modalVisible, changeModalVisible] = React.useState(false);
-
-  const [typeModal, changeTypeModal] = React.useState(null);
-
   const [data, changeData] = React.useState([]);
-
-  const [item, changeItem] = React.useState(null);
 
   const [publicationKey, changePublicationKey] = React.useState(null);
 
   const [date, changeDate] = React.useState(null);
-
-  const [refe, changeRefe] = React.useState(null);
-
 
   async function cargaInicial() {
 
@@ -83,58 +71,17 @@ export default function PublicacionesScreen({ ...props }) {
         day = '0' + day;
 
       let date = [day, month, year].join('-');
+
       changeDate(date);
 
       let refe = 'publication_contents/' + publicationKey + "/" + date + '_';
 
-      changeRefe(refe);
-
-      changeTypeModal("create");
-
-      changeItem(null);
-
-      changeModalVisible(true);
+      props.navigation.navigate("CrearScreen", { crear, date, refe });
 
     }
   }
 
-  async function showEdit(item: any) {
-
-    changeTypeModal("edit");
-
-    changePublicationKey(item.key);
-
-    changeItem(item);
-
-    changeModalVisible(true);
-
-  }
-
-  async function showShow(item: any) {
-
-    changeTypeModal("show");
-
-    changeItem(item);
-
-    changeModalVisible(true);
-
-  }
-
-  async function cerrar() {
-
-    changeTypeModal(null);
-
-    changeItem(null);
-
-    changeModalVisible(false);
-
-  }
-
   async function crear(el: any) {
-
-    changeItem(null);
-
-    changeModalVisible(false);
 
     var publication = {
 
@@ -158,17 +105,21 @@ export default function PublicacionesScreen({ ...props }) {
 
     await firebase.database().ref().update(updates);
 
+    props.navigation.navigate("PublicacionesScreen");
+
     sendPushNotification({ title: 'Nueva publicación', body: `${global.user.email} ha creado una publicación` });
+
+  }
+
+  async function showEdit(item: any) {
+
+    props.navigation.navigate("EditarScreen", { item, editar });
 
   }
 
   async function editar(item: any) {
 
-    changeItem(null);
-
-    changeModalVisible(false);
-
-    await firebase.database().ref('publications/' + publicationKey).set({
+    await firebase.database().ref('publications/' + item.refe).set({
 
       date: item.date,
 
@@ -178,13 +129,21 @@ export default function PublicacionesScreen({ ...props }) {
 
       title: item.title,
 
-      key: publicationKey,
+      key: item.refe,
 
       uid: global.user.uid
 
     });
 
+    props.navigation.navigate("PublicacionesScreen");
+
     sendPushNotification({ title: 'Publicación editada', body: `${global.user.email} ha modificado una publicación` });
+
+  }
+
+  async function showShow(item: any) {
+
+    props.navigation.navigate("PublicacionScreen", { item });
 
   }
 
@@ -220,8 +179,6 @@ export default function PublicacionesScreen({ ...props }) {
   async function del(ref: any) {
 
     await firebase.database().ref('publications/' + ref).remove();
-
-    changeItem(null);
 
     if (data.length === 1)
 
@@ -289,37 +246,6 @@ export default function PublicacionesScreen({ ...props }) {
       {loading && <ActivityIndicator size="large" color="#c96eb7" />}
 
       <FlatList data={data} renderItem={renderItem} keyExtractor={item => item.title} />
-
-      <Modal animationType="slide" visible={modalVisible}>
-
-        <View style={[{ flex: 1, marginVertical: 10 }]}>
-
-          <View style={[{ alignItems: "center" }]}>
-
-            <TouchableOpacity
-              style={{ alignItems: "center", maxWidth: 60 }}
-              onPress={() => cerrar()}>
-
-              <Ionicons name="md-close-circle" size={70} color="#CD0D0D" />
-
-            </TouchableOpacity>
-
-          </View>
-
-          {typeModal === "create"
-
-            ? <CrearScreen crear={crear} date={date} refe={refe} />
-
-            : typeModal === "edit"
-
-              ? <EditarScreen item={item} editar={editar} date={date} refe={refe} />
-
-              : <PublicacionScreen item={item} />
-          }
-
-        </View>
-
-      </Modal>
 
     </SafeAreaView>
 

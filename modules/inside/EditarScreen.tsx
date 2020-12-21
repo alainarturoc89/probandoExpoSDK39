@@ -7,15 +7,17 @@ import * as Permissions from 'expo-permissions';
 import { TextInput, View, TouchableOpacity, Text, FlatList, Image, Ionicons, ActivityIndicator, Modal, ScrollView } from '../../components/Elements';
 import { firebase } from "../../hooks/useFirebase";
 
-export default function EdiatrScreen({ ...props }) {
+export default function EdiatrScreen({ route: { params } }) {
 
-    const [date] = React.useState(props.item.date);
+    const [date] = React.useState(params.item.date);
 
-    const [title, onChangeTitle] = React.useState(props.item.title);
+    const [refe] = React.useState(params.item.key);
 
-    const [description, onChangeDescription] = React.useState(props.item.description);
+    const [title, onChangeTitle] = React.useState(params.item.title);
 
-    const [images, onChangeImages] = React.useState(props.item.images ?? []);
+    const [description, onChangeDescription] = React.useState(params.item.description);
+
+    const [images, onChangeImages] = React.useState(params.item.images ?? []);
 
     const [loading, onChangeLoading] = React.useState(false);
 
@@ -27,7 +29,7 @@ export default function EdiatrScreen({ ...props }) {
 
         if (title !== "" && description !== "") {
 
-            props.editar({ title, description, images, date });
+            params.editar({ title, description, images, date, refe });
 
         } else {
 
@@ -66,7 +68,7 @@ export default function EdiatrScreen({ ...props }) {
 
         });
 
-        let refs = await firebase.storage().ref().child(props.refe + name);
+        let refs = await firebase.storage().ref().child(refe + name);
 
         const snapshot = await refs.put(blob);
 
@@ -111,7 +113,7 @@ export default function EdiatrScreen({ ...props }) {
 
         onChangeLoading(true);
 
-        let refs = await firebase.storage().ref().child(props.refe + file.item.filename);
+        let refs = await firebase.storage().ref().child(refe + file.item.filename);
 
         refs.delete().then(function () {
 

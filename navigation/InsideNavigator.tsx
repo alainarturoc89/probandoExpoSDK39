@@ -3,6 +3,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
 import { Ionicons, View, TouchableOpacity } from "../components/Elements";
 import PublicacionesScreen from '../modules/inside/PublicacionesScreen';
+import CrearScreen from '../modules/inside/CrearScreen';
+import EditarScreen from '../modules/inside/EditarScreen';
+import PublicacionScreen from '../modules/inside/PublicacionScreen';
 import HelpScreen from '../modules/common/help/HelpScreen';
 import { InsideStack } from '../types';
 import { firebase } from "../hooks/useFirebase";
@@ -63,7 +66,7 @@ export default function InitNavigator({ ...props }) {
                 await firebase.auth().signOut().then(function () {
 
                     props.navigation.navigate('Outside');
-                    
+
                 })
                     .catch(function (error) {
                     });
@@ -77,6 +80,30 @@ export default function InitNavigator({ ...props }) {
         }}>
 
             <InsideStack.Screen name="PublicacionesScreen" component={InsideTab} />
+
+            <InsideStack.Screen name="CrearScreen" component={CrearScreen} options={{
+                headerLeft: () => <TouchableOpacity style={{ marginLeft: 10, maxWidth: 55 }} onPress={() => { props.navigation.navigate("PublicacionesScreen"); }}>
+
+                    <Ionicons name="ios-arrow-back" size={40} color="#fff" />
+
+                </TouchableOpacity>
+            }} />
+
+            <InsideStack.Screen name="EditarScreen" component={EditarScreen} options={{
+                headerLeft: () => <TouchableOpacity style={{ marginLeft: 10, maxWidth: 55 }} onPress={() => { props.navigation.navigate("PublicacionesScreen"); }}>
+
+                    <Ionicons name="ios-arrow-back" size={40} color="#fff" />
+
+                </TouchableOpacity>
+            }} />
+
+            <InsideStack.Screen name="PublicacionScreen" component={PublicacionScreen} options={{
+                headerLeft: () => <TouchableOpacity style={{ marginLeft: 10, maxWidth: 55}} onPress={() => { props.navigation.navigate("PublicacionesScreen"); }}>
+
+                    <Ionicons name="ios-arrow-back" size={40} color="#fff" />
+
+                </TouchableOpacity>
+            }} />
 
         </InsideStack.Navigator>
 

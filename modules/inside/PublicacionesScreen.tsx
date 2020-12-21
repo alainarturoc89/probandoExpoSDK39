@@ -12,10 +12,6 @@ export default function PublicacionesScreen({ ...props }) {
 
   const [data, changeData] = React.useState([]);
 
-  const [publicationKey, changePublicationKey] = React.useState(null);
-
-  const [date, changeDate] = React.useState(null);
-
   async function cargaInicial() {
 
     if (!loaded) {
@@ -52,8 +48,6 @@ export default function PublicacionesScreen({ ...props }) {
 
       let publicationKey = await firebase.database().ref('publications').push().key;
 
-      changePublicationKey(publicationKey);
-
       let d = new Date(),
 
         month = '' + (d.getMonth() + 1),
@@ -72,11 +66,9 @@ export default function PublicacionesScreen({ ...props }) {
 
       let date = [day, month, year].join('-');
 
-      changeDate(date);
-
       let refe = 'publication_contents/' + publicationKey + "/" + date + '_';
 
-      props.navigation.navigate("CrearScreen", { crear, date, refe });
+      props.navigation.navigate("CrearScreen", { crear, date, refe, publicationKey });
 
     }
   }
@@ -85,7 +77,7 @@ export default function PublicacionesScreen({ ...props }) {
 
     var publication = {
 
-      date: date,
+      date: el.date,
 
       description: el.description,
 
@@ -93,7 +85,7 @@ export default function PublicacionesScreen({ ...props }) {
 
       title: el.title,
 
-      key: publicationKey,
+      key: el.key,
 
       uid: global.user.uid
 
@@ -101,13 +93,13 @@ export default function PublicacionesScreen({ ...props }) {
 
     var updates = {};
 
-    updates['/publications/' + publicationKey] = publication;
+    updates['/publications/' + el.key] = publication;
 
     await firebase.database().ref().update(updates);
 
-    props.navigation.navigate("PublicacionesScreen");
-
     sendPushNotification({ title: 'Nueva publicación', body: `${global.user.email} ha creado una publicación` });
+
+    props.navigation.navigate("PublicacionesScreen");
 
   }
 
@@ -119,7 +111,7 @@ export default function PublicacionesScreen({ ...props }) {
 
   async function editar(item: any) {
 
-    await firebase.database().ref('publications/' + item.refe).set({
+    await firebase.database().ref('publications/' + item.key).set({
 
       date: item.date,
 
@@ -129,15 +121,15 @@ export default function PublicacionesScreen({ ...props }) {
 
       title: item.title,
 
-      key: item.refe,
+      key: item.key,
 
       uid: global.user.uid
 
     });
 
-    props.navigation.navigate("PublicacionesScreen");
-
     sendPushNotification({ title: 'Publicación editada', body: `${global.user.email} ha modificado una publicación` });
+
+    props.navigation.navigate("PublicacionesScreen");
 
   }
 

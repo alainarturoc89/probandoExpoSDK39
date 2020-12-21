@@ -11,7 +11,7 @@ export default function EdiatrScreen({ route: { params } }) {
 
     const [date] = React.useState(params.item.date);
 
-    const [refe] = React.useState(params.item.key);
+    const [key] = React.useState(params.item.key);
 
     const [title, onChangeTitle] = React.useState(params.item.title);
 
@@ -29,7 +29,7 @@ export default function EdiatrScreen({ route: { params } }) {
 
         if (title !== "" && description !== "") {
 
-            params.editar({ title, description, images, date, refe });
+            params.editar({ title, description, images, date, key });
 
         } else {
 
@@ -67,6 +67,8 @@ export default function EdiatrScreen({ route: { params } }) {
             xhr.send(null);
 
         });
+
+        let refe = 'publication_contents/' + params.item.key + "/" + params.item.date + '_';
 
         let refs = await firebase.storage().ref().child(refe + name);
 
@@ -112,6 +114,8 @@ export default function EdiatrScreen({ route: { params } }) {
     async function delFile(file: any) {
 
         onChangeLoading(true);
+
+        let refe = 'publication_contents/' + params.item.key + "/" + params.item.date + '_';
 
         let refs = await firebase.storage().ref().child(refe + file.item.filename);
 

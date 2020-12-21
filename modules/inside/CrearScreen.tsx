@@ -41,7 +41,7 @@ export default function CrearScreen({ route: { params } }) {
 
         if (title !== "" && description !== "") {
 
-            params.crear({ title, description, images });
+            params.crear({ title, description, images, date: params.date, key: params.publicationKey });
 
         } else {
 
@@ -268,7 +268,7 @@ export default function CrearScreen({ route: { params } }) {
 
 const styles = StyleSheet.create({
     container: { flex: 1, padding: 20 },
-    text: { fontFamily: "courgette", fontSize: 18, marginBottom:2 },
+    text: { fontFamily: "courgette", fontSize: 18, marginBottom: 2 },
     input: {
         height: 50,
         borderRadius: 3,

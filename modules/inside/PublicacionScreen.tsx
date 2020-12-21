@@ -39,11 +39,7 @@ export default function PublicacionScreen({ route: { params } }) {
 
       </View>
 
-      <ScrollView style={[styles.scrollView]}>
-
-        <Text style={[styles.description]}>{params.item.description}</Text>
-
-      </ScrollView>
+      <Text style={[styles.description]}>{params.item.description}</Text>
 
       {
         params.item.images && <FlatList
@@ -132,7 +128,6 @@ const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },
   title: { fontSize: 19, fontFamily: "courgette" },
   date: { fontSize: 15, fontFamily: "courgette" },
-  scrollView: { marginTop: 15, marginBottom: 10, },
-  description: { fontSize: 17, fontFamily: "courgette" },
+  description: { fontSize: 17, fontFamily: "courgette",marginTop: 15, marginBottom: 10, },
   viewFile: { width: 150, height: 150, alignItems: "center", justifyContent: "center", borderWidth: 0.5, borderColor: "#c96eb7", borderRadius: 5, margin: 15 }
 });

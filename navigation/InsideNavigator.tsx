@@ -60,22 +60,7 @@ export default function InitNavigator({ ...props }) {
 
                 <View style={{ marginRight: 10 }}><Ionicons name="ios-flower" size={32} color="#fff" /></View>
 
-            </View>,
-            headerRight: () => <TouchableOpacity style={{ alignItems: "center", marginRight: 10 }} onPress={async () => {
-
-                await firebase.auth().signOut().then(function () {
-
-                    props.navigation.navigate('Outside');
-
-                })
-                    .catch(function (error) {
-                    });
-
-            }}>
-
-                <Ionicons name="ios-power" size={40} color="#fff" />
-
-            </TouchableOpacity>
+            </View>
 
         }}>
 
@@ -98,7 +83,7 @@ export default function InitNavigator({ ...props }) {
             }} />
 
             <InsideStack.Screen name="PublicacionScreen" component={PublicacionScreen} options={{
-                headerLeft: () => <TouchableOpacity style={{ marginLeft: 10, maxWidth: 55}} onPress={() => { props.navigation.navigate("PublicacionesScreen"); }}>
+                headerLeft: () => <TouchableOpacity style={{ marginLeft: 10, maxWidth: 55 }} onPress={() => { props.navigation.navigate("PublicacionesScreen"); }}>
 
                     <Ionicons name="ios-arrow-back" size={40} color="#fff" />
 

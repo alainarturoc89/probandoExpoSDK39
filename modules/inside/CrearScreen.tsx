@@ -222,6 +222,7 @@ export default function CrearScreen({ route: { params } }) {
                             </View>
                 }}
             />
+            
             <TouchableOpacity
                 style={[{ padding: 10, backgroundColor: "#c96eb7", marginTop: 15, borderRadius: 5, marginHorizontal: 20 }]}
                 onPress={() => crear()}>

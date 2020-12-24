@@ -1,16 +1,22 @@
 import * as React from 'react';
 import { StyleSheet, Alert } from 'react-native';
-import { SafeAreaView, FlatList, View, Image, Text, TouchableOpacity, ActivityIndicator, Ionicons } from '../../components/Elements';
+import { SafeAreaView, FlatList, View, Image, Text, TextInput, TouchableOpacity, ActivityIndicator, Ionicons } from '../../components/Elements';
 import { sendPushNotification } from "../../hooks/useNotifications";
 import { firebase } from "../../hooks/useFirebase";
 
 export default function PublicacionesScreen({ ...props }) {
+
+  const [search, changeSearch] = React.useState("");
+
+  const [isFocusSearch, changeIsFocusSearch] = React.useState(false);
 
   const [loaded, changeLoaded] = React.useState(false);
 
   const [loading, changeLoading] = React.useState(false);
 
   const [data, changeData] = React.useState([]);
+
+  const [copyData, changeCopyData] = React.useState([]);
 
   async function cargaInicial() {
 
@@ -27,7 +33,11 @@ export default function PublicacionesScreen({ ...props }) {
 
           if (snapshot.val()) {
 
-            changeData(Object.values(snapshot.val()).reverse());
+            let d = Object.values(snapshot.val()).reverse();
+
+            changeData(d);
+
+            changeCopyData(d);
 
           }
         }, function (errorObject: any) {
@@ -180,6 +190,32 @@ export default function PublicacionesScreen({ ...props }) {
 
   }
 
+  async function filter(filtro = null, op_cl = null) {
+
+    changeSearch(filtro);
+
+    if (filtro) {
+
+      let filterData = copyData.filter(el => {
+
+        return el.title.toLowerCase().indexOf(filtro.toLowerCase()) > -1;
+
+      });
+
+      changeData(filterData);
+
+    } else {
+
+      changeData(copyData);
+
+      if (op_cl)
+
+        changeIsFocusSearch(!isFocusSearch);
+
+    }
+
+  }
+
   const renderItem = ({ item }) => {
 
     return <View style={[styles.item]}>
@@ -192,7 +228,7 @@ export default function PublicacionesScreen({ ...props }) {
 
       </TouchableOpacity>
 
-      <View style={[{ justifyContent: "center" }]}>
+      <View style={[{ justifyContent: "center", flex: 0.30, alignItems: "center" }]}>
 
         <Text style={styles.date}>{item.date}</Text>
 
@@ -222,14 +258,20 @@ export default function PublicacionesScreen({ ...props }) {
 
     <SafeAreaView style={styles.container}>
 
-      <View style={[{ alignItems: "center" }]}>
+      <View style={[styles.viewSearch, isFocusSearch ? { borderColor: '#c96eb7', borderBottomWidth: 0.5, } : {}]}>
+
+        {isFocusSearch && <TextInput
+          style={[styles.inputSearch]}
+          onChangeText={search => { filter(search); }}
+          autoFocus
+          value={search} />}
 
         <TouchableOpacity
 
-          style={{ alignItems: "center", marginHorizontal: 1, maxWidth: 60 }}
-          onPress={() => showCreate()}>
+          style={[styles.touchableSearch]}
+          onPress={() => filter(null, true)}>
 
-          <Ionicons name="md-add-circle" size={70} color="#c96eb7" />
+          <Ionicons name={!isFocusSearch ? "ios-search" : "ios-close"} size={40} color="#c96eb7" />
 
         </TouchableOpacity>
 
@@ -239,6 +281,15 @@ export default function PublicacionesScreen({ ...props }) {
 
       <FlatList data={data} renderItem={renderItem} keyExtractor={item => item.title} />
 
+      <TouchableOpacity
+
+        style={[styles.butoomCreate]}
+        onPress={() => showCreate()}>
+
+        <Ionicons name="md-add-circle" size={70} color="#c96eb7" />
+
+      </TouchableOpacity>
+
     </SafeAreaView>
 
   );
@@ -246,12 +297,16 @@ export default function PublicacionesScreen({ ...props }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff' },
+  viewSearch: { marginHorizontal: 10, marginTop: 10, flexDirection: "row", alignItems: "center",/* borderColor: '#c96eb7', borderBottomWidth: 0.5,*/ },
+  inputSearch: { flex: 0.90, height: 40, paddingHorizontal: 5, fontFamily: "courgette", fontSize: 15, },
+  touchableSearch: { flex: 0.10, width: 40, height: 40 },
+  butoomCreate: { width: 60, height: 60, position: 'absolute', bottom: 10, left: 10, },
   item: { height: 80, flexDirection: "row", marginHorizontal: 3, borderBottomWidth: 0.5, borderColor: "#c96eb7", alignItems: "center" },
-  first: { flex: 0.95, flexDirection: "row", alignItems: "center" },
+  first: { flex: 0.70, flexDirection: "row", alignItems: "center" },
   image: { height: 40, width: 40, marginRight: 10 },
   title: { fontSize: 19, fontFamily: 'courgette' },
   date: { fontSize: 15, fontFamily: 'courgette' },
   view_actions: { flexDirection: "row" },
-  edit: { flex: 0.5, alignItems: "flex-start", marginLeft: 5 },
-  delete: { flex: 0.5, alignItems: "flex-end", marginRight: 5 }
+  edit: { flex: 0.5, alignItems: "center", marginLeft: 5 },
+  delete: { flex: 0.5, alignItems: "center", marginRight: 5 }
 });

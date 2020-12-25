@@ -152,7 +152,7 @@ export default function EdiatrScreen({ route: { params } }) {
     return (
         <ScrollView style={styles.container}>
 
-            <Text style={[{ fontFamily: "courgette", fontSize: 21, textAlign: "center", marginBottom: 30 }]}>Editar publicación</Text>
+            <Text style={[{ fontFamily: "courgette", fontSize: 21, textAlign: "center", marginBottom: 15 }]}>Editar publicación</Text>
 
             <Text style={[styles.text]}>Título de la publicación *</Text>
 
@@ -291,14 +291,14 @@ export default function EdiatrScreen({ route: { params } }) {
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, padding: 20 },
+    container: { flex: 1, padding: 10 },
     text: { fontFamily: "courgette", fontSize: 18, marginBottom: 2 },
     input: {
         height: 50,
         borderRadius: 3,
         borderColor: '#c96eb7',
         borderWidth: 0.5,
-        marginBottom: 25,
+        marginBottom: 15,
         paddingHorizontal: 5,
         fontFamily: "courgette",
         fontSize: 15

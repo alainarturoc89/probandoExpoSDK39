@@ -142,7 +142,7 @@ export default function CrearScreen({ route: { params } }) {
     return (
         <ScrollView style={styles.container}>
 
-            <Text style={[{ fontFamily: "courgette", fontSize: 21, textAlign: "center", marginBottom: 30 }]}>Crear publicación</Text>
+            <Text style={[{ fontFamily: "courgette", fontSize: 21, textAlign: "center", marginBottom: 15 }]}>Crear publicación</Text>
 
             <Text style={[styles.text]}>Título de la publicación *</Text>
 
@@ -163,8 +163,11 @@ export default function CrearScreen({ route: { params } }) {
             <TouchableOpacity
                 style={{ alignItems: "center", justifyContent: "center", flexDirection: "row", marginHorizontal: 80 }}
                 onPress={loadFile}>
+               
                 <Text style={[{ marginRight: 5, color: "#c96eb7", fontSize: 20, fontFamily: "courgette" }]}>Adjuntar contenido</Text>
+               
                 <Ionicons name="md-attach" size={35} color="#c96eb7" />
+            
             </TouchableOpacity>
 
             {loading && <ActivityIndicator size="large" color="#c96eb7" />}
@@ -206,6 +209,7 @@ export default function CrearScreen({ route: { params } }) {
                                 </TouchableOpacity>
 
                             </View>
+                            
                             : <View style={{ flexDirection: "row" }}>
 
                                 <TouchableOpacity style={styles.viewFile} onPress={() => open(item)}>
@@ -217,6 +221,7 @@ export default function CrearScreen({ route: { params } }) {
                                 <TouchableOpacity style={{ marginLeft: -30, marginTop: 5 }} onPress={() => delFile({ item, index })}>
 
                                     <Ionicons name="md-close-circle" size={30} color="red" />
+                                
                                 </TouchableOpacity>
 
                             </View>
@@ -263,19 +268,20 @@ export default function CrearScreen({ route: { params } }) {
                     </View>
                 }
             </Modal>
+
         </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, padding: 20 },
+    container: { flex: 1, padding: 10 },
     text: { fontFamily: "courgette", fontSize: 18, marginBottom: 2 },
     input: {
         height: 50,
         borderRadius: 3,
         borderColor: '#c96eb7',
         borderWidth: 0.5,
-        marginBottom: 25,
+        marginBottom: 15,
         paddingHorizontal: 5,
         fontFamily: "courgette",
         fontSize: 15,

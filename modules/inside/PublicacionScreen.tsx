@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import { Video } from 'expo-av';
+import Slider from '@react-native-community/slider';
 import { Text, View, FlatList, Image, TouchableOpacity, Ionicons, Modal, TextInput } from '../../components/Elements';
 import { dimensions } from "../../styles/base";
 import { firebase } from "../../hooks/useFirebase";
@@ -16,7 +17,7 @@ export default function PublicacionScreen({ route: { params } }) {
 
   const [commentary, changeCommentary] = React.useState('');
 
-  const [rating, changeRating] = React.useState('');
+  const [rating, changeRating] = React.useState(0);
 
   const [loadedRatings, changeLoadedRatings] = React.useState(false);
 
@@ -32,7 +33,8 @@ export default function PublicacionScreen({ route: { params } }) {
 
         changeLoadedRatings(true);
 
-        aux = Object.values(snapshot.val()).reverse();
+        if (snapshot.val())
+          aux = Object.values(snapshot.val()).reverse();
 
         changeRatings(aux);
 
@@ -82,7 +84,7 @@ export default function PublicacionScreen({ route: { params } }) {
 
     changeCommentary("");
 
-    changeRating("");
+    changeRating(0);
 
     changeLoadedRatings(false);
 
@@ -94,7 +96,7 @@ export default function PublicacionScreen({ route: { params } }) {
 
     changeCommentary("");
 
-    changeRating("");
+    changeRating(0);
 
     changeCreateCommentaryVisible(false);
 
@@ -147,11 +149,7 @@ export default function PublicacionScreen({ route: { params } }) {
 
       </View>
 
-      <View style={[{ marginTop: 5 }]}>
-
-        <Text style={styles.commentary}>{item.commentary}</Text>
-
-      </View>
+      <Text style={styles.commentary}>{item.commentary}</Text>
 
     </View>
 
@@ -161,13 +159,7 @@ export default function PublicacionScreen({ route: { params } }) {
 
     <View style={styles.container}>
 
-      <View style={{ flexDirection: "row", marginHorizontal: 5, marginVertical: 10 }}>
-
-        <Text style={[styles.title, { flex: 0.7 }]}>{params.item.title}</Text>
-
-        <Text style={[styles.date, { flex: 0.3 }]}>{params.item.date}</Text>
-
-      </View>
+      <Text style={[styles.title]}>{params.item.title}</Text>
 
       <Text style={[styles.description, { marginHorizontal: 5 }]}>{params.item.description}</Text>
 
@@ -214,7 +206,7 @@ export default function PublicacionScreen({ route: { params } }) {
 
           <Text style={[styles.titleRatings, { marginRight: 10 }]}>Comentarios</Text>
 
-          <Ionicons name="md-chatbubbles" size={40} color="#FFC300" />
+          <Ionicons name="md-chatbubbles" size={30} color="#FFC300" />
 
         </View>
 
@@ -232,29 +224,46 @@ export default function PublicacionScreen({ route: { params } }) {
 
       </View>
 
-      {createCommentaryVisible && <View style={[{ backgroundColor: "#DFDFDF", paddingVertical: 15, paddingHorizontal: 20, marginVertical: 10, marginHorizontal: 3, borderRadius: 5 }]}>
+      {createCommentaryVisible && <View style={[styles.viewCreate]}>
 
-        <Text style={[styles.text]}>Creando comentario</Text>
+        <Text style={[styles.text]}>CREAR COMENTARIO</Text>
 
         <TextInput
           placeholder="Comentario... *"
           multiline
-          style={[styles.input, { height: 120, textAlignVertical: "top" }]}
+          style={[styles.input, { height: 150, textAlignVertical: "top" }]}
           onChangeText={text => changeCommentary(text)}
           value={commentary} />
 
-        <TextInput
-          placeholder="Calificación... *"
-          keyboardType="numeric"
-          style={[styles.input]}
-          onChangeText={text => changeRating(text)}
-          value={rating} />
+        <Text style={[styles.text]}>CALIFICAR</Text>
 
-        <View style={[{ flexDirection: "row", alignItems: "center", justifyContent: "center" }]}>
+        <Text style={[styles.textNumbers, { fontSize: 25, color: (rating <= 2) ? "#F90704" : (rating == 3) ? "#FF7802" : (rating == 4) ? "#FCF800" : "#67FC00" }]}>{rating}</Text>
+
+        <View style={[{ flexDirection: "row", alignItems: "center" }]}>
+
+          <Text style={[styles.textNumbers]}>0</Text>
+
+          <Slider
+            style={{ flex: 0.8 }}
+            step={1}
+            disabled={false}
+            value={rating}
+            onSlidingComplete={val => changeRating(val)}
+            minimumValue={0}
+            maximumValue={5}
+            minimumTrackTintColor="#FFFFFF"
+            maximumTrackTintColor="#000000"
+          />
+
+          <Text style={[styles.textNumbers]}>5</Text>
+
+        </View>
+
+        <View style={[{ flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: 20 }]}>
 
           <TouchableOpacity
-            style={[{ paddingHorizontal: 10, paddingVertical: 5, backgroundColor: "#c96eb7", borderRadius: 5, marginRight: 4 }]}
-            disabled={(commentary !== "" && rating !== "") ? false : true}
+            style={[{ paddingHorizontal: 15, paddingVertical: 10, backgroundColor: "#A79AA7", borderRadius: 5, marginRight: 4 }]}
+            disabled={(commentary !== "") ? false : true}
             onPress={() => createRating()}>
 
             <Text style={[{ textAlign: "center", color: "#fff", fontSize: 20, fontFamily: 'courgette' }]}>Comentar</Text>
@@ -262,13 +271,12 @@ export default function PublicacionScreen({ route: { params } }) {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[{ paddingHorizontal: 10, paddingVertical: 5, backgroundColor: "#F64A4A", borderRadius: 5, marginLeft: 4 }]}
+            style={[{ paddingHorizontal: 15, paddingVertical: 10, backgroundColor: "#A79AA7", borderRadius: 5, marginLeft: 4 }]}
             onPress={() => cancelRating()}>
 
             <Text style={[{ textAlign: "center", color: "#fff", fontSize: 20, fontFamily: 'courgette' }]}>Cancelar</Text>
 
           </TouchableOpacity>
-
 
         </View>
 
@@ -323,17 +331,18 @@ export default function PublicacionScreen({ route: { params } }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  title: { fontSize: 19, fontFamily: "courgette" },
-  date: { fontSize: 15, fontFamily: "courgette" },
-  description: { fontSize: 17, fontFamily: "courgette", marginTop: 15, marginBottom: 10, },
-  viewFile: { width: 120, height: 120, margin: 15 },
-  titleRatings: { fontSize: 25, fontFamily: "courgette", marginVertical: 10 },
-  itemRating: { backgroundColor: "#CBCBCB", padding: 10, borderWidth: 0.5, borderColor: "#BAB9BA", borderRadius: 5, marginHorizontal: 3, marginBottom: 3 },
-  first: { flex: 0.70, flexDirection: "row", alignItems: "center" },
-  email: { fontSize: 17, fontFamily: "notoSerif-bold", flex: 0.90 },
-  rating: { fontSize: 19, fontFamily: "notoSerif-bold", flex: 0.05 },
-  commentary: { fontSize: 17, fontFamily: "notoSerif-italic" },
-  text: { fontFamily: "courgette", fontSize: 18, marginBottom: 10, textAlign: "center" },
-  input: { backgroundColor: "#fff", height: 50, borderRadius: 3, borderColor: '#c96eb7', borderWidth: 0.5, marginBottom: 10, paddingHorizontal: 5, fontFamily: "courgette", fontSize: 15, },
+  container: { flex: 1, backgroundColor: "#fff" },
+  title: { fontSize: 19, fontFamily: "courgette", marginTop: 10, marginHorizontal: 5 },
+  description: { fontSize: 17, fontFamily: "courgette", marginVertical: 5, },
+  viewFile: { width: 120, height: 120, margin: 15, marginTop: 5 },
+  titleRatings: { fontSize: 20, fontFamily: "courgette", marginVertical: 10 },
+  itemRating: { backgroundColor: "#E7E2E7", padding: 10, borderWidth: 0.5, borderColor: "#BAB9BA", borderRadius: 5, marginHorizontal: 3, marginBottom: 3 },
+  first: { flex: 0.70, flexDirection: "row" },
+  email: { fontSize: 15, fontFamily: "notoSerif-bold", flex: 0.95 },
+  rating: { fontSize: 15, fontFamily: "notoSerif-bold", flex: 0.05 },
+  commentary: { fontSize: 15, fontFamily: "notoSerif-italic", marginTop: 5 },
+  viewCreate: { zIndex: 5, position: "absolute", left: 20, right: 20, top: 20, bottom: 20, backgroundColor: "#c96eb7", paddingVertical: 20, paddingHorizontal: 15, borderRadius: 10, justifyContent: "center" },
+  text: { fontFamily: "courgette", fontSize: 18, marginBottom: 10, textAlign: "center", color: "#fff" },
+  textNumbers: { fontFamily: "courgette", fontSize: 20, flex: 0.1, textAlign: "center", color: "#fff" },
+  input: { backgroundColor: "#fff", height: 50, borderRadius: 3, borderColor: '#c96eb7', borderWidth: 0.5, marginBottom: 15, paddingHorizontal: 5, fontFamily: "courgette", fontSize: 15, },
 });

@@ -220,35 +220,53 @@ export default function PublicacionesScreen({ ...props }) {
 
     return <View style={[styles.item]}>
 
-      <TouchableOpacity style={[styles.first]} onPress={() => showShow(item)}>
+      {(item.uid === global.user.uid)
 
-        <Image source={require("../../assets/images/alain_lisbet.png")} style={styles.image} />
+        ? <View style={[styles.editItem]}>
 
-        <Text style={styles.title}>{item.title}</Text>
+          <TouchableOpacity style={[styles.firstItem]} onPress={() => showShow(item)}>
 
-      </TouchableOpacity>
+            <Image source={require("../../assets/images/alain_lisbet.png")} style={styles.image} />
 
-      <View style={[{ justifyContent: "center", flex: 0.30, alignItems: "center" }]}>
-
-        <Text style={styles.date}>{item.date}</Text>
-
-        {item.uid === global.user.uid && <View style={[styles.view_actions]}>
-
-          <TouchableOpacity style={[styles.edit]} onPress={() => showEdit(item)}>
-
-            <Ionicons name="ios-create" size={40} color="#c96eb7" />
+            <Text style={styles.title}>{item.title}</Text>
 
           </TouchableOpacity>
 
-          <TouchableOpacity style={[styles.delete]} onPress={() => eliminar(item.key)}>
+          <View style={[styles.secondItem]}>
 
-            <Ionicons name="ios-trash" size={40} color="#CD0D0D" />
+            <Text style={styles.date}>{item.date}</Text>
 
-          </TouchableOpacity>
+            <View style={[styles.view_actions]}>
 
-        </View>}
+              <TouchableOpacity style={[styles.edit]} onPress={() => showEdit(item)}>
 
-      </View>
+                <Ionicons name="ios-create" size={30} color="#c96eb7" />
+
+              </TouchableOpacity>
+
+              <TouchableOpacity style={[styles.delete]} onPress={() => eliminar(item.key)}>
+
+                <Ionicons name="ios-trash" size={30} color="#CD0D0D" />
+
+              </TouchableOpacity>
+
+            </View>
+
+          </View>
+
+        </View>
+
+        : <TouchableOpacity style={[styles.touchableItem]} onPress={() => showShow(item)}>
+
+          <Image source={require("../../assets/images/alain_lisbet.png")} style={[styles.image, { flex: 0.1 }]} />
+
+          <Text style={[styles.title, { flex: 0.65 }]}>{item.title}</Text>
+
+          <Text style={[styles.date, { flex: 0.25 }]}>{item.date}</Text>
+
+        </TouchableOpacity>
+
+      }
 
     </View>
 
@@ -258,7 +276,7 @@ export default function PublicacionesScreen({ ...props }) {
 
     <SafeAreaView style={styles.container}>
 
-      <View style={[styles.viewSearch, isFocusSearch ? { borderColor: '#c96eb7', borderBottomWidth: 0.5, } : {}]}>
+      <View style={[styles.viewSearch, isFocusSearch ? { borderColor: '#E7E2E7', borderBottomWidth: 1, } : {}]}>
 
         {isFocusSearch && <TextInput
           style={[styles.inputSearch]}
@@ -271,7 +289,7 @@ export default function PublicacionesScreen({ ...props }) {
           style={[styles.touchableSearch]}
           onPress={() => filter(null, true)}>
 
-          <Ionicons name={!isFocusSearch ? "ios-search" : "ios-close"} size={40} color="#c96eb7" />
+          <Ionicons name={!isFocusSearch ? "ios-search" : "ios-close"} size={40} color="#737173" />
 
         </TouchableOpacity>
 
@@ -279,7 +297,7 @@ export default function PublicacionesScreen({ ...props }) {
 
       {loading && <ActivityIndicator size="large" color="#c96eb7" />}
 
-      <FlatList data={data} renderItem={renderItem} keyExtractor={item => item.title} />
+      <FlatList data={data} renderItem={renderItem} keyExtractor={item => item.title} style={[styles.flatList]} />
 
       <TouchableOpacity
 
@@ -297,14 +315,18 @@ export default function PublicacionesScreen({ ...props }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff' },
-  viewSearch: { marginHorizontal: 10, marginTop: 10, flexDirection: "row", alignItems: "center",/* borderColor: '#c96eb7', borderBottomWidth: 0.5,*/ },
+  viewSearch: { marginHorizontal: 10, marginVertical: 10, flexDirection: "row", alignItems: "center", },
   inputSearch: { flex: 0.90, height: 40, paddingHorizontal: 5, fontFamily: "courgette", fontSize: 15, },
   touchableSearch: { flex: 0.10, width: 40, height: 40 },
-  butoomCreate: { width: 60, height: 60, position: 'absolute', bottom: 10, left: 10, },
-  item: { height: 80, flexDirection: "row", marginHorizontal: 3, borderBottomWidth: 0.5, borderColor: "#c96eb7", alignItems: "center" },
-  first: { flex: 0.70, flexDirection: "row", alignItems: "center" },
+  butoomCreate: { width: 60, height: 60, position: 'absolute', bottom: 10, right: 10, },
+  flatList: { paddingVertical: 5 },
+  item: { marginBottom: 1, paddingVertical: 10, flexDirection: "row", borderWidth: 0.3, borderColor: "#A7A5A7", alignItems: "center", marginVertical: 0.2 },
+  touchableItem: { flexDirection: "row", alignItems: "center" },
+  editItem: { flexDirection: "row" },
+  firstItem: { flex: 0.75, flexDirection: "row", alignItems:"center" },
+  secondItem: { justifyContent: "center", flex: 0.25, alignItems: "center" },
   image: { height: 40, width: 40, marginRight: 10 },
-  title: { fontSize: 19, fontFamily: 'courgette' },
+  title: { fontSize: 17, fontFamily: 'courgette' },
   date: { fontSize: 15, fontFamily: 'courgette' },
   view_actions: { flexDirection: "row" },
   edit: { flex: 0.5, alignItems: "center", marginLeft: 5 },

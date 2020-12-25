@@ -112,6 +112,7 @@ export default function InitScreen({ ...props }) {
     onShowPass(!showPass);
 
   }
+
   return (
 
     loading
@@ -124,7 +125,7 @@ export default function InitScreen({ ...props }) {
 
       : <ScrollView style={styles.container}>
 
-        <View style={{ alignItems: "center", marginTop: 10 }}>
+        <View style={{ alignItems: "center", marginTop: 5 }}>
 
           <Image
             source={require("../../assets/images/alain_lisbet.png")}
@@ -149,9 +150,9 @@ export default function InitScreen({ ...props }) {
           onChangeText={text => onChangeEmail(text)}
           value={email} />
 
-        <Text style={[styles.text, { marginTop: 20 }]}>Contraseña *</Text>
+        <Text style={[styles.text, { marginTop: 15 }]}>Contraseña *</Text>
 
-        <View style={{ alignItems: "center", flexDirection: "row", borderRadius: 3, borderColor: '#c96eb7', borderWidth: 0.5, marginBottom: 10 }}>
+        <View style={{ alignItems: "center", flexDirection: "row", borderRadius: 3, borderColor: '#c96eb7', borderWidth: 0.5 }}>
 
           <TextInput
             secureTextEntry={!showPass}
@@ -167,14 +168,14 @@ export default function InitScreen({ ...props }) {
 
           <TouchableOpacity style={{ marginHorizontal: 5 }} onPress={() => { showHidePass() }}>
 
-            <Ionicons name={iosEye} size={32} color="#c96eb7" />
+            <Ionicons name={iosEye} size={35} color="#c96eb7" />
 
           </TouchableOpacity>
 
         </View>
 
         <TouchableOpacity
-          style={[{ padding: 10, backgroundColor: "#c96eb7", marginTop: 10, borderRadius: 5, marginHorizontal: 110 }]}
+          style={[{ padding: 10, backgroundColor: "#c96eb7", marginTop: 15, borderRadius: 5, marginHorizontal: 110 }]}
           onPress={() => authenticate()}>
 
           <Text style={[{ textAlign: "center", color: "#fff", fontSize: 20, fontFamily: 'courgette' }]}>Autenticar</Text>
@@ -200,6 +201,6 @@ export default function InitScreen({ ...props }) {
 const styles = StyleSheet.create({
   container: { flex: 1, paddingHorizontal: 10, backgroundColor: "#fff" },
   text: { fontFamily: "courgette", fontSize: 18 },
-  logo: { width: 270, height: 270, marginBottom: 20 },
+  logo: { width: 230, height: 230 },
   text_ayuda: { fontFamily: 'courgette', fontSize: 17, textAlign: "center" }
 });

@@ -104,6 +104,6 @@ const styles = StyleSheet.create({
     textIntro: { fontSize: 21, color: "black", marginTop: 10, marginBottom: 25, fontFamily: 'notoSerif-italic' },
     viewLink: { padding: 10, borderColor: "#c96eb7", borderWidth: 1, backgroundColor: "#c96eb7" },
     textLink: { color: "#fff", fontSize: 19, fontFamily: 'notoSerif-bold' },
-    view: { padding: 5, marginBottom: 10, borderBottomWidth: 1, borderLeftWidth: 1, borderRightWidth: 1, borderBottomRightRadius: 5, borderBottomLeftRadius: 5, borderColor: "#945186" },
+    view: { padding: 5, marginBottom: 10, borderBottomWidth: 1, borderLeftWidth: 1, borderRightWidth: 1, borderBottomRightRadius: 5, borderBottomLeftRadius: 5, borderColor: "#A7A5A7" },
     text: { fontSize: 19, marginHorizontal: 10, fontFamily: 'notoSerif-italic' },
 });

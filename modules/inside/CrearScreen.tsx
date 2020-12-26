@@ -156,7 +156,7 @@ export default function CrearScreen({ route: { params } }) {
 
             <TextInput
                 multiline
-                style={[styles.input, { height: 150, textAlignVertical: "top" }]}
+                style={[styles.input, { height: 100, textAlignVertical: "top" }]}
                 onChangeText={text => onChangeDescription(text)}
                 value={description} />
 

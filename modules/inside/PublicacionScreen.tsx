@@ -231,7 +231,7 @@ export default function PublicacionScreen({ route: { params } }) {
         <TextInput
           placeholder="Comentario... *"
           multiline
-          style={[styles.input, { height: 150, textAlignVertical: "top" }]}
+          style={[styles.input, { height: 100, textAlignVertical: "top" }]}
           onChangeText={text => changeCommentary(text)}
           value={commentary} />
 
@@ -259,7 +259,7 @@ export default function PublicacionScreen({ route: { params } }) {
 
         </View>
 
-        <View style={[{ flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: 20 }]}>
+        <View style={[{ flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: 15 }]}>
 
           <TouchableOpacity
             style={[{ paddingHorizontal: 15, paddingVertical: 10, backgroundColor: "#A79AA7", borderRadius: 5, marginRight: 4 }]}

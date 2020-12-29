@@ -339,7 +339,7 @@ const styles = StyleSheet.create({
   description: { fontSize: 17, fontFamily: "courgette", marginVertical: 5, },
   viewFile: { width: 150, height: 150, padding: 10 },
   titleRatings: { fontSize: 20, fontFamily: "courgette", marginVertical: 10 },
-  itemRating: { backgroundColor: "#E7E2E7", padding: 10, borderWidth: 0.5, borderColor: "#BAB9BA", borderRadius: 5, marginHorizontal: 3, marginBottom: 3 },
+  itemRating: { backgroundColor: "#EAE8E8", padding: 10, borderWidth: 0.5, borderColor: "#EAE8E8", borderRadius: 5, marginHorizontal: 3, marginBottom: 3 },
   first: { flex: 0.70, flexDirection: "row" },
   email: { fontSize: 15, fontFamily: "notoSerif-bold", flex: 0.95 },
   rating: { fontSize: 15, fontFamily: "notoSerif-bold", flex: 0.05 },

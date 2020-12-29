@@ -175,7 +175,7 @@ export default function PublicacionScreen({ route: { params } }) {
               {item.type === "image"
 
                 ? <Image source={{ uri: item.uploadUrl }}
-                  style={{ width: 120, height: 120 }}></Image>
+                  style={{ width: 150, height: 150, resizeMode: "center" }}></Image>
 
                 : item.type === "video"
 
@@ -196,8 +196,11 @@ export default function PublicacionScreen({ route: { params } }) {
             </TouchableOpacity>
 
           }
+
           }
+
         />
+
       }
 
       <View style={[{ flexDirection: "row", marginHorizontal: 3, alignItems: "center", marginTop: 20 }]} >
@@ -313,7 +316,7 @@ export default function PublicacionScreen({ route: { params } }) {
 
                 : <Image
                   source={{ uri: item.uploadUrl }}
-                  resizeMode="stretch"
+                  resizeMode="center"
                   style={{ height: dimensions.fullHeight - 100, width: dimensions.fullWidth - 20, marginHorizontal: 10 }}
                 ></Image>
 
@@ -334,7 +337,7 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff" },
   title: { fontSize: 19, fontFamily: "courgette", marginTop: 10, marginHorizontal: 5 },
   description: { fontSize: 17, fontFamily: "courgette", marginVertical: 5, },
-  viewFile: { width: 120, height: 120, margin: 15, marginTop: 5 },
+  viewFile: { width: 150, height: 150, padding: 10 },
   titleRatings: { fontSize: 20, fontFamily: "courgette", marginVertical: 10 },
   itemRating: { backgroundColor: "#E7E2E7", padding: 10, borderWidth: 0.5, borderColor: "#BAB9BA", borderRadius: 5, marginHorizontal: 3, marginBottom: 3 },
   first: { flex: 0.70, flexDirection: "row" },

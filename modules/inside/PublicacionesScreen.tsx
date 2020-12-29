@@ -226,21 +226,21 @@ export default function PublicacionesScreen({ ...props }) {
 
         ? <View style={[styles.view_actions]}>
 
-          <TouchableOpacity style={[styles.edit]} onPress={() => showEdit(item)}>
+          <TouchableOpacity style={[styles.actions]} onPress={() => showEdit(item)}>
 
-            <Ionicons name="ios-create" size={24} color="#c96eb7" />
-
-          </TouchableOpacity>
-
-          <TouchableOpacity style={[styles.delete]} onPress={() => eliminar(item.key)}>
-
-            <Ionicons name="ios-trash" size={24} color="#CD0D0D" />
+            <Ionicons name="ios-create" size={28} color="#c96eb7" />
 
           </TouchableOpacity>
 
-          <TouchableOpacity style={[styles.closeActions]} onPress={() => changeShowActions(!showActions)}>
+          <TouchableOpacity style={[styles.actions]} onPress={() => eliminar(item.key)}>
 
-            <MaterialIcons name="not-interested" size={24} color="#B9B5B5" />
+            <Ionicons name="ios-trash" size={28} color="#CD0D0D" />
+
+          </TouchableOpacity>
+
+          <TouchableOpacity style={[styles.actions]} onPress={() => changeShowActions(!showActions)}>
+
+            <MaterialIcons name="not-interested" size={28} color="#959595" />
 
           </TouchableOpacity>
 
@@ -248,7 +248,7 @@ export default function PublicacionesScreen({ ...props }) {
 
         : <TouchableOpacity style={[styles.showActions]} onPress={() => changeShowActions(!showActions)}>
 
-          <MaterialIcons name="more-horiz" size={28} color="#B9B5B5" />
+          <MaterialIcons name="more-horiz" size={28} color="#959595" />
 
         </TouchableOpacity>
 
@@ -360,9 +360,7 @@ const styles = StyleSheet.create({
   title: { fontSize: 16, fontFamily: 'courgette' },
   date: { fontSize: 13, fontFamily: 'courgette' },
   view_actions: { flexDirection: "row" },
-  edit: { flex: 0.33, alignItems: "center", marginLeft: 5 },
-  delete: { flex: 0.33, alignItems: "center", marginRight: 5 },
-  closeActions: { flex: 0.33, alignItems: "center", marginRight: 5 },
+  actions: { flex: 0.33, alignItems: "center"},
   showActions: { maxWidth: 30 },
   divider: { borderBottomWidth: 1, borderBottomColor: "#E7E4E4", marginLeft: 50 }
 });

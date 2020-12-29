@@ -25,6 +25,7 @@ import {
 } from 'react-native';
 import { LinearGradient as DefaultLinearGradient } from 'expo-linear-gradient';
 import { Ionicons as DefaultIonicons } from '@expo/vector-icons';
+import { MaterialIcons as DefaultMaterialIcons } from '@expo/vector-icons';
 
 export type ActivityIndicatorProps = DefaultActivityIndicator['props'];
 export function ActivityIndicator(props: ActivityIndicatorProps) {
@@ -57,10 +58,16 @@ export function ImageBackground(props: ImageBackgroundProps) {
   return <DefaultImageBackground {...otherProps} />;
 }
 
-export type IoniconsProps = DefaultIonicons['props'];
+export type IoniconsProps = any;
 export function Ionicons(props: IoniconsProps) {
   const { ...otherProps } = props;
   return <DefaultIonicons {...otherProps} />;
+}
+
+export type MaterialIconsProps = any;
+export function MaterialIcons(props: MaterialIconsProps) {
+  const { ...otherProps } = props;
+  return <DefaultMaterialIcons {...otherProps} />;
 }
 
 export type InputAccessoryViewProps = DefaultInputAccessoryView['props'];
@@ -75,7 +82,7 @@ export function KeyboardAvoidingView(props: KeyboardAvoidingViewProps) {
   return <DefaultKeyboardAvoidingView {...otherProps} />;
 }
 
-export type LinearGradientProps = DefaultLinearGradient['props'];
+export type LinearGradientProps = any;
 export function LinearGradient(props: LinearGradientProps) {
   const { ...otherProps } = props;
   return <DefaultLinearGradient {...otherProps} />;
@@ -165,7 +172,7 @@ export function View(props: ViewProps) {
   return <DefaultView {...otherProps} />;
 }
 
-export type VirtualizedListProps = DefaultVirtualizedList['props'];
+export type VirtualizedListProps = any;
 export function VirtualizedList(props: VirtualizedListProps) {
   const { ...otherProps } = props;
   return <DefaultVirtualizedList {...otherProps} />;

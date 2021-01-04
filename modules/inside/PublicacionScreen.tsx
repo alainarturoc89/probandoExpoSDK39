@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
-import { Video } from 'expo-av';
+import { Video, Audio } from 'expo-av';
 import Slider from '@react-native-community/slider';
-import { Text, View, FlatList, Image, TouchableOpacity, Ionicons, Modal, TextInput } from '../../components/Elements';
+import { Text, View, FlatList, Image, TouchableOpacity, Ionicons, Modal, TextInput, MaterialIcons } from '../../components/Elements';
 import { dimensions } from "../../styles/base";
 import { firebase } from "../../hooks/useFirebase";
 import { sendPushNotification } from "../../hooks/useNotifications";
@@ -10,6 +10,10 @@ import { sendPushNotification } from "../../hooks/useNotifications";
 export default function PublicacionScreen({ route: { params } }) {
 
   const [modalVisible, changeModalVisible] = React.useState(false);
+
+  const [audio, changeAudio] = React.useState(false);
+
+  const [soundd, changeSoundd] = React.useState(false);
 
   const [item, changeItem] = React.useState(null);
 
@@ -46,11 +50,38 @@ export default function PublicacionScreen({ route: { params } }) {
 
   getRatings();
 
-  function open(item: any) {
+  async function open(item: any) {
 
-    changeItem(item);
+    if (item.type === "audio") {
 
-    changeModalVisible(true);
+      if (soundd) {
+
+        await audio.stopAsync();
+
+      } else {
+
+        if (audio) await audio.stopAsync();
+
+        const { sound } = await Audio.Sound.createAsync({
+
+          uri: item.uploadUrl
+
+        });
+
+        await sound.playAsync();
+
+        changeAudio(sound);
+
+      }
+
+      changeSoundd(!soundd);
+
+    } else {
+
+      changeItem(item);
+
+      changeModalVisible(true);
+    }
 
   }
 
@@ -189,7 +220,16 @@ export default function PublicacionScreen({ route: { params } }) {
                     style={{ width: 120, height: 120 }}
                   />
 
-                  : <Ionicons name="md-musical-notes" size={80} color="#c96eb7" />
+                  : <View style={[{ alignItems: "center", width: 120, height: 120 , paddingHorizontal:2}]}>
+
+                    <MaterialIcons name={soundd ? "stop" : "play-arrow"} size={120} color="#c96eb7" />
+
+                    {soundd && <Image
+                      source={require("../../assets/images/sound.gif")}
+                      resizeMode="stretch" style={[styles.soundImage]}>
+                    </Image>}
+
+                  </View>
 
               }
 
@@ -348,4 +388,5 @@ const styles = StyleSheet.create({
   text: { fontFamily: "courgette", fontSize: 18, marginBottom: 10, textAlign: "center", color: "#fff" },
   textNumbers: { fontFamily: "courgette", fontSize: 20, flex: 0.1, textAlign: "center", color: "#fff" },
   input: { backgroundColor: "#fff", height: 50, borderRadius: 3, borderColor: '#c96eb7', borderWidth: 0.5, marginBottom: 15, paddingHorizontal: 5, fontFamily: "courgette", fontSize: 15, },
+  soundImage: { width: 120, height: 30 },
 });

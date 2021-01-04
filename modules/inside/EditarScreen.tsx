@@ -1,13 +1,18 @@
 import * as React from 'react';
 import { StyleSheet, Alert } from 'react-native';
 import { dimensions } from "../../styles/base";
-import { Video } from 'expo-av';
+import { Video, Audio } from 'expo-av';
 import * as ImagePicker from 'expo-image-picker';
+import * as DocumentPicker from 'expo-document-picker';
 import * as Permissions from 'expo-permissions';
-import { TextInput, View, TouchableOpacity, Text, FlatList, Image, Ionicons, ActivityIndicator, Modal, ScrollView } from '../../components/Elements';
+import { TextInput, View, TouchableOpacity, Text, FlatList, Image, Ionicons, MaterialIcons, ActivityIndicator, Modal, ScrollView } from '../../components/Elements';
 import { firebase } from "../../hooks/useFirebase";
 
 export default function EdiatrScreen({ route: { params } }) {
+
+    const [audio, changeAudio] = React.useState(false);
+
+    const [soundd, changeSoundd] = React.useState(false);
 
     const [date] = React.useState(params.item.date);
 
@@ -78,30 +83,38 @@ export default function EdiatrScreen({ route: { params } }) {
 
     }
 
-    async function loadFile() {
+    async function loadFile(type: string) {
 
         const resultPermissions = await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
         if (resultPermissions) {
 
-            let result = await ImagePicker.launchImageLibraryAsync({
+            let result = (type === "audio")
 
-                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                ? await DocumentPicker.getDocumentAsync({
 
-                quality: 1,
-            });
+                    type: "audio/*"
 
-            if (!result.cancelled) {
+                })
+
+                : await ImagePicker.launchImageLibraryAsync({
+
+                    mediaTypes: (type === "image" ? ImagePicker.MediaTypeOptions.Images : ImagePicker.MediaTypeOptions.Videos),
+
+                    quality: 1,
+                });
+
+            if ((type === "audio") ? result.type === "success" : !result.cancelled) {
 
                 onChangeLoading(true);
 
                 let localUri = result.uri;
 
-                let filename = localUri.split('/').pop();
+                let filename = (type === "audio") ? `${result.name}.mp3` : localUri.split('/').pop();
 
                 const uploadUrl = await uploadImageAsync(localUri, filename);
 
-                let image = { uploadUrl, type: result.type, filename };
+                let image = { uploadUrl, type, filename };
 
                 onChangeImages(images => [image, ...images]);
 
@@ -133,11 +146,38 @@ export default function EdiatrScreen({ route: { params } }) {
             });
     }
 
-    function open(item: any) {
+    async function open(item: any) {
 
-        changeItem(item);
+        if (item.type === "audio") {
 
-        changeModalVisible(true);
+            if (soundd) {
+
+                await audio.stopAsync();
+
+            } else {
+
+                if (audio) await audio.stopAsync();
+
+                const { sound } = await Audio.Sound.createAsync({
+
+                    uri: item.uploadUrl
+
+                });
+
+                await sound.playAsync();
+
+                changeAudio(sound);
+
+            }
+
+            changeSoundd(!soundd);
+
+        } else {
+
+            changeItem(item);
+
+            changeModalVisible(true);
+        }
 
     }
 
@@ -170,15 +210,29 @@ export default function EdiatrScreen({ route: { params } }) {
                 onChangeText={text => onChangeDescription(text)}
                 value={description} />
 
-            <TouchableOpacity
-                style={{ alignItems: "center", justifyContent: "center", flexDirection: "row", marginHorizontal: 80 }}
-                onPress={loadFile}>
+            <View style={{ alignItems: "center", justifyContent: "center", flexDirection: "row" }}>
 
                 <Text style={[{ marginRight: 5, color: "#c96eb7", fontSize: 20, fontFamily: "courgette" }]}>Adjuntar contenido</Text>
 
-                <Ionicons name="md-attach" size={35} color="#c96eb7" />
+                <TouchableOpacity onPress={() => { loadFile("image") }} style={[{ marginLeft: 5 }]}>
 
-            </TouchableOpacity>
+                    <Ionicons name="md-image" size={30} color="#c96eb7" />
+
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => { loadFile("video") }} style={[{ marginLeft: 20 }]}>
+
+                    <Ionicons name="md-videocam" size={30} color="#c96eb7" />
+
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => { loadFile("audio") }} style={[{ marginLeft: 20 }]}>
+
+                    <Ionicons name="md-musical-notes" size={30} color="#c96eb7" />
+
+                </TouchableOpacity>
+
+            </View>
 
             {loading && <ActivityIndicator size="large" color="#c96eb7" />}
 
@@ -192,7 +246,7 @@ export default function EdiatrScreen({ route: { params } }) {
 
                             <TouchableOpacity onPress={() => open(item)}>
 
-                                <Image source={{ uri: item.uploadUrl }} style={{ margin: 15, width: 150, height: 150 }}></Image>
+                                <Image source={{ uri: item.uploadUrl }} style={{ marginHorizontal: 15, width: 150, height: 150, resizeMode:"center" }}></Image>
 
                             </TouchableOpacity>
 
@@ -203,6 +257,7 @@ export default function EdiatrScreen({ route: { params } }) {
                             </TouchableOpacity>
 
                         </View>
+
                         : item.type === "video"
                             ? <View style={{ flexDirection: "row" }}>
 
@@ -231,7 +286,12 @@ export default function EdiatrScreen({ route: { params } }) {
 
                                 <TouchableOpacity style={styles.viewFile} onPress={() => open(item)}>
 
-                                    <Ionicons name="md-musical-notes" size={80} color="#c96eb7" />
+                                    <MaterialIcons name={soundd ? "stop" : "play-arrow"} size={80} color="#c96eb7" />
+
+                                    {soundd && <Image
+                                        source={require("../../assets/images/sound.gif")}
+                                        resizeMode="stretch" style={[styles.soundImage]}>
+                                    </Image>}
 
                                 </TouchableOpacity>
 
@@ -276,11 +336,13 @@ export default function EdiatrScreen({ route: { params } }) {
                                     isLooping={true}
                                     style={{ height: 100 + "%", marginHorizontal: 10 }}
                                 />
-                                : <Image
-                                    source={{ uri: item.uploadUrl }}
-                                    resizeMode="stretch"
-                                    style={{ height: dimensions.fullHeight - 100, width: dimensions.fullWidth - 20, marginHorizontal: 10 }}
-                                ></Image>
+                                : (item.type === "image")
+                                    ? <Image
+                                        source={{ uri: item.uploadUrl }}
+                                        resizeMode="stretch"
+                                        style={{ height: dimensions.fullHeight - 100, width: dimensions.fullWidth - 20, marginHorizontal: 10 }}
+                                    ></Image>
+                                    : null
                         }
                     </View>
                 }
@@ -303,5 +365,6 @@ const styles = StyleSheet.create({
         fontFamily: "courgette",
         fontSize: 15
     },
-    viewFile: { width: 150, height: 150, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: "#c96eb7", margin: 15 }
+    viewFile: { width: 150, height: 150, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: "#c96eb7", margin: 15 },
+    soundImage: { width: 150, height: 30 },
 });

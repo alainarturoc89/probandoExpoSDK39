@@ -8,8 +8,6 @@ export default function PublicacionesScreen({ ...props }) {
 
   const [search, changeSearch] = React.useState("");
 
-  const [isFocusSearch, changeIsFocusSearch] = React.useState(false);
-
   const [loaded, changeLoaded] = React.useState(false);
 
   const [loading, changeLoading] = React.useState(false);
@@ -208,10 +206,6 @@ export default function PublicacionesScreen({ ...props }) {
 
       changeData(copyData);
 
-      if (op_cl)
-
-        changeIsFocusSearch(!isFocusSearch);
-
     }
 
   }
@@ -256,7 +250,7 @@ export default function PublicacionesScreen({ ...props }) {
   }
 
   const renderItem = ({ item }) => {
-    
+
     return <View>
 
       <View style={[styles.item]}>
@@ -307,20 +301,19 @@ export default function PublicacionesScreen({ ...props }) {
 
     <SafeAreaView style={styles.container}>
 
-      <View style={[styles.viewSearch, isFocusSearch ? { borderColor: 'silver', borderBottomWidth: 0.3 } : {}]}>
+      <View style={[styles.viewSearch]}>
 
-        {isFocusSearch && <TextInput
+        <TextInput
           style={[styles.inputSearch]}
           onChangeText={search => { filter(search); }}
-          autoFocus
-          value={search} />}
+          value={search} />
 
         <TouchableOpacity
 
           style={[styles.touchableSearch]}
           onPress={() => filter(null, true)}>
 
-          <Ionicons name={!isFocusSearch ? "ios-search" : "ios-close"} size={30} color="#737173" />
+          <Ionicons name="ios-search" size={30} color="#737173" />
 
         </TouchableOpacity>
 
@@ -346,12 +339,12 @@ export default function PublicacionesScreen({ ...props }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff' },
-  viewSearch: { marginHorizontal: 10, marginVertical: 5, flexDirection: "row", alignItems: "center", },
+  viewSearch: { marginVertical: 5, flexDirection: "row", alignItems: "center", borderColor: 'silver', borderBottomWidth: 0.3 },
   inputSearch: { flex: 0.90, height: 40, paddingHorizontal: 5, fontFamily: "courgette", fontSize: 15, },
   touchableSearch: { flex: 0.10, width: 30, height: 30 },
   butoomCreate: { width: 60, height: 60, position: 'absolute', bottom: 10, right: 10, },
   flatList: { paddingVertical: 5 },
-  item: { marginBottom: 1, paddingVertical: 8, flexDirection: "row", alignItems: "center", marginVertical: 0.2 },
+  item: { marginBottom: 1, paddingVertical: 5, flexDirection: "row", alignItems: "center", marginVertical: 0.2 },
   touchableItem: { flexDirection: "row", alignItems: "center" },
   editItem: { flexDirection: "row" },
   firstItem: { flex: 0.75, flexDirection: "row", alignItems: "center" },
@@ -360,7 +353,7 @@ const styles = StyleSheet.create({
   title: { fontSize: 16, fontFamily: 'courgette' },
   date: { fontSize: 13, fontFamily: 'courgette' },
   view_actions: { flexDirection: "row" },
-  actions: { flex: 0.33, alignItems: "center"},
+  actions: { flex: 0.33, alignItems: "center" },
   showActions: { maxWidth: 30 },
   divider: { borderBottomWidth: 1, borderBottomColor: "#E7E4E4", marginLeft: 50 }
 });

@@ -137,7 +137,6 @@ export default function InitScreen({ ...props }) {
         <Text style={[styles.text]}>Correo electrónico *</Text>
 
         <TextInput
-          keyboardType="email-address"
           style={[{
             height: 50,
             borderRadius: 3,
